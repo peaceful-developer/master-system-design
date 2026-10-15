@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import type { ComponentCategory, ComponentDef, Diagram } from '@content/types';
-import { ICONS } from '@generated/icons';
+import { ICON_ELEMENTS, type IconElement } from '@generated/icons';
 import { layoutDiagram, NODE_H, NODE_W } from '../diagram-geometry';
 import { CATEGORY_LABELS, shapePath } from '../node-shapes';
 
@@ -81,8 +80,55 @@ let nextId = 0;
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  [innerHTML]="icon(node.icon)"
-                ></svg>
+                  aria-hidden="true"
+                >
+                  @for (el of iconElements(node.icon); track $index) {
+                    @switch (el.tag) {
+                      @case ('path') {
+                        <path [attr.d]="el.attrs['d']" />
+                      }
+                      @case ('circle') {
+                        <circle
+                          [attr.cx]="el.attrs['cx']"
+                          [attr.cy]="el.attrs['cy']"
+                          [attr.r]="el.attrs['r']"
+                        />
+                      }
+                      @case ('ellipse') {
+                        <ellipse
+                          [attr.cx]="el.attrs['cx']"
+                          [attr.cy]="el.attrs['cy']"
+                          [attr.rx]="el.attrs['rx']"
+                          [attr.ry]="el.attrs['ry']"
+                        />
+                      }
+                      @case ('rect') {
+                        <rect
+                          [attr.x]="el.attrs['x'] ?? null"
+                          [attr.y]="el.attrs['y'] ?? null"
+                          [attr.width]="el.attrs['width']"
+                          [attr.height]="el.attrs['height']"
+                          [attr.rx]="el.attrs['rx'] ?? null"
+                          [attr.ry]="el.attrs['ry'] ?? null"
+                        />
+                      }
+                      @case ('line') {
+                        <line
+                          [attr.x1]="el.attrs['x1']"
+                          [attr.y1]="el.attrs['y1']"
+                          [attr.x2]="el.attrs['x2']"
+                          [attr.y2]="el.attrs['y2']"
+                        />
+                      }
+                      @case ('polyline') {
+                        <polyline [attr.points]="el.attrs['points']" />
+                      }
+                      @case ('polygon') {
+                        <polygon [attr.points]="el.attrs['points']" />
+                      }
+                    }
+                  }
+                </svg>
                 <text class="diagram-node-label" x="48" y="34">{{ short(node.label) }}</text>
                 <text class="diagram-node-type" x="48" y="52">
                   {{ node.typeLabel }}{{ node.instances > 1 ? ' ×' + node.instances : '' }}
@@ -135,8 +181,6 @@ let nextId = 0;
   `,
 })
 export class DiagramViewerComponent {
-  private readonly sanitizer = inject(DomSanitizer);
-
   readonly diagram = input.required<Diagram>();
   readonly catalog = input.required<ReadonlyMap<string, ComponentDef>>();
   readonly caption = input('');
@@ -178,8 +222,9 @@ export class DiagramViewerComponent {
     return label.length > MAX_LABEL ? `${label.slice(0, MAX_LABEL - 1)}…` : label;
   }
 
-  protected icon(name: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(ICONS[name] ?? ICONS['circle'] ?? '');
+  /** Icon shapes as data: SVG built with bindings works in server rendering (no innerHTML on SVG). */
+  protected iconElements(name: string): IconElement[] {
+    return ICON_ELEMENTS[name] ?? ICON_ELEMENTS['circle'] ?? [];
   }
 
   protected legendShape(category: ComponentCategory): string {

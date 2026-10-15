@@ -32,6 +32,18 @@ describe('sanitizeIcon', () => {
     expect(result.body).not.toContain('xmlns');
   });
 
+  it('returns the icon as structured elements (for SVG templates without innerHTML)', () => {
+    expect(sanitizeIcon('client', ICON).elements).toEqual([
+      { tag: 'rect', attrs: { x: '3', y: '4', width: '18', height: '12', rx: '2' } },
+      { tag: 'path', attrs: { d: 'M8 20h8' } },
+    ]);
+  });
+
+  it('rejects groups so icons stay flat', () => {
+    const svg = ICON.replace('<path d="M8 20h8"/>', '<g><path d="M8 20h8"/></g>');
+    expect(sanitizeIcon('x', svg).errors.join('\n')).toMatch(/<g>/);
+  });
+
   it('rejects a hard-coded fill color', () => {
     const svg = ICON.replace('<path d="M8 20h8"/>', '<path d="M8 20h8" fill="#f00"/>');
     expect(sanitizeIcon('x', svg).errors.join('\n')).toMatch(/fill="#f00"/);

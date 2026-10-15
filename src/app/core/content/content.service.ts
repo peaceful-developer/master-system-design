@@ -14,6 +14,7 @@ import type {
   GlossaryTerm,
   LearningPath,
   LessonMeta,
+  PathPhase,
   PhaseId,
   PlaybookMeta,
 } from '@content/types';
@@ -28,6 +29,7 @@ import {
   PATH,
   PLAYBOOKS,
 } from '@generated/manifest';
+import { flattenPath, type PathEntry } from './path-nav';
 
 type Loaders<T> = Record<string, () => Promise<T>>;
 
@@ -82,9 +84,19 @@ async function load<T>(loaders: Loaders<T>, key: string): Promise<T | undefined>
 export class ContentService {
   private readonly data = inject(CONTENT_DATA);
   private readonly componentMap = new Map(this.data.components.map((c) => [c.type, c]));
+  private entries?: PathEntry[];
 
   path(): LearningPath {
     return this.data.path;
+  }
+
+  phase(id: PhaseId): PathPhase | undefined {
+    return this.data.path.phases.find((p) => p.id === id);
+  }
+
+  /** Every item on the learning path in order (for prev/next and progress). */
+  pathEntries(): PathEntry[] {
+    return (this.entries ??= flattenPath(this.data.path, this.data));
   }
 
   lessons(phase?: PhaseId): LessonMeta[] {

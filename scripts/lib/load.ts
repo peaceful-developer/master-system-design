@@ -32,7 +32,7 @@ import {
 import { emptyRefs, type ContentRefs } from './directives';
 import { contentError, contentWarning, type ContentError } from './errors';
 import type { FigureAsset, MarkdownCompiler, Section } from './markdown';
-import { sanitizeFigure, sanitizeIcon } from './svg-assets';
+import { sanitizeFigure, sanitizeIcon, type IconElement } from './svg-assets';
 
 export interface DocItem<T> {
   file: string;
@@ -73,7 +73,7 @@ export interface LoadedContent {
   drills: DrillItem[];
   diagrams: DiagramItem[];
   figures: Map<string, FigureItem>;
-  icons: Map<string, { file: string; body: string }>;
+  icons: Map<string, { file: string; body: string; elements: IconElement[] }>;
   glossary?: JsonItem<Glossary>;
   components?: JsonItem<ComponentCatalog>;
   path?: JsonItem<LearningPath>;
@@ -176,9 +176,10 @@ export async function loadContent(
   // SVG assets first: the markdown compiler inlines figures.
   for (const abs of listFiles(join(root, 'icons'), '.svg')) {
     const name = basename(abs, '.svg');
-    const { body, errors: iconErrors } = sanitizeIcon(name, readFileSync(abs, 'utf8'));
+    const { body, elements, errors: iconErrors } = sanitizeIcon(name, readFileSync(abs, 'utf8'));
     iconErrors.forEach((m) => errors.push(contentError(displayPath(abs), m)));
-    if (iconErrors.length === 0) content.icons.set(name, { file: displayPath(abs), body });
+    if (iconErrors.length === 0)
+      content.icons.set(name, { file: displayPath(abs), body, elements });
   }
   for (const abs of listFiles(join(root, 'figures'), '.svg')) {
     const id = basename(abs, '.svg');

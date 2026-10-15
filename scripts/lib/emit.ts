@@ -227,12 +227,20 @@ ${groups.join('\n')}
 `,
   );
 
-  const icons = Object.fromEntries(
-    [...c.icons.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([k, v]) => [k, v.body]),
-  );
+  const iconEntries = [...c.icons.entries()].sort(([a], [b]) => a.localeCompare(b));
+  const icons = Object.fromEntries(iconEntries.map(([name, icon]) => [name, icon.body]));
+  const iconElements = Object.fromEntries(iconEntries.map(([name, icon]) => [name, icon.elements]));
   files.set(
     'icons.ts',
-    `${HEADER}export const ICONS: Record<string, string> = ${json(icons).trimEnd()};\n`,
+    `${HEADER}export interface IconElement {
+  tag: string;
+  attrs: Record<string, string>;
+}
+
+export const ICONS: Record<string, string> = ${json(icons).trimEnd()};
+
+export const ICON_ELEMENTS: Record<string, IconElement[]> = ${json(iconElements).trimEnd()};
+`,
   );
 
   const mascot = Object.fromEntries(

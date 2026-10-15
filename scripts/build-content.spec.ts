@@ -91,6 +91,17 @@ describe('runBuild', () => {
     );
   });
 
+  it('writes icons both as markup and as structured elements', async () => {
+    const out = tempDir('sdl-out-');
+    await runBuild({ contentDir: VALID_FIXTURE, outDir: out });
+    const icons = readFileSync(join(out, 'icons.ts'), 'utf8');
+    expect(icons).toContain('export const ICONS: Record<string, string>');
+    expect(icons).toContain('export const ICON_ELEMENTS: Record<string, IconElement[]>');
+    expect(icons).toMatch(
+      /"cache": \[\s*\{\s*"tag": "path",\s*"attrs": \{\s*"d": "M13 2 4 14h7l-1 8 9-12h-7z"/,
+    );
+  });
+
   it('writes route params for prerendering', async () => {
     const out = tempDir('sdl-out-');
     await runBuild({ contentDir: VALID_FIXTURE, outDir: out });

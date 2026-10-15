@@ -9,8 +9,15 @@ import { find, svg as svgSchema } from 'property-information';
 import rehypeParse from 'rehype-parse';
 import { unified } from 'unified';
 
+export interface IconElement {
+  tag: string;
+  attrs: Record<string, string>;
+}
+
 export interface IconResult {
   body: string;
+  /** The same shapes as data, for SVG templates that cannot use innerHTML (server rendering). */
+  elements: IconElement[];
   errors: string[];
 }
 
@@ -22,18 +29,11 @@ export interface FigureResult {
   warnings: string[];
 }
 
-const ICON_ELEMENTS = new Set([
-  'g',
-  'path',
-  'circle',
-  'rect',
-  'line',
-  'polyline',
-  'polygon',
-  'ellipse',
-]);
+/** Icons stay flat (no <g>) so they can also be emitted as plain element data. */
+const ICON_ELEMENTS = new Set(['path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse']);
 const FIGURE_ELEMENTS = new Set([
   ...ICON_ELEMENTS,
+  'g',
   'text',
   'tspan',
   'defs',
@@ -75,7 +75,7 @@ function serialize(nodes: ElementContent | ElementContent[]): string {
 
 export function sanitizeIcon(name: string, source: string): IconResult {
   const root = parseRoot(source);
-  if (!root) return { body: '', errors: [`icon "${name}": no <svg> root element`] };
+  if (!root) return { body: '', elements: [], errors: [`icon "${name}": no <svg> root element`] };
   const errors: string[] = [];
   const fail = (msg: string) => errors.push(`icon "${name}": ${msg}`);
 
@@ -99,7 +99,16 @@ export function sanitizeIcon(name: string, source: string): IconResult {
   };
   elementChildren(root).forEach(check);
 
-  return { body: serialize(root.children).replace(/\s*\n\s*/g, ''), errors };
+  const elements = elementChildren(root).map((el) => ({
+    tag: el.tagName,
+    attrs: Object.fromEntries(
+      Object.entries(el.properties).map(([prop, value]) => [
+        attr(prop),
+        Array.isArray(value) ? value.join(' ') : String(value),
+      ]),
+    ),
+  }));
+  return { body: serialize(root.children).replace(/\s*\n\s*/g, ''), elements, errors };
 }
 
 // -------------------------------------------------------------------- figures
