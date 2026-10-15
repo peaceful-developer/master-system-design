@@ -32,7 +32,8 @@
             "styles": [
               "node_modules/@fontsource-variable/ibm-plex-sans/index.css",
               "node_modules/@fontsource-variable/jetbrains-mono/index.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles/content.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "static"

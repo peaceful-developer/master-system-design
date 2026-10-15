@@ -226,7 +226,7 @@ function splitBlocks(tree: HastRoot): {
 
 export async function createCompiler(): Promise<MarkdownCompiler> {
   const highlighter: Highlighter = await createHighlighter({
-    themes: ['github-light', 'github-dark'],
+    themes: ['github-light-high-contrast', 'github-dark-high-contrast'],
     langs: SHIKI_LANGS,
   });
   const parser = unified()
@@ -238,7 +238,7 @@ export async function createCompiler(): Promise<MarkdownCompiler> {
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeShikiFromHighlighter, highlighter, {
-      themes: { light: 'github-light', dark: 'github-dark' },
+      themes: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
       defaultColor: false,
     });
 
