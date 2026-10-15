@@ -18,7 +18,10 @@
     "build": "ng build",
     "test": "ng test --no-watch && vitest run --config vitest.scripts.config.mts",
     "test:scripts": "vitest run --config vitest.scripts.config.mts",
-    "lint": "eslint . && prettier --check . && tsc -p tsconfig.scripts.json --noEmit"
+    "lint": "eslint . && prettier --check . && tsc -p tsconfig.scripts.json --noEmit",
+    "postbuild": "tsx scripts/postbuild.ts",
+    "e2e": "playwright test",
+    "serve": "tsx scripts/serve-static.ts"
   },
   "dependencies": {
     "@angular/cdk": "22.2.3",
@@ -39,6 +42,7 @@
     "@angular/cli": "22.2.2",
     "@angular/compiler-cli": "22.2.3",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
     "@tailwindcss/postcss": "4.3.3",
     "@tailwindcss/typography": "0.5.20",
     "@types/node": "24.19.2",
