@@ -1,0 +1,81 @@
+{
+  "id": "apis-quiz",
+  "title": "APIs: REST, gRPC and WebSockets",
+  "topics": ["apis"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "idempotent-methods",
+      "prompt": "Which HTTP methods are idempotent by definition? Select all that apply.",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "get", "text": "GET" },
+        { "id": "put", "text": "PUT" },
+        { "id": "delete", "text": "DELETE" },
+        { "id": "post", "text": "POST" }
+      ],
+      "correct": ["get", "put", "delete"],
+      "explanation": "Repeating a GET, PUT or DELETE leaves the resource in the same state. Repeating a POST usually creates another resource, so it needs extra protection such as an idempotency key.",
+      "hint": "Ask: if the request is sent twice, does anything extra happen?"
+    },
+    {
+      "id": "cursor",
+      "prompt": "A social feed shows 20 posts at a time while new posts keep arriving. Why is cursor pagination better than offset pagination here?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Cursors compress the response so it downloads faster" },
+        {
+          "id": "b",
+          "text": "With offsets, new posts shift every page, so users see duplicates or miss posts, and deep offsets get slow"
+        },
+        { "id": "c", "text": "Offsets are not allowed in REST APIs" }
+      ],
+      "correct": ["b"],
+      "explanation": "A cursor marks a position in the data (just after the last item seen), so inserts don't shift the next page and the database can seek straight to it."
+    },
+    {
+      "id": "grpc-fit",
+      "prompt": "Where does gRPC usually fit best?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "A public API that browsers call directly" },
+        { "id": "b", "text": "High-volume calls between your own backend services" },
+        { "id": "c", "text": "Serving static images to users" }
+      ],
+      "correct": ["b"],
+      "explanation": "gRPC's typed schemas, compact binary encoding and streaming suit internal service-to-service traffic. Browsers can't call it directly without a proxy."
+    },
+    {
+      "id": "push-choice",
+      "prompt": "An AI assistant streams its answer to the browser word by word. The browser doesn't send anything while the answer streams. Which option is simplest and fits best?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Polling every 100 ms" },
+        { "id": "b", "text": "Server-sent events (one long HTTP response)" },
+        { "id": "c", "text": "A WebSocket connection" }
+      ],
+      "correct": ["b"],
+      "explanation": "Traffic only flows server to client, so SSE is enough: it's plain HTTP, simple to proxy and reconnects automatically. WebSockets would work, but add two-way complexity you don't need."
+    },
+    {
+      "id": "breaking-change",
+      "prompt": "Your public API returns a field named userName. You want it called username. What's the safest plan?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Rename it in the next release; clients should update" },
+        {
+          "id": "b",
+          "text": "Add username alongside userName, mark userName deprecated, watch usage, and remove it later (or only in a new version)"
+        },
+        { "id": "c", "text": "Return username only to clients that send a newer User-Agent" }
+      ],
+      "correct": ["b"],
+      "explanation": "Renaming breaks every client that reads the old field. Adding the new field, deprecating the old one visibly and removing it only after usage drops (or in /v2) lets clients move at their own pace."
+    }
+  ]
+}

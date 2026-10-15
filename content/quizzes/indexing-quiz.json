@@ -1,0 +1,80 @@
+{
+  "id": "indexing-quiz",
+  "title": "Indexing",
+  "topics": ["databases", "indexing"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "why-index",
+      "prompt": "Without an index on email, how does the database find the row WHERE email = 'alice@example.com'?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "It reads every row in the table (a full table scan)" },
+        { "id": "b", "text": "It jumps straight to the row using the primary key" },
+        { "id": "c", "text": "It asks the cache" }
+      ],
+      "correct": ["a"],
+      "explanation": "Without an index on the column, the only way to find matches is to read every row and check it."
+    },
+    {
+      "id": "btree-depth",
+      "prompt": "Why does a B-tree lookup among 100 million keys take only a few disk reads?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        {
+          "id": "a",
+          "text": "Each node holds hundreds of keys, so the tree is only three or four levels deep"
+        },
+        { "id": "b", "text": "B-trees store everything in memory" },
+        { "id": "c", "text": "B-trees hash the key directly to its location" }
+      ],
+      "correct": ["a"],
+      "explanation": "With a fan-out of hundreds, each level divides the search space by hundreds. Three levels of 500 cover 125 million keys."
+    },
+    {
+      "id": "leftmost",
+      "prompt": "There's an index on (user_id, created_at). Which queries can use it efficiently? Select all that apply.",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "WHERE user_id = 42" },
+        { "id": "b", "text": "WHERE user_id = 42 AND created_at > '2026-09-01'" },
+        { "id": "c", "text": "WHERE created_at > '2026-09-01'" },
+        { "id": "d", "text": "WHERE user_id = 42 ORDER BY created_at DESC LIMIT 20" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "The index is sorted by user_id first, then created_at. Queries that fix user_id can use it, including sorting by created_at within that user. Filtering on created_at alone can't, because those values are spread across every user."
+    },
+    {
+      "id": "too-many-indexes",
+      "prompt": "A table receives 20,000 inserts per second and has nine indexes. Inserts are slow. What's the most likely cause?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Each insert must also update nine index structures" },
+        { "id": "b", "text": "Indexes make inserts skip the log" },
+        { "id": "c", "text": "The table needs another index" }
+      ],
+      "correct": ["a"],
+      "explanation": "Indexes speed up reads but every write must update each one. Remove indexes that no query uses."
+    },
+    {
+      "id": "lsm-trade",
+      "prompt": "What does an LSM tree trade to get very fast writes?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Durability: recent writes can be lost" },
+        {
+          "id": "b",
+          "text": "Reads may check several files, and background compaction rewrites data (write amplification)"
+        },
+        { "id": "c", "text": "It can't support range queries at all" }
+      ],
+      "correct": ["b"],
+      "explanation": "LSM trees append writes to a log and an in-memory buffer, then merge sorted files in the background. Reads may consult several files (Bloom filters help), and compaction rewrites data repeatedly."
+    }
+  ]
+}

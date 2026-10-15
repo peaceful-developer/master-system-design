@@ -5,14 +5,72 @@
       "number": 0,
       "title": "Foundations",
       "summary": "How the web works, APIs, concurrency, databases, indexing and latency: the materials every backend is built from.",
-      "items": []
+      "items": [
+        {
+          "kind": "lesson",
+          "ref": "foundations/how-the-web-works"
+        },
+        {
+          "kind": "lesson",
+          "ref": "foundations/apis-rest-grpc-websockets"
+        },
+        {
+          "kind": "lesson",
+          "ref": "foundations/processes-threads-concurrency"
+        },
+        {
+          "kind": "lesson",
+          "ref": "foundations/sql-vs-nosql"
+        },
+        {
+          "kind": "lesson",
+          "ref": "foundations/indexing"
+        },
+        {
+          "kind": "lesson",
+          "ref": "foundations/latency-numbers"
+        }
+      ]
     },
     {
       "id": "building-blocks",
       "number": 1,
       "title": "Distributed systems building blocks",
       "summary": "Scaling, load balancing, caching, replication, sharding, queues, consistency, rate limiting and estimation.",
-      "items": []
+      "items": [
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/scaling-and-load-balancing"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/caching-and-cdns"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/replication"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/sharding-and-consistent-hashing"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/queues-and-pub-sub"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/consistency-cap-pacelc"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/rate-limiting-and-idempotency"
+        },
+        {
+          "kind": "lesson",
+          "ref": "building-blocks/back-of-envelope-estimation"
+        }
+      ]
     },
     {
       "id": "data-systems",

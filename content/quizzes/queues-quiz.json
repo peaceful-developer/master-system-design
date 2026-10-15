@@ -1,0 +1,86 @@
+{
+  "id": "queues-quiz",
+  "title": "Queues and pub/sub",
+  "topics": ["messaging"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "queue-or-pubsub",
+      "prompt": "When an order is placed, billing, shipping and analytics must each react to it. Which style fits?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "A work queue, so one of the three services handles each order" },
+        { "id": "b", "text": "Publish/subscribe, so every subscribing service gets the event" },
+        { "id": "c", "text": "Direct synchronous calls from checkout to all three" }
+      ],
+      "correct": ["b"],
+      "explanation": "Each service needs every order, so each must get its own copy: that's pub/sub. A work queue would give each order to only one of them."
+    },
+    {
+      "id": "benefits",
+      "prompt": "Which are real benefits of putting a queue between checkout and the email service? Select all that apply.",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Checkout keeps working if the email service is down for a while" },
+        {
+          "id": "b",
+          "text": "A burst of orders waits in the queue instead of overloading the email workers"
+        },
+        { "id": "c", "text": "Emails are guaranteed to be sent within 1 ms" },
+        { "id": "d", "text": "Checkout responds without waiting for the email to be sent" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "A queue decouples availability and absorbs bursts, and the producer doesn't wait. It adds delay rather than removing it."
+    },
+    {
+      "id": "duplicate",
+      "prompt": "A worker charges a card, then crashes before acknowledging the message. The queue redelivers it. What prevents a double charge?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Switching to at-most-once delivery" },
+        {
+          "id": "b",
+          "text": "Making the consumer idempotent, for example by recording processed payment ids and skipping repeats"
+        },
+        { "id": "c", "text": "Adding more workers" }
+      ],
+      "correct": ["b"],
+      "explanation": "At-least-once delivery will sometimes redeliver. An idempotent consumer makes the repeat harmless. At-most-once would avoid duplicates but could lose payments."
+    },
+    {
+      "id": "poison",
+      "prompt": "One malformed message fails every time it's processed and is retried forever. What's the standard fix?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Delete the queue and recreate it" },
+        {
+          "id": "b",
+          "text": "After a limited number of retries, move it to a dead-letter queue and alert someone"
+        },
+        { "id": "c", "text": "Retry it faster" }
+      ],
+      "correct": ["b"],
+      "explanation": "Bounded retries with backoff, then a dead-letter queue, keep one bad message from blocking the rest. The alert makes sure someone fixes the cause and replays it."
+    },
+    {
+      "id": "backlog",
+      "prompt": "Messages arrive at 1,000 per second. Consumers process 800 per second. The queue has 50,000 messages now. What happens?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "The queue drains in about 4 minutes" },
+        {
+          "id": "b",
+          "text": "The backlog grows by 200 messages per second until consumers scale up or producers slow down"
+        },
+        { "id": "c", "text": "The queue stays at 50,000" }
+      ],
+      "correct": ["b"],
+      "explanation": "Arrivals exceed processing by 200 per second, so the backlog grows without limit. A queue absorbs temporary bursts; a lasting gap needs more consumers, backpressure or shedding work."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "latency-budget",
+  "title": "Budget a checkout request",
+  "topics": ["latency"],
+  "difficulty": "beginner",
+  "scenario": "A checkout request goes through these steps. The **gateway** and **authentication** run one after the other. Then the service calls **inventory** and **pricing**. Finally it writes the order to the **database**. All times are p99 latencies.",
+  "givens": [
+    { "label": "Gateway", "value": 10, "unit": "ms" },
+    { "label": "Authentication", "value": 20, "unit": "ms" },
+    { "label": "Inventory service", "value": 80, "unit": "ms" },
+    { "label": "Pricing service", "value": 50, "unit": "ms" },
+    { "label": "Database write", "value": 40, "unit": "ms" }
+  ],
+  "questions": [
+    {
+      "id": "parallel",
+      "prompt": "Total latency if inventory and pricing are called in parallel",
+      "unit": "ms",
+      "answer": 150,
+      "tolerance": { "kind": "absolute", "value": 5 }
+    },
+    {
+      "id": "sequential",
+      "prompt": "Total latency if inventory and pricing are called one after the other",
+      "unit": "ms",
+      "answer": 200,
+      "tolerance": { "kind": "absolute", "value": 5 }
+    },
+    {
+      "id": "fanout",
+      "prompt": "The page also queries 20 recommendation servers in parallel. Each is slow 1% of the time, independently. Chance that at least one is slow",
+      "unit": "%",
+      "answer": 18.2,
+      "tolerance": { "kind": "absolute", "value": 2 }
+    }
+  ],
+  "solution": "1. **Parallel:** sequential steps add, parallel steps take the maximum. 10 + 20 + max(80, 50) + 40 = 10 + 20 + 80 + 40 = **150 ms**.\n2. **Sequential:** 10 + 20 + 80 + 50 + 40 = **200 ms**. Running independent calls in parallel saved 50 ms.\n3. **Fan-out:** the chance that one server is fast is 0.99, so all 20 are fast with probability 0.99²⁰ ≈ 0.818. At least one is slow with probability 1 − 0.818 ≈ **18.2%**. Almost one page in five hits a slow recommendation server, which is why you'd give that call a short timeout and render the page without recommendations if it's late."
+}

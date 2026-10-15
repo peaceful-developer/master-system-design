@@ -1,0 +1,87 @@
+{
+  "id": "sharding-quiz",
+  "title": "Sharding and consistent hashing",
+  "topics": ["sharding", "consistent-hashing"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "why-shard",
+      "prompt": "Which problem does sharding solve that adding read replicas does not?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Too many reads of the same popular rows" },
+        { "id": "b", "text": "More writes, or more data, than one leader machine can handle" },
+        { "id": "c", "text": "Slow network between users and the data center" }
+      ],
+      "correct": ["b"],
+      "explanation": "Replicas copy all the data and all the writes, so they add read capacity only. Sharding splits data and writes across machines."
+    },
+    {
+      "id": "timestamp-key",
+      "prompt": "A metrics database is range-partitioned by timestamp. What goes wrong?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Range queries become slow" },
+        {
+          "id": "b",
+          "text": "All new writes land on the shard that owns the current time, creating a hot spot"
+        },
+        { "id": "c", "text": "Data is spread too evenly" }
+      ],
+      "correct": ["b"],
+      "explanation": "New data always has the latest timestamp, so one shard takes every write. Prefixing the key with a sensor id, for example, spreads writes while keeping each sensor's data in time order."
+    },
+    {
+      "id": "mod-n",
+      "prompt": "Keys are placed with hash(key) mod N. You grow from 4 to 5 shards. Roughly what share of keys must move?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "About 20%" },
+        { "id": "b", "text": "About 50%" },
+        { "id": "c", "text": "About 80%" }
+      ],
+      "correct": ["c"],
+      "explanation": "A key stays only if hash mod 4 equals hash mod 5, which is true for 4 of every 20 hash values: 20%. The other 80% move. Consistent hashing would move only about 20%."
+    },
+    {
+      "id": "vnodes",
+      "prompt": "Why give each machine many virtual nodes on a consistent hashing ring? Select all that apply.",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Load evens out because each machine owns many small arcs" },
+        {
+          "id": "b",
+          "text": "A leaving machine's keys spread over many machines instead of one neighbour"
+        },
+        {
+          "id": "c",
+          "text": "Bigger machines can take a bigger share by having more virtual nodes"
+        },
+        { "id": "d", "text": "Lookups no longer need hashing" }
+      ],
+      "correct": ["a", "b", "c"],
+      "explanation": "Many points per machine smooth out random arc sizes, scatter a departing machine's load, and allow weighting. Lookups still hash the key."
+    },
+    {
+      "id": "shard-key-choice",
+      "prompt": "A chat app stores billions of messages. Most reads load the latest messages of one conversation. Which shard key fits best?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Message id, hashed" },
+        {
+          "id": "b",
+          "text": "Conversation id, hashed, with messages ordered by time within the shard"
+        },
+        { "id": "c", "text": "The sender's country" },
+        { "id": "d", "text": "The date the message was sent" }
+      ],
+      "correct": ["b"],
+      "explanation": "Hashing the conversation id spreads conversations evenly and keeps each one on a single shard, so the common read is a single-shard query. Message id scatters a conversation, country has few, uneven values, and date makes today's shard hot."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "scaling-quiz",
+  "title": "Scaling and load balancing",
+  "topics": ["scaling", "load-balancing"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "stateless",
+      "prompt": "Why must app servers be stateless before you can freely add more of them behind a load balancer?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        {
+          "id": "a",
+          "text": "So any server can handle any request, wherever the user's previous request went"
+        },
+        { "id": "b", "text": "Because load balancers can't send traffic to servers with memory" },
+        { "id": "c", "text": "Because stateless servers use less CPU" }
+      ],
+      "correct": ["a"],
+      "explanation": "If a server keeps a user's data in its own memory, the next request must reach that same server. Moving state to a shared store lets any server handle any request."
+    },
+    {
+      "id": "least-conn",
+      "prompt": "Some requests take 5 ms and others take 5 seconds. Which balancing algorithm keeps servers most evenly loaded?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Round robin" },
+        { "id": "b", "text": "Least connections" },
+        { "id": "c", "text": "Always the first server" }
+      ],
+      "correct": ["b"],
+      "explanation": "Round robin counts requests, not work, so a server can collect several slow requests. Least connections sends new work to the server with the fewest requests still in progress."
+    },
+    {
+      "id": "l7",
+      "prompt": "You want /api/* to go to one pool of servers and /images/* to another. What kind of load balancer do you need?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Layer 4 (routes by IP and port)" },
+        { "id": "b", "text": "Layer 7 (reads the HTTP request)" }
+      ],
+      "correct": ["b"],
+      "explanation": "Routing by URL path requires reading the HTTP request, which only a layer 7 balancer does."
+    },
+    {
+      "id": "spof",
+      "prompt": "Which steps remove the load balancer as a single point of failure? Select all that apply.",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Run an active–passive pair sharing a floating IP" },
+        { "id": "b", "text": "Use a managed cloud load balancer built from many machines" },
+        { "id": "c", "text": "Give the single balancer more CPU" },
+        { "id": "d", "text": "Spread users across several balancers or regions with DNS" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Redundancy removes the single point of failure. A bigger single machine is still one machine that can fail."
+    },
+    {
+      "id": "deep-health",
+      "prompt": "Each server's health check also verifies the database connection. The database has a short outage. What risk does this create?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "None; unhealthy servers should always be removed" },
+        {
+          "id": "b",
+          "text": "Every server fails its check at once, the balancer removes them all, and the site is fully down even for pages that don't need the database"
+        },
+        { "id": "c", "text": "The health checks will overload the load balancer" }
+      ],
+      "correct": ["b"],
+      "explanation": "A shared dependency makes every check fail together, emptying the pool. Keep the routing check shallow (can this process serve?) and monitor dependencies separately, or let servers degrade gracefully."
+    }
+  ]
+}
