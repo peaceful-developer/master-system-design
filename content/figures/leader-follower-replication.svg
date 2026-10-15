@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250">
+  <title>Leader–follower replication</title>
+  <desc>Writes go to the leader, which streams them to two followers. Each follower receives the change a little later; that delay is replication lag. Reads can be served by followers.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .w { animation: w 6s linear infinite; } .r1 { animation: r1 6s linear infinite; } .r2 { animation: r2 6s linear infinite; }
+    @keyframes w { 0% { transform: translate(130px, 120px); opacity: 1; } 25% { transform: translate(250px, 120px); opacity: 1; } 28% { transform: translate(250px, 120px); opacity: 0; } 100% { transform: translate(250px, 120px); opacity: 0; } }
+    @keyframes r1 { 0% { transform: translate(370px, 120px); opacity: 0; } 28% { transform: translate(370px, 120px); opacity: 0; } 30% { transform: translate(370px, 110px); opacity: 1; } 55% { transform: translate(480px, 58px); opacity: 1; } 58% { transform: translate(480px, 58px); opacity: 0; } 100% { transform: translate(480px, 58px); opacity: 0; } }
+    @keyframes r2 { 0% { transform: translate(370px, 120px); opacity: 0; } 38% { transform: translate(370px, 120px); opacity: 0; } 40% { transform: translate(370px, 130px); opacity: 1; } 75% { transform: translate(480px, 183px); opacity: 1; } 78% { transform: translate(480px, 183px); opacity: 0; } 100% { transform: translate(480px, 183px); opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) { .w, .r1, .r2 { animation: none; opacity: 0; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <rect class="box" x="20" y="95" width="110" height="50" rx="10"/>
+  <text class="label" x="75.0" y="125.0" text-anchor="middle">Writes</text>
+  <rect class="accent-box" x="250" y="90" width="120" height="60" rx="10"/>
+  <text class="label ink" x="310.0" y="117.0" text-anchor="middle">Leader</text>
+  <text class="small ink" x="310.0" y="135.0" text-anchor="middle">accepts writes</text>
+  <rect class="box" x="480" y="30" width="140" height="56" rx="10"/>
+  <text class="label" x="550.0" y="55.0" text-anchor="middle">Follower 1</text>
+  <text class="small" x="550.0" y="73.0" text-anchor="middle">serves reads</text>
+  <rect class="box" x="480" y="155" width="140" height="56" rx="10"/>
+  <text class="label" x="550.0" y="180.0" text-anchor="middle">Follower 2</text>
+  <text class="small" x="550.0" y="198.0" text-anchor="middle">serves reads</text>
+  <line class="line" x1="130" y1="120" x2="248" y2="120" marker-end="url(#arrow)"/>
+  <line class="line" x1="370" y1="110" x2="478" y2="60" marker-end="url(#arrow)"/>
+  <line class="line" x1="370" y1="130" x2="478" y2="182" marker-end="url(#arrow)"/>
+  <text class="small" x="250" y="236" text-anchor="start">Followers apply the leader’s log a moment later: replication lag.</text>
+  <circle class="packet w" cx="0" cy="0" r="7"/><circle class="packet r1" cx="0" cy="0" r="7"/><circle class="packet r2" cx="0" cy="0" r="7"/>
+
+</svg>

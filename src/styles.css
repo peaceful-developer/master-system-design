@@ -71,6 +71,9 @@
   --fig-accent: var(--color-parrot);
   --fig-flow: var(--color-sun);
   --fig-muted: var(--color-rule);
+  /* Fixed colors for characters (the mascot) that should not flip with the theme. */
+  --fig-paper: #ffffff;
+  --fig-ink: #000000;
 }
 
 @layer base {

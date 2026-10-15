@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 252">
+  <title>A queue between producer and consumer</title>
+  <desc>The producer adds messages to a queue in a burst; the slots fill up. The consumer takes messages out one by one at its own pace and the queue drains.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .in { animation: in 8s linear infinite; } .out { animation: out 8s linear infinite; }
+    @keyframes in { 0% { transform: translate(130px, 115px); opacity: 1; } 10% { transform: translate(200px, 115px); opacity: 1; } 11% { transform: translate(200px, 115px); opacity: 0; } 12% { transform: translate(130px, 115px); opacity: 1; } 22% { transform: translate(200px, 115px); opacity: 1; } 23% { transform: translate(200px, 115px); opacity: 0; } 24% { transform: translate(130px, 115px); opacity: 1; } 34% { transform: translate(200px, 115px); opacity: 1; } 35% { transform: translate(200px, 115px); opacity: 0; } 100% { transform: translate(200px, 115px); opacity: 0; } }
+    @keyframes out { 0% { transform: translate(450px, 115px); opacity: 0; } 40% { transform: translate(450px, 115px); opacity: 0; } 41% { transform: translate(450px, 115px); opacity: 1; } 55% { transform: translate(520px, 115px); opacity: 1; } 56% { transform: translate(520px, 115px); opacity: 0; } 60% { transform: translate(450px, 115px); opacity: 1; } 74% { transform: translate(520px, 115px); opacity: 1; } 75% { transform: translate(520px, 115px); opacity: 0; } 100% { transform: translate(520px, 115px); opacity: 0; } }
+    .s0 { animation: s0 8s step-end infinite; }
+    @keyframes s0 { 0% { fill: var(--fig-fill, #fff); } 8% { fill: var(--fig-accent, #2bb24c); } 84% { fill: var(--fig-fill, #fff); } }
+    .s1 { animation: s1 8s step-end infinite; }
+    @keyframes s1 { 0% { fill: var(--fig-fill, #fff); } 14% { fill: var(--fig-accent, #2bb24c); } 76% { fill: var(--fig-fill, #fff); } }
+    .s2 { animation: s2 8s step-end infinite; }
+    @keyframes s2 { 0% { fill: var(--fig-fill, #fff); } 20% { fill: var(--fig-accent, #2bb24c); } 68% { fill: var(--fig-fill, #fff); } }
+    .s3 { animation: s3 8s step-end infinite; }
+    @keyframes s3 { 0% { fill: var(--fig-fill, #fff); } 26% { fill: var(--fig-accent, #2bb24c); } 60% { fill: var(--fig-fill, #fff); } }
+    .s4 { animation: s4 8s step-end infinite; }
+    @keyframes s4 { 0% { fill: var(--fig-fill, #fff); } 32% { fill: var(--fig-accent, #2bb24c); } 52% { fill: var(--fig-fill, #fff); } }
+
+    @media (prefers-reduced-motion: reduce) { .in, .out { animation: none; opacity: 0; } .s0, .s1, .s2 { animation: none; fill: var(--fig-accent, #2bb24c); } .s3, .s4 { animation: none; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <rect class="box" x="20" y="90" width="110" height="50" rx="10"/>
+  <text class="label" x="75.0" y="120.0" text-anchor="middle">Producer</text>
+  <rect class="box" x="520" y="90" width="110" height="50" rx="10"/>
+  <text class="label" x="575.0" y="120.0" text-anchor="middle">Consumer</text>
+  <rect class="box" x="200" y="80" width="250" height="70" rx="10"/>
+  <rect class="box s4" x="212" y="92" width="38" height="46" rx="6"/>
+  <rect class="box s3" x="259" y="92" width="38" height="46" rx="6"/>
+  <rect class="box s2" x="306" y="92" width="38" height="46" rx="6"/>
+  <rect class="box s1" x="353" y="92" width="38" height="46" rx="6"/>
+  <rect class="box s0" x="400" y="92" width="38" height="46" rx="6"/>
+  <text class="label" x="325" y="178" text-anchor="middle">Queue (buffer)</text>
+  <text class="small" x="20" y="220" text-anchor="start">Producers add work in bursts; the consumer drains it at its own pace.</text>
+  <text class="small" x="20" y="240" text-anchor="start">If the queue keeps growing, slow producers down (backpressure) or add consumers.</text>
+  <circle class="packet in" cx="0" cy="0" r="7"/><circle class="packet out" cx="0" cy="0" r="7"/>
+
+</svg>

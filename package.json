@@ -24,7 +24,8 @@
     "test:scripts": "vitest run --config vitest.scripts.config.mts",
     "lint": "eslint . && prettier --check . && tsc -p tsconfig.scripts.json --noEmit",
     "e2e": "playwright test",
-    "serve": "tsx scripts/serve-static.ts"
+    "serve": "tsx scripts/serve-static.ts",
+    "figures:render": "tsx scripts/render-figures.ts"
   },
   "dependencies": {
     "@angular/cdk": "22.2.3",

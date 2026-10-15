@@ -214,11 +214,14 @@ details.deeper > :not(summary) + :not(summary) {
 /* Figures (hand-made SVG explainers) */
 .prose-content figure.figure {
   margin: 2em 0;
+  overflow-x: auto;
 }
 
+/* Figures keep a readable minimum width and scroll sideways on phones. */
 .prose-content figure.figure svg {
   display: block;
   width: 100%;
+  min-width: 32rem;
   height: auto;
   max-height: 26rem;
 }
