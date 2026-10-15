@@ -54,6 +54,7 @@ describe('runBuild', () => {
       'mascot.ts',
       'routes.json',
       'search-index.json',
+      'showcase.ts',
     ]);
   });
 
@@ -154,6 +155,18 @@ describe('runBuild', () => {
     const result = await runBuild({ contentDir: content, outDir: out });
     expect(result.errors.filter((e) => e.severity === 'error')).toEqual([]);
     expect(existsSync(join(out, 'items/example/cache-aside.json'))).toBe(false);
+  });
+
+  it('emits the showcase figures for the home page', async () => {
+    const content = copyValidFixture();
+    temps.push(content);
+    const fig = readFileSync(join(content, 'figures/request-flow.svg'), 'utf8');
+    (await import('node:fs')).writeFileSync(join(content, 'figures/request-lifecycle.svg'), fig);
+    const out = tempDir('sdl-out-');
+    await runBuild({ contentDir: content, outDir: out });
+    const showcase = readFileSync(join(out, 'showcase.ts'), 'utf8');
+    expect(showcase).toContain("export type ShowcaseFigure = 'request-lifecycle';");
+    expect(showcase).toContain('id=\\"fig-request-lifecycle\\"');
   });
 
   it('requires all six mascot poses once any mascot figure exists', async () => {

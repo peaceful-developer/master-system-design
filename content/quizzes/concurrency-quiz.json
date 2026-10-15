@@ -55,7 +55,7 @@
     },
     {
       "id": "deadlock-fix",
-      "prompt": "Which practices help prevent deadlocks? Select all that apply.",
+      "prompt": "Which practices help prevent deadlocks?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

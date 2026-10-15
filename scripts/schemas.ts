@@ -4,6 +4,9 @@
  * `scripts/content-types.ts` (type-only, so the app never bundles zod).
  */
 import { z } from 'zod';
+import { ILLUSTRATIVE_NOTE } from './content-types';
+
+export { ILLUSTRATIVE_NOTE };
 
 export const PHASE_IDS = [
   'foundations',
@@ -25,7 +28,6 @@ export const COMPONENT_CATEGORIES = [
   'llm',
 ] as const;
 export const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-export const ILLUSTRATIVE_NOTE = 'Illustrative teaching values, not vendor benchmarks.';
 
 export type PhaseId = (typeof PHASE_IDS)[number];
 export type Track = (typeof TRACKS)[number];

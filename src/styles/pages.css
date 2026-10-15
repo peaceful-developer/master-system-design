@@ -1,0 +1,698 @@
+/* Page-level layouts: home, path, exercises, glossary, progress, playground. */
+
+/* Ligatures blur code like "https://" and "!=", so code shows every character. */
+code,
+pre,
+kbd {
+  font-variant-ligatures: none;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.section-lead {
+  max-width: 65ch;
+  margin-top: 0.5rem;
+}
+
+/* Home */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem 0 3rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.hero-title {
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-lead {
+  max-width: 55ch;
+  margin-top: 1rem;
+  font-size: 1.1875rem;
+}
+
+.hero-mascot {
+  flex-shrink: 0;
+}
+
+@media (max-width: 40rem) {
+  .hero-mascot {
+    display: none;
+  }
+}
+
+.home-section {
+  padding: 3rem 0 0;
+}
+
+.feature-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.feature {
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-parrot);
+}
+
+.feature-title {
+  margin: 0.6rem 0 0.35rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.ladder {
+  display: grid;
+  gap: 0;
+  margin-top: 1.5rem;
+  max-width: 75ch;
+}
+
+.ladder-step {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.ladder-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-parrot-deep);
+  border-radius: 999px;
+  background-color: var(--color-parrot);
+  color: var(--color-on-parrot);
+  font-weight: 700;
+}
+
+.ladder-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.ladder-title a {
+  color: var(--color-fg);
+}
+
+.ladder-outcome {
+  margin-top: 0.35rem;
+}
+
+.ladder-meta {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+}
+
+/* Showcase figure (home) */
+.showcase-figure {
+  margin-top: 1.5rem;
+  max-width: 75ch;
+}
+
+.showcase-figure-art {
+  overflow-x: auto;
+}
+
+.showcase-figure-art svg {
+  display: block;
+  width: 100%;
+  min-width: 32rem;
+  height: auto;
+}
+
+.showcase-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Mascot */
+.mascot {
+  display: inline-block;
+}
+
+.mascot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* "Where should I start?" picker */
+.picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.picker-legend {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.picker-compact .picker-legend {
+  margin-bottom: 0.75rem;
+  font-size: 1.0625rem;
+}
+
+.picker-options {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.picker-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  cursor: pointer;
+}
+
+.picker-compact .picker-card {
+  padding: 0.625rem 0.875rem;
+}
+
+.picker-card:hover {
+  border-color: var(--color-fg);
+}
+
+.picker-card.is-selected {
+  border: 2px solid var(--color-parrot);
+  padding: calc(1rem - 1px) calc(1.125rem - 1px);
+}
+
+.picker-compact .picker-card.is-selected {
+  padding: calc(0.625rem - 1px) calc(0.875rem - 1px);
+}
+
+.picker-card:focus-within {
+  outline: 2px solid var(--color-fg);
+  outline-offset: 2px;
+}
+
+.picker-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.picker-card-title {
+  font-weight: 700;
+}
+
+.picker-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+}
+
+.is-selected .picker-check {
+  border-color: var(--color-parrot-deep);
+  background-color: var(--color-parrot);
+  color: var(--color-on-parrot);
+}
+
+.picker-card-detail {
+  font-size: 0.9375rem;
+}
+
+.picker-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background-color: var(--color-ok-soft);
+}
+
+.picker-fast-track {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+}
+
+/* Learning path */
+.path-phase {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-rule);
+  scroll-margin-top: 5rem;
+}
+
+.path-phase-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.path-items {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  max-width: 75ch;
+}
+
+.path-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-control);
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+.path-item-link:hover,
+.path-exercise-link:hover {
+  border-color: var(--color-fg);
+}
+
+.path-item-title {
+  display: block;
+  font-weight: 600;
+}
+
+.path-item-meta {
+  display: block;
+  font-size: 0.8125rem;
+}
+
+.path-exercises {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.375rem 0 0.5rem 2.25rem;
+}
+
+.path-exercise-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-fg);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.path-exercise-kind {
+  margin-right: 0.4rem;
+  font-weight: 600;
+}
+
+.path-exercise-kind::after {
+  content: ' ·';
+}
+
+.path-empty {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  max-width: 75ch;
+  border: 1px dashed var(--color-rule);
+  border-radius: var(--radius-card);
+}
+
+/* Exercises */
+.filters {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  min-width: 3.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.filter-chip {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-fg);
+}
+
+.filter-chip[aria-pressed='true'] {
+  border-color: var(--color-parrot-deep);
+  background-color: var(--color-parrot);
+  color: var(--color-on-parrot);
+  font-weight: 600;
+}
+
+.filter-clear {
+  justify-self: start;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9375rem;
+}
+
+/* Glossary */
+.az-nav {
+  position: sticky;
+  top: 3.5rem;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  background-color: var(--color-bg);
+}
+
+.az-nav a,
+.az-nav span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-control);
+  font-weight: 600;
+}
+
+.az-nav a {
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+.az-nav a:hover {
+  background-color: var(--color-ok-soft);
+}
+
+.az-nav span {
+  opacity: 0.35;
+}
+
+.glossary-group {
+  max-width: 75ch;
+  margin-top: 2rem;
+  scroll-margin-top: 7rem;
+}
+
+.glossary-letter {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--color-parrot);
+}
+
+.glossary-term {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  scroll-margin-top: 7rem;
+}
+
+.glossary-term:target {
+  background-color: var(--color-ok-soft);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: var(--radius-control);
+}
+
+.glossary-term-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.glossary-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Progress */
+.progress-overview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 3rem;
+  margin-top: 1rem;
+}
+
+.progress-overall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-phases {
+  display: grid;
+  gap: 0.75rem 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  flex: 1;
+}
+
+.progress-phases li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.progress-section {
+  margin-top: 3rem;
+}
+
+.progress-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  max-width: 75ch;
+}
+
+.progress-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.progress-list li > span {
+  margin-left: auto;
+}
+
+.progress-table {
+  width: 100%;
+  max-width: 75ch;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.progress-table th,
+.progress-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-rule);
+  text-align: left;
+}
+
+.progress-table th {
+  font-size: 0.875rem;
+}
+
+.file-button:focus-within {
+  outline: 2px solid var(--color-fg);
+  outline-offset: 2px;
+}
+
+.btn-danger,
+.btn-danger-outline {
+  border-color: var(--color-scarlet);
+}
+
+.btn-danger {
+  background-color: var(--color-bad-soft);
+  color: var(--color-fg);
+}
+
+.btn-danger:hover,
+.btn-danger-outline:hover {
+  background-color: var(--color-bad-soft);
+}
+
+.form-error {
+  padding: 0.625rem 0.875rem;
+  max-width: 75ch;
+  border-left: 3px solid var(--color-scarlet);
+  background-color: var(--color-bad-soft);
+}
+
+/* Confirmation dialog (CDK) */
+.dialog-panel {
+  display: block;
+  width: min(28rem, calc(100vw - 2rem));
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+
+/* Contribute */
+.code-box {
+  margin-top: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-control);
+  background-color: var(--color-code-bg);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.link-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.link-list li {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+/* Playground */
+.playground-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 80ch;
+}
+
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-control);
+  background-color: var(--color-info-soft);
+  font-size: 0.875rem;
+}
+
+.component-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.component-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.125rem;
+}
+
+.component-shape {
+  width: 7.5rem;
+  height: auto;
+}
+
+.component-shape path {
+  fill: var(--color-ok-soft);
+  stroke: var(--color-fg);
+  stroke-width: 1.5;
+}
+
+.component-shape path + path {
+  fill: none;
+}
+
+.component-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.component-sim {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.8125rem;
+}
+
+.component-sim div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.component-sim dt {
+  font-weight: 600;
+}
+
+.component-sim dd {
+  text-align: right;
+}

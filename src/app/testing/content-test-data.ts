@@ -1,13 +1,16 @@
 /** Small, hand-written content for unit tests (stands in for src/generated/). */
 import type { Provider } from '@angular/core';
 import type {
+  CaseStudyMeta,
   CompiledDrill,
   CompiledLesson,
   CompiledQuiz,
   ComponentDef,
   Diagram,
+  ExerciseMeta,
   LearningPath,
   LessonMeta,
+  PlaybookMeta,
 } from '@content/types';
 import { CONTENT_DATA, type ContentData } from '../core/content/content.service';
 
@@ -143,6 +146,76 @@ export const TEST_PATH: LearningPath = {
     },
   ],
 };
+
+export function testLesson(
+  phase: LessonMeta['phase'],
+  slug: string,
+  order: number,
+  exercises: string[] = [],
+): LessonMeta {
+  return {
+    slug,
+    title: `Lesson ${slug}`,
+    phase,
+    order,
+    summary: `Summary of ${slug}.`,
+    estimatedMinutes: 10,
+    concepts: [],
+    exercises,
+    file: `content/lessons/${phase}/${slug}.md`,
+    url: `/learn/${phase}/${slug}`,
+  };
+}
+
+export function testCaseStudy(
+  slug: string,
+  track: CaseStudyMeta['track'],
+  status: CaseStudyMeta['status'],
+  order = 1,
+): CaseStudyMeta {
+  return {
+    slug,
+    title: `Case study ${slug}`,
+    track,
+    order,
+    difficulty: 'intermediate',
+    summary: `Summary of ${slug}.`,
+    concepts: [],
+    prerequisites: [],
+    estimatedMinutes: 30,
+    status,
+    exercises: [],
+    diagram: `${slug}-hld`,
+    file: `content/case-studies/${slug}.md`,
+    url: `/case-studies/${slug}`,
+  };
+}
+
+export function testPlaybook(slug: string, order = 1): PlaybookMeta {
+  return {
+    slug,
+    title: `Playbook ${slug}`,
+    order,
+    summary: `Summary of ${slug}.`,
+    estimatedMinutes: 15,
+    concepts: [],
+    exercises: [],
+    file: `content/playbooks/${slug}.md`,
+    url: `/playbooks/${slug}`,
+  };
+}
+
+export function testExercise(id: string, kind: ExerciseMeta['kind']): ExerciseMeta {
+  return {
+    id,
+    kind,
+    title: `Exercise ${id}`,
+    topics: [],
+    difficulty: 'beginner',
+    url: `/exercises/${id}`,
+    usedBy: [],
+  };
+}
 
 export function testContentData(overrides: Partial<ContentData> = {}): ContentData {
   return {

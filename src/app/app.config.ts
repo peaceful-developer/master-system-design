@@ -1,7 +1,14 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { DOCUMENT, ViewportScroller } from '@angular/common';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
+import { stickyOffset } from './core/layout/sticky-offset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,5 +19,9 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
     ),
     provideClientHydration(withEventReplay()),
+    provideAppInitializer(() => {
+      const doc = inject(DOCUMENT);
+      inject(ViewportScroller).setOffset(() => [0, stickyOffset(doc)]);
+    }),
   ],
 };

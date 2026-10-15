@@ -19,21 +19,23 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
           stroke="var(--color-rule)"
           stroke-width="5"
         />
-        <circle
-          class="ring-value"
-          cx="20"
-          cy="20"
-          [attr.r]="radius"
-          fill="none"
-          stroke="var(--color-parrot)"
-          stroke-width="5"
-          stroke-linecap="round"
-          transform="rotate(-90 20 20)"
-          [attr.stroke-dasharray]="dash()"
-        />
+        @if (done() > 0) {
+          <circle
+            class="ring-value"
+            cx="20"
+            cy="20"
+            [attr.r]="radius"
+            fill="none"
+            stroke="var(--color-parrot)"
+            stroke-width="5"
+            stroke-linecap="round"
+            transform="rotate(-90 20 20)"
+            [attr.stroke-dasharray]="dash()"
+          />
+        }
       </svg>
     </span>
-    <span class="text-sm font-semibold tabular-nums" aria-hidden="true"
+    <span class="text-sm font-semibold whitespace-nowrap tabular-nums" aria-hidden="true"
       >{{ done() }} / {{ total() }}</span
     >
   `,

@@ -21,7 +21,10 @@ export const NAV_ITEMS = [
   imports: [RouterLink, RouterLinkActive, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="sticky top-0 z-40 border-b border-parrot-deep bg-parrot text-on-parrot">
+    <header
+      class="sticky top-0 z-40 border-b border-parrot-deep bg-parrot text-on-parrot"
+      data-sticky-top
+    >
       <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-2 gap-y-2 px-4 py-2">
         <a routerLink="/" class="mr-3 flex items-center gap-2 text-on-parrot no-underline">
           <img src="favicon.svg" alt="" width="34" height="34" />

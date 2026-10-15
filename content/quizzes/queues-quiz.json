@@ -19,7 +19,7 @@
     },
     {
       "id": "benefits",
-      "prompt": "Which are real benefits of putting a queue between checkout and the email service? Select all that apply.",
+      "prompt": "Which are real benefits of putting a queue between checkout and the email service?",
       "kind": "multi",
       "level": "beginner",
       "options": [

@@ -48,7 +48,7 @@
     },
     {
       "id": "what-to-cache",
-      "prompt": "Which of these are good candidates for a cache with a few minutes of TTL? Select all that apply.",
+      "prompt": "Which of these are good candidates for a cache with a few minutes of TTL?",
       "kind": "multi",
       "level": "intermediate",
       "options": [
@@ -62,7 +62,7 @@
     },
     {
       "id": "stampede",
-      "prompt": "A hot key expires and thousands of simultaneous misses overload the database. Which techniques prevent this? Select all that apply.",
+      "prompt": "A hot key expires and thousands of simultaneous misses overload the database. Which techniques prevent this?",
       "kind": "multi",
       "level": "advanced",
       "options": [

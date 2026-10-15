@@ -1,7 +1,8 @@
 /**
  * Shapes of the compiled content the build writes to `src/generated/`.
- * The app imports this file as `@content/types`. It contains types only, so
- * nothing from the build tooling (zod, unified) reaches the browser bundle.
+ * The app imports this file as `@content/types`. It holds types plus a few
+ * plain constants, so nothing from the build tooling (zod, unified) reaches
+ * the browser bundle.
  */
 import type {
   CaseStudyFrontmatter,
@@ -38,6 +39,9 @@ export type {
   Tolerance,
   Track,
 } from './schemas';
+
+/** Shown wherever simulator numbers appear (they are teaching values, not measurements). */
+export const ILLUSTRATIVE_NOTE = 'Illustrative teaching values, not vendor benchmarks.';
 
 export type ContentBlock =
   | { kind: 'html'; html: string }

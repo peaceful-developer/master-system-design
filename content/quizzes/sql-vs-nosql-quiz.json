@@ -51,7 +51,7 @@
     },
     {
       "id": "choose-sql",
-      "prompt": "Which requirements point toward a relational database as the source of truth? Select all that apply.",
+      "prompt": "Which requirements point toward a relational database as the source of truth?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

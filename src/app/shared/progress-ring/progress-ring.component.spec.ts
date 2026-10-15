@@ -27,4 +27,9 @@ describe('ProgressRingComponent', () => {
     const dash = arc.getAttribute('stroke-dasharray')!.split(' ').map(Number);
     expect(dash[0]! / (dash[0]! + dash[1]!)).toBeCloseTo(3 / 8, 2);
   });
+
+  it('draws no arc at zero, so the rounded cap does not show a dot', async () => {
+    const el = await render(0, 8);
+    expect(el.querySelector('circle.ring-value')).toBeNull();
+  });
 });

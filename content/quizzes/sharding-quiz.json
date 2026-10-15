@@ -48,7 +48,7 @@
     },
     {
       "id": "vnodes",
-      "prompt": "Why give each machine many virtual nodes on a consistent hashing ring? Select all that apply.",
+      "prompt": "Why give each machine many virtual nodes on a consistent hashing ring?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

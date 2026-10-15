@@ -6,7 +6,7 @@
   "questions": [
     {
       "id": "pick-model",
-      "prompt": "Which data can usually be eventually consistent? Select all that apply.",
+      "prompt": "Which data can usually be eventually consistent?",
       "kind": "multi",
       "level": "beginner",
       "options": [

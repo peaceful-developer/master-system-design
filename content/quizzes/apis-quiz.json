@@ -6,7 +6,7 @@
   "questions": [
     {
       "id": "idempotent-methods",
-      "prompt": "Which HTTP methods are idempotent by definition? Select all that apply.",
+      "prompt": "Which HTTP methods are idempotent by definition?",
       "kind": "multi",
       "level": "beginner",
       "options": [

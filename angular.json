@@ -34,7 +34,9 @@
               "node_modules/@fontsource-variable/jetbrains-mono/index.css",
               "src/styles.css",
               "src/styles/content.css",
-              "src/styles/exercises.css"
+              "src/styles/exercises.css",
+              "src/styles/pages.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "static"

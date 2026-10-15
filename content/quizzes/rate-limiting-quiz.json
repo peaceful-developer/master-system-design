@@ -48,7 +48,7 @@
     },
     {
       "id": "idempotent-retry",
-      "prompt": "A payment request times out and the client retries. Which make the retry safe? Select all that apply.",
+      "prompt": "A payment request times out and the client retries. Which make the retry safe?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

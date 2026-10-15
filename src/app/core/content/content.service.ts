@@ -29,7 +29,9 @@ import {
   PATH,
   PLAYBOOKS,
 } from '@generated/manifest';
+import type { LearnerLevel } from '../progress/progress-model';
 import { flattenPath, type PathEntry } from './path-nav';
+import { recommendedStart, type RecommendedStart } from './recommended-start';
 
 type Loaders<T> = Record<string, () => Promise<T>>;
 
@@ -97,6 +99,11 @@ export class ContentService {
   /** Every item on the learning path in order (for prev/next and progress). */
   pathEntries(): PathEntry[] {
     return (this.entries ??= flattenPath(this.data.path, this.data));
+  }
+
+  /** Where a learner at this level should begin (see recommendedStart). */
+  recommendedStart(level: LearnerLevel): RecommendedStart | undefined {
+    return recommendedStart(level, this.data.path, this.data);
   }
 
   lessons(phase?: PhaseId): LessonMeta[] {

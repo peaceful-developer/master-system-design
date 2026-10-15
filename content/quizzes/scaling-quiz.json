@@ -47,7 +47,7 @@
     },
     {
       "id": "spof",
-      "prompt": "Which steps remove the load balancer as a single point of failure? Select all that apply.",
+      "prompt": "Which steps remove the load balancer as a single point of failure?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

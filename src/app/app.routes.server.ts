@@ -21,5 +21,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => ROUTES.params.examples,
   },
+  {
+    path: 'exercises/:id',
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: async () => ROUTES.params.exercises,
+  },
   { path: '**', renderMode: RenderMode.Prerender },
 ];

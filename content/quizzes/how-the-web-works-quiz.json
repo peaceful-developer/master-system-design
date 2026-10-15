@@ -48,7 +48,7 @@
     },
     {
       "id": "faster-first-byte",
-      "prompt": "A server is 100 ms away (one round trip = 100 ms). Which changes reduce the time before the first byte of a page arrives? Select all that apply.",
+      "prompt": "A server is 100 ms away (one round trip = 100 ms). Which changes reduce the time before the first byte of a page arrives?",
       "kind": "multi",
       "level": "intermediate",
       "options": [

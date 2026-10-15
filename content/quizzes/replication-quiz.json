@@ -6,7 +6,7 @@
   "questions": [
     {
       "id": "why",
-      "prompt": "Which benefits does replication provide? Select all that apply.",
+      "prompt": "Which benefits does replication provide?",
       "kind": "multi",
       "level": "beginner",
       "options": [

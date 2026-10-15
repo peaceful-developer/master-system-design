@@ -35,7 +35,7 @@
     },
     {
       "id": "leftmost",
-      "prompt": "There's an index on (user_id, created_at). Which queries can use it efficiently? Select all that apply.",
+      "prompt": "There's an index on (user_id, created_at). Which queries can use it efficiently?",
       "kind": "multi",
       "level": "intermediate",
       "options": [
