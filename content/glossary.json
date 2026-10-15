@@ -1,3 +1,760 @@
 {
-  "terms": []
+  "terms": [
+    {
+      "id": "dns",
+      "term": "DNS",
+      "definition": "The Domain Name System: a distributed directory that translates names like example.com into IP addresses. Answers are cached at many levels.",
+      "related": ["ip-address", "ttl"]
+    },
+    {
+      "id": "ip-address",
+      "term": "IP address",
+      "definition": "The numeric address a machine uses on the internet, like 93.184.216.34 (IPv4) or a longer IPv6 address.",
+      "related": ["dns"]
+    },
+    {
+      "id": "tcp",
+      "term": "TCP",
+      "definition": "Transmission Control Protocol: delivers a reliable, ordered stream of bytes between two machines, resending anything that gets lost.",
+      "related": ["udp", "round-trip-time"]
+    },
+    {
+      "id": "udp",
+      "term": "UDP",
+      "definition": "User Datagram Protocol: sends individual packets with no delivery or ordering guarantees, which makes it simple and fast.",
+      "related": ["tcp"]
+    },
+    {
+      "id": "tls",
+      "term": "TLS",
+      "definition": "Transport Layer Security: encrypts a connection and proves the server’s identity. It is the “S” in HTTPS.",
+      "related": ["http"]
+    },
+    {
+      "id": "http",
+      "term": "HTTP",
+      "definition": "Hypertext Transfer Protocol: the request–response protocol browsers and APIs use. A client sends a method and path; the server answers with a status code and a body.",
+      "related": ["rest", "http-2"]
+    },
+    {
+      "id": "http-2",
+      "term": "HTTP/2",
+      "definition": "A version of HTTP that sends many requests at once over a single connection (multiplexing) and compresses headers.",
+      "related": ["http", "http-3"]
+    },
+    {
+      "id": "http-3",
+      "term": "HTTP/3 and QUIC",
+      "definition": "HTTP over QUIC, a transport built on UDP. A lost packet only delays its own stream instead of every request on the connection.",
+      "related": ["http-2", "head-of-line-blocking"]
+    },
+    {
+      "id": "head-of-line-blocking",
+      "term": "Head-of-line blocking",
+      "definition": "When one slow or lost item at the front of a queue holds up everything behind it.",
+      "related": ["http-3"]
+    },
+    {
+      "id": "round-trip-time",
+      "term": "Round-trip time (RTT)",
+      "definition": "The time for a message to go from one machine to another and for the reply to come back.",
+      "aliases": ["RTT"],
+      "related": ["latency"]
+    },
+    {
+      "id": "keep-alive",
+      "term": "Keep-alive",
+      "definition": "Reusing an open connection for several requests, which avoids paying for a new TCP and TLS handshake each time.",
+      "related": ["tcp", "tls"]
+    },
+    {
+      "id": "api",
+      "term": "API",
+      "definition": "Application Programming Interface: the contract one program offers others, listing the operations they can call and the data they exchange.",
+      "related": ["rest", "grpc"]
+    },
+    {
+      "id": "rest",
+      "term": "REST",
+      "definition": "A style of HTTP API built around resources (nouns) identified by URLs and manipulated with standard methods like GET, POST, PUT and DELETE.",
+      "related": ["http", "api"]
+    },
+    {
+      "id": "grpc",
+      "term": "gRPC",
+      "definition": "A remote procedure call framework that sends compact binary messages (Protocol Buffers) over HTTP/2 and supports streaming.",
+      "related": ["protocol-buffers", "http-2"]
+    },
+    {
+      "id": "protocol-buffers",
+      "term": "Protocol Buffers",
+      "definition": "A language-neutral way to define messages in a schema and encode them as compact binary.",
+      "related": ["grpc"]
+    },
+    {
+      "id": "websocket",
+      "term": "WebSocket",
+      "definition": "A long-lived, two-way connection between browser and server, so either side can send messages at any time.",
+      "related": ["server-sent-events", "long-polling"]
+    },
+    {
+      "id": "server-sent-events",
+      "term": "Server-sent events (SSE)",
+      "definition": "A one-way stream of messages from server to browser over a normal HTTP response.",
+      "aliases": ["SSE"],
+      "related": ["websocket"]
+    },
+    {
+      "id": "long-polling",
+      "term": "Long polling",
+      "definition": "The client makes a request that the server holds open until there is news, then the client immediately asks again.",
+      "related": ["websocket"]
+    },
+    {
+      "id": "pagination",
+      "term": "Pagination",
+      "definition": "Returning a large list in pages. Cursor-based pagination stays correct when items are added during browsing.",
+      "related": ["api"]
+    },
+    {
+      "id": "api-versioning",
+      "term": "API versioning",
+      "definition": "Changing an API without breaking existing clients, for example by adding fields instead of renaming them or by publishing /v2 alongside /v1.",
+      "related": ["api"]
+    },
+    {
+      "id": "process",
+      "term": "Process",
+      "definition": "A running program with its own memory space. Processes are isolated from each other by the operating system.",
+      "related": ["thread"]
+    },
+    {
+      "id": "thread",
+      "term": "Thread",
+      "definition": "A unit of execution inside a process. Threads share the process’s memory, which makes them cheap to start but easy to get wrong.",
+      "related": ["process", "race-condition"]
+    },
+    {
+      "id": "context-switch",
+      "term": "Context switch",
+      "definition": "When the CPU stops running one thread and starts another, saving and restoring their state. Frequent switching wastes time.",
+      "related": ["thread"]
+    },
+    {
+      "id": "race-condition",
+      "term": "Race condition",
+      "definition": "A bug where the result depends on the timing of threads, for example two threads both reading a counter as 5 and both writing 6.",
+      "related": ["lock"]
+    },
+    {
+      "id": "lock",
+      "term": "Lock (mutex)",
+      "definition": "A way to let only one thread at a time run a piece of code or touch a piece of data.",
+      "aliases": ["mutex"],
+      "related": ["race-condition", "deadlock"]
+    },
+    {
+      "id": "deadlock",
+      "term": "Deadlock",
+      "definition": "Two or more threads each waiting for a lock the other holds, so none of them can continue.",
+      "related": ["lock"]
+    },
+    {
+      "id": "event-loop",
+      "term": "Event loop",
+      "definition": "A single thread that waits for I/O events and runs a short handler for each. It serves many connections without a thread per connection.",
+      "related": ["async-io"]
+    },
+    {
+      "id": "async-io",
+      "term": "Asynchronous I/O",
+      "definition": "Starting a read or write and doing other work until it finishes, instead of blocking a thread while waiting.",
+      "related": ["event-loop"]
+    },
+    {
+      "id": "thread-pool",
+      "term": "Thread pool",
+      "definition": "A fixed set of reusable threads that pick up tasks from a queue, which caps how much work runs at once.",
+      "related": ["thread", "backpressure"]
+    },
+    {
+      "id": "relational-database",
+      "term": "Relational database",
+      "definition": "A database that stores data in tables of rows and columns, links tables by keys and is queried with SQL.",
+      "aliases": ["SQL database"],
+      "related": ["acid", "nosql"]
+    },
+    {
+      "id": "nosql",
+      "term": "NoSQL",
+      "definition": "An umbrella term for non-relational databases (key-value, document, wide-column, graph) that trade some features for scale or flexibility.",
+      "related": ["key-value-store", "document-store"]
+    },
+    {
+      "id": "acid",
+      "term": "ACID",
+      "definition": "Atomicity, Consistency, Isolation, Durability: the guarantees a database transaction gives you.",
+      "related": ["transaction", "isolation-level"]
+    },
+    {
+      "id": "transaction",
+      "term": "Transaction",
+      "definition": "A group of reads and writes that succeeds or fails as one unit.",
+      "related": ["acid"]
+    },
+    {
+      "id": "isolation-level",
+      "term": "Isolation level",
+      "definition": "How much concurrent transactions can see of each other’s unfinished work, from read committed to serializable.",
+      "related": ["transaction", "write-skew"]
+    },
+    {
+      "id": "write-skew",
+      "term": "Write skew",
+      "definition": "An anomaly where two transactions each read the same data, make decisions based on it and write different rows, breaking a rule neither broke alone.",
+      "related": ["isolation-level"]
+    },
+    {
+      "id": "key-value-store",
+      "term": "Key-value store",
+      "definition": "A database that stores values under keys and looks them up by key, which is simple and very fast.",
+      "related": ["nosql", "caching"]
+    },
+    {
+      "id": "document-store",
+      "term": "Document store",
+      "definition": "A database that stores self-contained documents (often JSON) and can query fields inside them.",
+      "related": ["nosql"]
+    },
+    {
+      "id": "wide-column-store",
+      "term": "Wide-column store",
+      "definition": "A database that groups data by row key into flexible column families, built for very large write-heavy workloads.",
+      "related": ["nosql"]
+    },
+    {
+      "id": "graph-database",
+      "term": "Graph database",
+      "definition": "A database that stores nodes and the relationships between them and is fast at traversing those relationships.",
+      "related": ["nosql"]
+    },
+    {
+      "id": "normalization",
+      "term": "Normalization",
+      "definition": "Organizing tables so each fact is stored once, which avoids inconsistent copies.",
+      "related": ["denormalization"]
+    },
+    {
+      "id": "denormalization",
+      "term": "Denormalization",
+      "definition": "Deliberately storing copies of data to make reads faster, at the cost of keeping the copies in sync.",
+      "related": ["normalization"]
+    },
+    {
+      "id": "index",
+      "term": "Index",
+      "definition": "An extra data structure that lets a database find rows without scanning the whole table, at the cost of storage and slower writes.",
+      "related": ["b-tree", "lsm-tree"]
+    },
+    {
+      "id": "b-tree",
+      "term": "B-tree",
+      "definition": "A balanced tree of sorted keys with many children per node, so any key is a few disk reads away. The default index in most relational databases.",
+      "related": ["index"]
+    },
+    {
+      "id": "lsm-tree",
+      "term": "LSM tree",
+      "definition": "Log-structured merge tree: buffers writes in memory, flushes them as sorted files and merges files in the background. Fast writes, more work for reads.",
+      "related": ["index", "write-amplification"]
+    },
+    {
+      "id": "composite-index",
+      "term": "Composite index",
+      "definition": "An index on several columns in a fixed order. It helps queries that filter on a leading prefix of those columns.",
+      "related": ["index"]
+    },
+    {
+      "id": "covering-index",
+      "term": "Covering index",
+      "definition": "An index that contains every column a query needs, so the database can answer from the index alone.",
+      "related": ["index"]
+    },
+    {
+      "id": "write-amplification",
+      "term": "Write amplification",
+      "definition": "When one logical write causes several physical writes, for example updating indexes or rewriting files during compaction.",
+      "related": ["lsm-tree"]
+    },
+    {
+      "id": "full-table-scan",
+      "term": "Full table scan",
+      "definition": "Reading every row of a table to answer a query, which is what happens without a useful index.",
+      "related": ["index"]
+    },
+    {
+      "id": "latency",
+      "term": "Latency",
+      "definition": "The time between sending a request and receiving its response.",
+      "related": ["throughput", "percentile"]
+    },
+    {
+      "id": "throughput",
+      "term": "Throughput",
+      "definition": "How much work a system completes per unit of time, such as requests per second.",
+      "related": ["latency", "qps"]
+    },
+    {
+      "id": "bandwidth",
+      "term": "Bandwidth",
+      "definition": "How much data a link can carry per second.",
+      "related": ["throughput"]
+    },
+    {
+      "id": "percentile",
+      "term": "Percentile (p50, p99)",
+      "definition": "The value below which a given share of measurements fall. p99 latency of 200 ms means 99% of requests finish within 200 ms.",
+      "aliases": ["p99", "p50"],
+      "related": ["tail-latency"]
+    },
+    {
+      "id": "tail-latency",
+      "term": "Tail latency",
+      "definition": "The latency of the slowest requests, such as p99 or p99.9. At scale, most users hit the tail somewhere.",
+      "related": ["percentile", "hedged-request"]
+    },
+    {
+      "id": "latency-budget",
+      "term": "Latency budget",
+      "definition": "The total time a request may take, split across the steps it passes through.",
+      "related": ["latency"]
+    },
+    {
+      "id": "hedged-request",
+      "term": "Hedged request",
+      "definition": "Sending a second copy of a slow request to another replica and using whichever answers first, to cut tail latency.",
+      "related": ["tail-latency"]
+    },
+    {
+      "id": "vertical-scaling",
+      "term": "Vertical scaling",
+      "definition": "Handling more load by moving to a bigger machine. Simple, but limited and with a single point of failure.",
+      "related": ["horizontal-scaling"]
+    },
+    {
+      "id": "horizontal-scaling",
+      "term": "Horizontal scaling",
+      "definition": "Handling more load by adding more machines and spreading work across them.",
+      "related": ["vertical-scaling", "load-balancer"]
+    },
+    {
+      "id": "stateless-service",
+      "term": "Stateless service",
+      "definition": "A service that keeps no per-user data between requests, so any instance can handle any request.",
+      "related": ["horizontal-scaling"]
+    },
+    {
+      "id": "load-balancer",
+      "term": "Load balancer",
+      "definition": "A component that spreads incoming requests across several servers and stops sending to unhealthy ones.",
+      "related": ["health-check", "round-robin"]
+    },
+    {
+      "id": "l4-load-balancing",
+      "term": "Layer 4 load balancing",
+      "definition": "Balancing by connection (IP and port) without looking inside requests. Fast, but unaware of URLs or headers.",
+      "related": ["l7-load-balancing"]
+    },
+    {
+      "id": "l7-load-balancing",
+      "term": "Layer 7 load balancing",
+      "definition": "Balancing by request content such as path, header or cookie, which enables smarter routing at more cost.",
+      "related": ["l4-load-balancing"]
+    },
+    {
+      "id": "round-robin",
+      "term": "Round robin",
+      "definition": "Sending each new request to the next server in turn.",
+      "related": ["least-connections"]
+    },
+    {
+      "id": "least-connections",
+      "term": "Least connections",
+      "definition": "Sending each new request to the server with the fewest requests in progress.",
+      "related": ["round-robin"]
+    },
+    {
+      "id": "health-check",
+      "term": "Health check",
+      "definition": "A periodic probe that tells a load balancer whether an instance is able to serve traffic.",
+      "related": ["load-balancer"]
+    },
+    {
+      "id": "power-of-two-choices",
+      "term": "Power of two choices",
+      "definition": "Picking two servers at random and sending the request to the less busy one. Spreads load almost as well as checking every server.",
+      "related": ["load-balancer"]
+    },
+    {
+      "id": "single-point-of-failure",
+      "term": "Single point of failure",
+      "definition": "A component whose failure takes the whole system down.",
+      "related": ["replication"]
+    },
+    {
+      "id": "caching",
+      "term": "Caching",
+      "definition": "Keeping a copy of frequently used data in faster storage so later reads skip the slow source.",
+      "aliases": ["cache"],
+      "related": ["cache-aside", "cache-hit-rate"]
+    },
+    {
+      "id": "cache-hit-rate",
+      "term": "Cache hit rate",
+      "definition": "The share of requests a cache answers itself. A hit rate of 90% means only 10% of requests reach the source.",
+      "related": ["caching"]
+    },
+    {
+      "id": "cache-aside",
+      "term": "Cache-aside",
+      "definition": "The application checks the cache first; on a miss it reads the database and stores the result in the cache.",
+      "related": ["caching", "read-through"]
+    },
+    {
+      "id": "read-through",
+      "term": "Read-through cache",
+      "definition": "A cache that loads missing data from the source itself, so the application only ever talks to the cache.",
+      "related": ["cache-aside"]
+    },
+    {
+      "id": "write-through",
+      "term": "Write-through cache",
+      "definition": "Every write goes to the cache and the source at the same time, keeping them in sync at the cost of slower writes.",
+      "related": ["write-back"]
+    },
+    {
+      "id": "write-back",
+      "term": "Write-back cache",
+      "definition": "Writes go to the cache first and reach the source later, which is fast but risks losing data if the cache fails.",
+      "related": ["write-through"]
+    },
+    {
+      "id": "ttl",
+      "term": "TTL",
+      "definition": "Time to live: how long a cached value or DNS answer may be used before it must be refreshed.",
+      "aliases": ["time to live"],
+      "related": ["cache-invalidation"]
+    },
+    {
+      "id": "lru",
+      "term": "LRU eviction",
+      "definition": "Least recently used: when the cache is full, drop the item that has gone unused the longest.",
+      "related": ["lfu"]
+    },
+    {
+      "id": "lfu",
+      "term": "LFU eviction",
+      "definition": "Least frequently used: when the cache is full, drop the item that has been used the fewest times.",
+      "related": ["lru"]
+    },
+    {
+      "id": "cache-invalidation",
+      "term": "Cache invalidation",
+      "definition": "Removing or updating cached copies when the source data changes.",
+      "related": ["ttl"]
+    },
+    {
+      "id": "cache-stampede",
+      "term": "Cache stampede",
+      "definition": "Many requests miss the cache at the same moment (often when a hot key expires) and all hit the database together.",
+      "related": ["caching"]
+    },
+    {
+      "id": "cdn",
+      "term": "CDN",
+      "definition": "Content delivery network: servers around the world that cache content close to users.",
+      "related": ["caching"]
+    },
+    {
+      "id": "replication",
+      "term": "Replication",
+      "definition": "Keeping copies of the same data on several machines for availability, durability or read capacity.",
+      "related": ["leader-follower", "replication-lag"]
+    },
+    {
+      "id": "leader-follower",
+      "term": "Leader–follower replication",
+      "definition": "One node (the leader or primary) accepts writes and streams them to followers (replicas) that serve reads.",
+      "aliases": ["primary-replica"],
+      "related": ["replication", "failover"]
+    },
+    {
+      "id": "multi-leader",
+      "term": "Multi-leader replication",
+      "definition": "Several nodes accept writes and exchange them, which needs a plan for conflicting writes.",
+      "related": ["replication"]
+    },
+    {
+      "id": "leaderless",
+      "term": "Leaderless replication",
+      "definition": "Clients write to and read from several replicas directly and use quorums to decide what is current.",
+      "related": ["quorum"]
+    },
+    {
+      "id": "replication-lag",
+      "term": "Replication lag",
+      "definition": "The delay before a write on the leader appears on a follower.",
+      "related": ["read-your-writes"]
+    },
+    {
+      "id": "read-your-writes",
+      "term": "Read-your-writes consistency",
+      "definition": "A guarantee that after you write something, your own later reads see it.",
+      "related": ["replication-lag"]
+    },
+    {
+      "id": "failover",
+      "term": "Failover",
+      "definition": "Promoting a replica to take over when the leader fails.",
+      "related": ["leader-follower"]
+    },
+    {
+      "id": "quorum",
+      "term": "Quorum",
+      "definition": "The minimum number of replicas that must take part in a read or write. With R + W > N, every read overlaps the latest write.",
+      "related": ["leaderless"]
+    },
+    {
+      "id": "sharding",
+      "term": "Sharding",
+      "definition": "Splitting data across machines so each one holds only part of it.",
+      "aliases": ["partitioning"],
+      "related": ["hash-partitioning", "range-partitioning"]
+    },
+    {
+      "id": "range-partitioning",
+      "term": "Range partitioning",
+      "definition": "Assigning keys to shards by key range, like A–F and G–M. Good for range scans, prone to hot spots.",
+      "related": ["sharding", "hot-spot"]
+    },
+    {
+      "id": "hash-partitioning",
+      "term": "Hash partitioning",
+      "definition": "Assigning keys to shards by a hash of the key, which spreads load evenly but loses ordering.",
+      "related": ["sharding", "consistent-hashing"]
+    },
+    {
+      "id": "hot-spot",
+      "term": "Hot spot",
+      "definition": "A shard or key that receives far more traffic than the rest.",
+      "related": ["sharding"]
+    },
+    {
+      "id": "resharding",
+      "term": "Resharding",
+      "definition": "Moving data between shards when you add or remove machines.",
+      "related": ["consistent-hashing"]
+    },
+    {
+      "id": "consistent-hashing",
+      "term": "Consistent hashing",
+      "definition": "Placing keys and nodes on a ring so that adding or removing a node moves only the keys next to it.",
+      "related": ["virtual-nodes", "hash-partitioning"]
+    },
+    {
+      "id": "virtual-nodes",
+      "term": "Virtual nodes",
+      "definition": "Giving each physical node many points on a consistent-hashing ring so load spreads more evenly.",
+      "related": ["consistent-hashing"]
+    },
+    {
+      "id": "message-queue",
+      "term": "Message queue",
+      "definition": "A buffer between producers and consumers. Each message is processed by one consumer.",
+      "related": ["pub-sub", "backpressure"]
+    },
+    {
+      "id": "pub-sub",
+      "term": "Publish–subscribe",
+      "definition": "Each published message is delivered to every subscriber of its topic.",
+      "aliases": ["pub/sub"],
+      "related": ["message-queue"]
+    },
+    {
+      "id": "acknowledgement",
+      "term": "Acknowledgement",
+      "definition": "A consumer’s signal that it has finished a message, so the queue can stop redelivering it.",
+      "related": ["at-least-once"]
+    },
+    {
+      "id": "at-least-once",
+      "term": "At-least-once delivery",
+      "definition": "Every message is delivered, but some may arrive more than once, so consumers must handle duplicates.",
+      "related": ["idempotency", "at-most-once"]
+    },
+    {
+      "id": "at-most-once",
+      "term": "At-most-once delivery",
+      "definition": "Messages are never duplicated, but some may be lost.",
+      "related": ["at-least-once"]
+    },
+    {
+      "id": "exactly-once",
+      "term": "Exactly-once processing",
+      "definition": "The effect of each message happens once. In practice this comes from at-least-once delivery plus idempotent processing.",
+      "related": ["at-least-once", "idempotency"]
+    },
+    {
+      "id": "dead-letter-queue",
+      "term": "Dead-letter queue",
+      "definition": "Where messages go after failing too many times, so they stop blocking the queue and can be inspected.",
+      "related": ["message-queue"]
+    },
+    {
+      "id": "backpressure",
+      "term": "Backpressure",
+      "definition": "Slowing down or rejecting producers when consumers cannot keep up, instead of letting work pile up without limit.",
+      "related": ["message-queue", "rate-limiting"]
+    },
+    {
+      "id": "strong-consistency",
+      "term": "Strong consistency",
+      "definition": "Every read sees the most recent completed write.",
+      "related": ["linearizability", "eventual-consistency"]
+    },
+    {
+      "id": "eventual-consistency",
+      "term": "Eventual consistency",
+      "definition": "If writes stop, all replicas eventually return the same value; until then reads may be stale.",
+      "related": ["strong-consistency"]
+    },
+    {
+      "id": "causal-consistency",
+      "term": "Causal consistency",
+      "definition": "Operations that depend on each other are seen in the same order by everyone; unrelated ones may be seen in any order.",
+      "related": ["eventual-consistency"]
+    },
+    {
+      "id": "linearizability",
+      "term": "Linearizability",
+      "definition": "The system behaves as if there were a single copy of the data and every operation took effect at one instant.",
+      "related": ["strong-consistency"]
+    },
+    {
+      "id": "network-partition",
+      "term": "Network partition",
+      "definition": "A failure that splits machines into groups that cannot talk to each other.",
+      "related": ["cap-theorem"]
+    },
+    {
+      "id": "cap-theorem",
+      "term": "CAP theorem",
+      "definition": "During a network partition, a replicated system must choose between consistency (refuse some requests) and availability (answer, possibly with stale data).",
+      "related": ["pacelc", "network-partition"]
+    },
+    {
+      "id": "pacelc",
+      "term": "PACELC",
+      "definition": "Extends CAP: if there is a Partition, choose Availability or Consistency; Else, choose Latency or Consistency.",
+      "related": ["cap-theorem"]
+    },
+    {
+      "id": "consensus",
+      "term": "Consensus",
+      "definition": "Getting several machines to agree on one value or order of events, even when some fail.",
+      "related": ["raft"]
+    },
+    {
+      "id": "raft",
+      "term": "Raft",
+      "definition": "A consensus algorithm with an elected leader that replicates a log of commands to followers.",
+      "related": ["consensus"]
+    },
+    {
+      "id": "rate-limiting",
+      "term": "Rate limiting",
+      "definition": "Capping how many requests a client may make in a period of time.",
+      "related": ["token-bucket", "sliding-window"]
+    },
+    {
+      "id": "token-bucket",
+      "term": "Token bucket",
+      "definition": "A rate limiter where tokens refill at a steady rate and each request spends one; bursts are allowed up to the bucket size.",
+      "related": ["rate-limiting", "leaky-bucket"]
+    },
+    {
+      "id": "leaky-bucket",
+      "term": "Leaky bucket",
+      "definition": "A rate limiter that queues requests and lets them out at a steady rate, smoothing bursts.",
+      "related": ["token-bucket"]
+    },
+    {
+      "id": "fixed-window",
+      "term": "Fixed window counter",
+      "definition": "Counting requests per fixed interval, such as per minute. Simple, but allows double bursts at window edges.",
+      "related": ["sliding-window"]
+    },
+    {
+      "id": "sliding-window",
+      "term": "Sliding window",
+      "definition": "Counting requests over the last N seconds at any moment, which avoids the edge bursts of fixed windows.",
+      "related": ["fixed-window"]
+    },
+    {
+      "id": "idempotency",
+      "term": "Idempotency",
+      "definition": "An operation is idempotent if doing it twice has the same effect as doing it once.",
+      "related": ["idempotency-key", "retry-with-backoff"]
+    },
+    {
+      "id": "idempotency-key",
+      "term": "Idempotency key",
+      "definition": "A unique id sent with a request so the server can recognise a retry and return the first result instead of acting twice.",
+      "related": ["idempotency"]
+    },
+    {
+      "id": "retry-with-backoff",
+      "term": "Retry with backoff",
+      "definition": "Retrying a failed request after waiting longer each time, so a struggling service gets room to recover.",
+      "related": ["jitter"]
+    },
+    {
+      "id": "jitter",
+      "term": "Jitter",
+      "definition": "Random variation added to retry delays so many clients do not retry at the same instant.",
+      "related": ["retry-with-backoff"]
+    },
+    {
+      "id": "back-of-envelope-estimation",
+      "term": "Back-of-envelope estimation",
+      "definition": "Quick, rounded arithmetic to size a system before designing it: requests per second, storage, bandwidth.",
+      "related": ["qps"]
+    },
+    {
+      "id": "qps",
+      "term": "QPS",
+      "definition": "Queries (or requests) per second.",
+      "aliases": ["RPS", "requests per second"],
+      "related": ["throughput", "peak-factor"]
+    },
+    {
+      "id": "daily-active-users",
+      "term": "Daily active users (DAU)",
+      "definition": "The number of distinct users who use a product on a given day.",
+      "aliases": ["DAU"],
+      "related": ["qps"]
+    },
+    {
+      "id": "peak-factor",
+      "term": "Peak factor",
+      "definition": "How much busier the busiest period is than the average, often 2–5× for consumer products.",
+      "related": ["qps"]
+    },
+    {
+      "id": "littles-law",
+      "term": "Little’s Law",
+      "definition": "Average number of items in a system = arrival rate × average time each spends inside (L = λW).",
+      "related": ["throughput", "latency"]
+    }
+  ]
 }
