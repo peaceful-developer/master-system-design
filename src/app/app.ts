@@ -1,26 +1,25 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { SITE_NAME } from './site';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { ThemeService } from './core/theme/theme.service';
+import { FooterComponent } from './layout/footer/footer.component';
+import { TopNavComponent } from './layout/top-nav/top-nav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, TopNavComponent, FooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a class="sr-only-focusable btn absolute left-2 top-2 z-50" href="#main">Skip to content</a>
-    <header class="border-b border-parrot-deep bg-parrot">
-      <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
-        <a routerLink="/" class="flex items-center gap-2 font-semibold no-underline text-on-parrot">
-          <img src="logo.svg" alt="" width="28" height="28" />
-          <span>{{ siteName }}</span>
-        </a>
-      </div>
-    </header>
-    <main id="main" tabindex="-1" class="mx-auto max-w-7xl px-4 py-8">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <app-top-nav />
+    <main id="main" tabindex="-1" class="min-h-[60vh] outline-none">
       <router-outlet />
     </main>
+    <app-footer />
   `,
 })
 export class App {
-  protected readonly siteName = SITE_NAME;
+  constructor() {
+    // Created eagerly so a stored dark-theme choice is synced after hydration.
+    inject(ThemeService);
+  }
 }
