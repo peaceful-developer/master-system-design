@@ -1,0 +1,34 @@
+{
+  "id": "latency-quiz",
+  "title": "Latency basics quiz",
+  "topics": ["latency"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "What does latency measure?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Time to get a response" },
+        { "id": "b", "text": "Requests per second" }
+      ],
+      "correct": ["a"],
+      "explanation": "Latency is waiting time; requests per second is throughput.",
+      "hint": "Think about waiting."
+    },
+    {
+      "id": "q2",
+      "prompt": "Which percentiles describe tail latency?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "p50" },
+        { "id": "b", "text": "p99" },
+        { "id": "c", "text": "p99.9" }
+      ],
+      "correct": ["b", "c"],
+      "explanation": "The tail is the slowest requests: p99 and above."
+    }
+  ]
+}

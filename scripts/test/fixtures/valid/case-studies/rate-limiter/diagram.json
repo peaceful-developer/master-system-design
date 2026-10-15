@@ -1,0 +1,8 @@
+{
+  "id": "rate-limiter-hld",
+  "nodes": [
+    { "id": "client", "type": "client", "label": "Client", "position": { "x": 0, "y": 0 } },
+    { "id": "api", "type": "app-server", "label": "API", "position": { "x": 240, "y": 0 } }
+  ],
+  "edges": [{ "id": "e1", "from": "client", "to": "api" }]
+}

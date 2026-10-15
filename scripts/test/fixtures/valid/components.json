@@ -1,0 +1,45 @@
+{
+  "note": "Illustrative teaching values, not vendor benchmarks.",
+  "components": [
+    {
+      "type": "client",
+      "label": "Client",
+      "category": "clients-edge",
+      "icon": "client",
+      "description": "Users or devices sending requests.",
+      "sim": {
+        "capacityRps": 1000000,
+        "instances": 1,
+        "baseLatencyMs": 0,
+        "costPerHourPerInstance": 0
+      }
+    },
+    {
+      "type": "app-server",
+      "label": "App server",
+      "category": "compute",
+      "icon": "app-server",
+      "description": "Stateless service that runs your business logic.",
+      "sim": {
+        "capacityRps": 1000,
+        "instances": 2,
+        "baseLatencyMs": 20,
+        "costPerHourPerInstance": 0.1
+      }
+    },
+    {
+      "type": "cache",
+      "label": "Cache",
+      "category": "data",
+      "icon": "cache",
+      "description": "In-memory key-value store for hot data.",
+      "sim": {
+        "capacityRps": 50000,
+        "instances": 1,
+        "baseLatencyMs": 1,
+        "costPerHourPerInstance": 0.2,
+        "hitRate": 0.8
+      }
+    }
+  ]
+}

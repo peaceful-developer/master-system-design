@@ -1,0 +1,27 @@
+{
+  "terms": [
+    {
+      "id": "latency",
+      "term": "Latency",
+      "definition": "The time between sending a request and receiving its response.",
+      "related": ["throughput"]
+    },
+    {
+      "id": "throughput",
+      "term": "Throughput",
+      "definition": "How many requests a system completes per unit of time.",
+      "related": ["latency"]
+    },
+    {
+      "id": "caching",
+      "term": "Caching",
+      "definition": "Keeping a copy of frequently used data in faster storage.",
+      "aliases": ["cache"]
+    },
+    {
+      "id": "rate-limiting",
+      "term": "Rate limiting",
+      "definition": "Capping how many requests a client may make in a time window."
+    }
+  ]
+}

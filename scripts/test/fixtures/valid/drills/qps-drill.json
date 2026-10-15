@@ -1,0 +1,28 @@
+{
+  "id": "qps-drill",
+  "title": "Requests per second from daily users",
+  "topics": ["throughput"],
+  "difficulty": "beginner",
+  "scenario": "An app has **10 million** daily active users, each making 20 requests per day.",
+  "givens": [
+    { "label": "Daily active users", "value": 10000000 },
+    { "label": "Requests per user per day", "value": 20 },
+    { "label": "Seconds per day", "value": 86400, "unit": "s" }
+  ],
+  "questions": [
+    {
+      "id": "avg-qps",
+      "prompt": "Average requests per second",
+      "unit": "req/s",
+      "answer": 2315
+    },
+    {
+      "id": "peak-qps",
+      "prompt": "Peak requests per second (assume 3x average)",
+      "unit": "req/s",
+      "answer": 6944,
+      "tolerance": { "kind": "orderOfMagnitude" }
+    }
+  ],
+  "solution": "1. 10,000,000 × 20 = 200,000,000 requests per day.\n2. 200,000,000 ÷ 86,400 ≈ **2,315** req/s.\n3. Peak ≈ 3 × 2,315 ≈ **6,944** req/s."
+}

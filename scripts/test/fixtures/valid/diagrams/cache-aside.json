@@ -1,0 +1,19 @@
+{
+  "id": "cache-aside",
+  "title": "Cache-aside",
+  "nodes": [
+    { "id": "client", "type": "client", "label": "Client", "position": { "x": 0, "y": 80 } },
+    {
+      "id": "app",
+      "type": "app-server",
+      "label": "App",
+      "position": { "x": 240, "y": 80 },
+      "config": { "instances": 3 }
+    },
+    { "id": "cache", "type": "cache", "label": "Cache", "position": { "x": 480, "y": 0 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "app" },
+    { "id": "e2", "from": "app", "to": "cache", "label": "read", "config": { "ratio": 1 } }
+  ]
+}
