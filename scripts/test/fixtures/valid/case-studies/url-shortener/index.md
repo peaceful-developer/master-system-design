@@ -7,7 +7,7 @@ difficulty: beginner
 summary: Turn long links into short ones and redirect quickly at scale.
 concepts: [caching, latency]
 prerequisites: []
-estimatedMinutes: 6
+estimatedMinutes: 3
 status: complete
 exercises: [url-shortener-quiz, qps-drill]
 diagram: url-shortener-hld
