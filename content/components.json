@@ -1,0 +1,18 @@
+{
+  "note": "Illustrative teaching values, not vendor benchmarks.",
+  "components": [
+    {
+      "type": "client",
+      "label": "Client",
+      "category": "clients-edge",
+      "icon": "client",
+      "description": "Users, browsers or devices that send requests to the system.",
+      "sim": {
+        "capacityRps": 1000000,
+        "instances": 1,
+        "baseLatencyMs": 0,
+        "costPerHourPerInstance": 0
+      }
+    }
+  ]
+}
