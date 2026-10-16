@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <!--
+    Template: figure. Copy to content/figures/<id>.svg and use it as ::figure{id="<id>" caption="…"}.
+    Rules (checked by `npm run validate-content`):
+    - <title> is the first child: it is the figure's accessible name. Add a <desc> too.
+    - Colors come from theme tokens with a fallback, var(--fig-fill, #fff), so the figure follows
+      light and dark mode: --fig-fill, --fig-stroke, --fig-accent and currentColor for text and lines.
+    - Animate with CSS only (no <animate> or <script>), and add a prefers-reduced-motion rule that
+      stops the animation on a meaningful frame.
+    Delete this comment when you are done.
+  -->
+  <title>{{figure-title}}</title>
+  <desc>{{figure-description}}</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .label { fill: currentColor; font-size: 12px; text-anchor: middle; }
+    .packet { fill: var(--fig-accent, #2bb24c); animation: travel 2s linear infinite; }
+    @keyframes travel { from { transform: translateX(0); } to { transform: translateX(180px); } }
+    @media (prefers-reduced-motion: reduce) { .packet { animation: none; transform: translateX(90px); } }
+  </style>
+  <rect class="box" x="10" y="20" width="80" height="40" rx="8"/>
+  <rect class="box" x="230" y="20" width="80" height="40" rx="8"/>
+  <line x1="90" y1="40" x2="228" y2="40" stroke="currentColor" stroke-width="2"/>
+  <circle class="packet" cx="100" cy="40" r="6"/>
+  <text class="label" x="50" y="45">{{left-label}}</text>
+  <text class="label" x="270" y="45">{{right-label}}</text>
+</svg>

@@ -1,0 +1,33 @@
+// Template: estimation drill. Copy to content/drills/<id>.json, replace every {{…}},
+// delete all // comment lines (JSON has no comments), then run `npm run validate-content`.
+{
+  // Lowercase words joined by dashes; must match the file name. Referenced as ::drill{id="…"}.
+  "id": "{{drill-id}}",
+  "title": "{{What the reader estimates}}",
+  // Glossary ids the drill practices.
+  "topics": ["{{concept-id}}"],
+  // beginner, intermediate or advanced.
+  "difficulty": "beginner",
+  // The situation, in Markdown. Bold the numbers the reader needs.
+  "scenario": "{{An app has **10 million** daily users, each making 20 requests a day.}}",
+  // The inputs, shown as a table. value is a number or text; unit is optional.
+  "givens": [
+    { "label": "{{Daily active users}}", "value": 10000000 },
+    { "label": "{{Seconds per day}}", "value": 86400, "unit": "s" }
+  ],
+  "questions": [
+    {
+      // Unique within this drill.
+      "id": "avg-qps",
+      "prompt": "{{Average requests per second}}",
+      "unit": "{{req/s}}",
+      // The exact answer from the solution below.
+      "answer": 2315,
+      // How close counts as right. Default when omitted: { "kind": "relative", "value": 0.25 } (within 25%).
+      // Also: { "kind": "absolute", "value": 10 } or { "kind": "orderOfMagnitude" }.
+      "tolerance": { "kind": "relative", "value": 0.25 }
+    }
+  ],
+  // Step-by-step working in Markdown, shown after the reader answers. Use \n between steps.
+  "solution": "{{1. 10,000,000 × 20 = 200,000,000 requests per day.\n2. 200,000,000 ÷ 86,400 ≈ **2,315** req/s.}}"
+}

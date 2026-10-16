@@ -1,0 +1,35 @@
+// Template: quiz. Copy to content/quizzes/<id>.json, replace every {{…}},
+// delete all // comment lines (JSON has no comments), then run `npm run validate-content`.
+{
+  // Lowercase words joined by dashes; must match the file name. Referenced as ::quiz{id="…"}.
+  "id": "{{quiz-id}}",
+  // Shown above the questions.
+  "title": "{{title}} quiz",
+  // Glossary ids the quiz covers.
+  "topics": ["{{concept-id}}"],
+  // beginner, intermediate or advanced: the quiz as a whole.
+  "difficulty": "beginner",
+  // One or more questions. Quizzes with 4 or more questions must mix at least 2 levels.
+  "questions": [
+    {
+      // Unique within this quiz.
+      "id": "q1",
+      "prompt": "{{The question, as one clear sentence?}}",
+      // "single": exactly one correct option. "multi": one or more correct options.
+      "kind": "single",
+      // beginner, intermediate or advanced: this question.
+      "level": "beginner",
+      // At least two options, each with an id that is unique within the question.
+      "options": [
+        { "id": "a", "text": "{{The correct answer}}" },
+        { "id": "b", "text": "{{A plausible wrong answer}}" }
+      ],
+      // Option ids that are correct.
+      "correct": ["a"],
+      // Shown after answering: why the answer is right and the others are wrong.
+      "explanation": "{{Why a is right and b is wrong.}}",
+      // Optional nudge shown before answering. Delete the line if unused.
+      "hint": "{{A nudge, not the answer.}}"
+    }
+  ]
+}
