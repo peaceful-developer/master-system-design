@@ -1,0 +1,142 @@
+{
+  "id": "fan-out-on-write",
+  "title": "Fan-out on write: push new posts into followers' timelines",
+  "nodes": [
+    {
+      "id": "author",
+      "type": "client",
+      "label": "Author",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "posts",
+      "type": "app-server",
+      "label": "Post service",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "postsdb",
+      "type": "sql-primary",
+      "label": "Posts DB",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "queue",
+      "type": "message-queue",
+      "label": "New-post queue",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "fanout",
+      "type": "worker",
+      "label": "Fan-out workers",
+      "position": {
+        "x": 750,
+        "y": 0
+      }
+    },
+    {
+      "id": "graph",
+      "type": "nosql-store",
+      "label": "Follower graph",
+      "position": {
+        "x": 750,
+        "y": 170
+      }
+    },
+    {
+      "id": "timelines",
+      "type": "cache",
+      "label": "Timeline cache",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "feed",
+      "type": "app-server",
+      "label": "Feed service",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "reader",
+      "type": "client",
+      "label": "Reader",
+      "position": {
+        "x": 0,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "author",
+      "to": "posts",
+      "label": "publish"
+    },
+    {
+      "id": "e2",
+      "from": "posts",
+      "to": "postsdb",
+      "label": "save post"
+    },
+    {
+      "id": "e3",
+      "from": "posts",
+      "to": "queue",
+      "label": "post created"
+    },
+    {
+      "id": "e4",
+      "from": "queue",
+      "to": "fanout"
+    },
+    {
+      "id": "e5",
+      "from": "fanout",
+      "to": "graph",
+      "label": "who follows?"
+    },
+    {
+      "id": "e6",
+      "from": "fanout",
+      "to": "timelines",
+      "label": "prepend post id"
+    },
+    {
+      "id": "e7",
+      "from": "reader",
+      "to": "feed",
+      "label": "open feed"
+    },
+    {
+      "id": "e8",
+      "from": "feed",
+      "to": "timelines",
+      "label": "read ids"
+    },
+    {
+      "id": "e9",
+      "from": "feed",
+      "to": "postsdb",
+      "label": "load posts"
+    }
+  ]
+}

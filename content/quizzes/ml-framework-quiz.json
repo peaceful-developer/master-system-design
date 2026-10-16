@@ -1,0 +1,84 @@
+{
+  "id": "ml-framework-quiz",
+  "title": "The ML system design framework",
+  "topics": ["ml-systems", "interviews"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "frame",
+      "prompt": "A product team wants people to enjoy their video feed more. What's a good ML framing?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Use the largest neural network available" },
+        {
+          "id": "b",
+          "text": "Predict how likely a user is to watch a video substantially, then rank candidates by that score"
+        },
+        { "id": "c", "text": "Classify videos into 1,000 categories" }
+      ],
+      "correct": ["b"],
+      "explanation": "Framing turns the business goal into a concrete prediction (watching most of a video, as a proxy for enjoyment) and an output (a ranking)."
+    },
+    {
+      "id": "rare-events",
+      "prompt": "Only 0.1% of transactions are fraudulent. Which metrics should you report for a fraud classifier?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Accuracy" },
+        { "id": "b", "text": "Precision and recall at the chosen threshold" },
+        { "id": "c", "text": "Area under the precision–recall curve" },
+        { "id": "d", "text": "Fraud losses avoided, measured online" }
+      ],
+      "correct": ["b", "c", "d"],
+      "explanation": "Always predicting \"not fraud\" is 99.9% accurate and useless. Precision, recall and the PR curve reflect performance on the rare class; losses avoided is the business metric."
+    },
+    {
+      "id": "split",
+      "prompt": "You train a churn model on two years of data. How should you split training and test data?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Randomly, 80/20" },
+        { "id": "b", "text": "By time: train on older data and test on the most recent months" },
+        { "id": "c", "text": "Test on the training data to save time" }
+      ],
+      "correct": ["b"],
+      "explanation": "A random split lets the model peek at the future, so offline results look better than reality. A time split mimics how the model will be used."
+    },
+    {
+      "id": "skew",
+      "prompt": "Offline metrics look great, but the model performs worse in production. Training used a nightly batch feature, while serving computes it from live data. What is this?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Cold start" },
+        {
+          "id": "b",
+          "text": "Training–serving skew; fix it by computing features once and serving the same values, for example through a feature store"
+        },
+        { "id": "c", "text": "Overfitting, fixed by adding more layers" }
+      ],
+      "correct": ["b"],
+      "explanation": "Different feature logic in training and serving means the model sees inputs it wasn't trained on. Sharing feature definitions and values removes the gap."
+    },
+    {
+      "id": "launch",
+      "prompt": "A new ranking model beats the baseline offline. What should happen before it serves all users?",
+      "kind": "multi",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Shadow mode on live traffic to check latency and errors" },
+        {
+          "id": "b",
+          "text": "An A/B test on a random slice of users, comparing the online metric and guardrails"
+        },
+        { "id": "c", "text": "A gradual rollout with a fast rollback" },
+        { "id": "d", "text": "Nothing: offline wins guarantee online wins" }
+      ],
+      "correct": ["a", "b", "c"],
+      "explanation": "Offline metrics are a proxy. Shadow mode catches operational problems, the A/B test measures real impact, and gradual rollout limits the damage if something was missed."
+    }
+  ]
+}

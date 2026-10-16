@@ -1,0 +1,40 @@
+{
+  "id": "cache-aside",
+  "title": "Cache-aside: read the cache first, fill it on a miss",
+  "nodes": [
+    { "id": "client", "type": "client", "label": "Client", "position": { "x": 0, "y": 110 } },
+    {
+      "id": "lb",
+      "type": "load-balancer",
+      "label": "Load balancer",
+      "position": { "x": 230, "y": 110 }
+    },
+    {
+      "id": "app",
+      "type": "app-server",
+      "label": "App servers",
+      "position": { "x": 460, "y": 110 },
+      "config": { "instances": 3 }
+    },
+    { "id": "cache", "type": "cache", "label": "Cache (Redis)", "position": { "x": 720, "y": 0 } },
+    { "id": "db", "type": "sql-primary", "label": "Database", "position": { "x": 720, "y": 220 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "lb", "label": "GET /products/42" },
+    { "id": "e2", "from": "lb", "to": "app" },
+    {
+      "id": "e3",
+      "from": "app",
+      "to": "cache",
+      "label": "1. get, 3. set on miss",
+      "config": { "ratio": 1 }
+    },
+    {
+      "id": "e4",
+      "from": "app",
+      "to": "db",
+      "label": "2. read on miss",
+      "config": { "ratio": 0.05 }
+    }
+  ]
+}

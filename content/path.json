@@ -69,6 +69,14 @@
         {
           "kind": "lesson",
           "ref": "building-blocks/back-of-envelope-estimation"
+        },
+        {
+          "kind": "playbook",
+          "ref": "back-of-envelope-estimation"
+        },
+        {
+          "kind": "playbook",
+          "ref": "system-design-interview-framework"
         }
       ]
     },
@@ -84,7 +92,12 @@
       "number": 3,
       "title": "ML systems",
       "summary": "Designing ML-powered products end to end, from framing the problem to running experiments in production.",
-      "items": []
+      "items": [
+        {
+          "kind": "playbook",
+          "ref": "ml-system-design-framework"
+        }
+      ]
     },
     {
       "id": "llm-systems",

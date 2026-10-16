@@ -1,0 +1,122 @@
+{
+  "id": "rag-pipeline",
+  "title": "Retrieval-augmented generation: query path and ingestion",
+  "nodes": [
+    {
+      "id": "user",
+      "type": "client",
+      "label": "User",
+      "position": {
+        "x": 0,
+        "y": 200
+      }
+    },
+    {
+      "id": "rag",
+      "type": "app-server",
+      "label": "RAG service",
+      "position": {
+        "x": 230,
+        "y": 200
+      }
+    },
+    {
+      "id": "embed",
+      "type": "embedding-model",
+      "label": "Embedding model",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "vdb",
+      "type": "vector-db",
+      "label": "Vector DB",
+      "position": {
+        "x": 500,
+        "y": 135
+      }
+    },
+    {
+      "id": "rerank",
+      "type": "reranker",
+      "label": "Reranker",
+      "position": {
+        "x": 500,
+        "y": 270
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-api",
+      "label": "LLM",
+      "position": {
+        "x": 500,
+        "y": 405
+      }
+    },
+    {
+      "id": "docs",
+      "type": "object-storage",
+      "label": "Documents",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "ingest",
+      "type": "worker",
+      "label": "Chunk + embed",
+      "position": {
+        "x": 760,
+        "y": 135
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "user",
+      "to": "rag",
+      "label": "question"
+    },
+    {
+      "id": "e2",
+      "from": "rag",
+      "to": "embed",
+      "label": "1. embed question"
+    },
+    {
+      "id": "e3",
+      "from": "rag",
+      "to": "vdb",
+      "label": "2. top 20 chunks"
+    },
+    {
+      "id": "e4",
+      "from": "rag",
+      "to": "rerank",
+      "label": "3. keep best 5"
+    },
+    {
+      "id": "e5",
+      "from": "rag",
+      "to": "llm",
+      "label": "4. prompt + passages"
+    },
+    {
+      "id": "e6",
+      "from": "docs",
+      "to": "ingest",
+      "label": "new or changed"
+    },
+    {
+      "id": "e7",
+      "from": "ingest",
+      "to": "vdb",
+      "label": "chunks + vectors"
+    }
+  ]
+}

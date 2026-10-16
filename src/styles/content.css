@@ -366,3 +366,22 @@ details.deeper > :not(summary) + :not(summary) {
   border-radius: var(--radius-card);
   font-size: 0.875rem;
 }
+
+/* Checklists (GitHub-style task lists) */
+.prose-content ul.contains-task-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose-content .task-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.prose-content .task-list-item input {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-parrot-deep);
+}

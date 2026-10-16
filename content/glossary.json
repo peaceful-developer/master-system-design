@@ -755,6 +755,157 @@
       "term": "Little’s Law",
       "definition": "Average number of items in a system = arrival rate × average time each spends inside (L = λW).",
       "related": ["throughput", "latency"]
+    },
+    {
+      "id": "functional-requirements",
+      "term": "Functional requirements",
+      "definition": "What a system must do: the features and user actions it supports, such as posting a photo or reading a feed.",
+      "related": ["non-functional-requirements"]
+    },
+    {
+      "id": "non-functional-requirements",
+      "term": "Non-functional requirements",
+      "definition": "How well a system must do its job: scale, latency, availability, consistency, durability and cost targets.",
+      "related": ["functional-requirements", "availability"]
+    },
+    {
+      "id": "availability",
+      "term": "Availability",
+      "definition": "The share of time a system answers requests successfully, often written in nines: 99.9% allows about 43 minutes of downtime a month.",
+      "related": ["single-point-of-failure", "failover", "slo"]
+    },
+    {
+      "id": "slo",
+      "term": "Service level objective (SLO)",
+      "definition": "A target for a measurable behavior of a service, such as 99.9% of requests succeeding or p99 latency under 300 ms, used to decide when reliability work comes first.",
+      "aliases": ["SLO"],
+      "related": ["availability", "percentile"]
+    },
+    {
+      "id": "fan-out-on-write",
+      "term": "Fan-out on write",
+      "definition": "Copying a new post into every follower's precomputed feed when it is published. Reads become fast, but posts from accounts with millions of followers are expensive.",
+      "aliases": ["push model"],
+      "related": ["fan-out-on-read"]
+    },
+    {
+      "id": "fan-out-on-read",
+      "term": "Fan-out on read",
+      "definition": "Building a feed when it is requested by pulling recent posts from everyone the reader follows. Writes stay cheap; each read does more work.",
+      "aliases": ["pull model"],
+      "related": ["fan-out-on-write"]
+    },
+    {
+      "id": "embedding",
+      "term": "Embedding",
+      "definition": "A list of numbers (a vector) that represents an item such as a word, image, user or product, placed so that similar items end up close together.",
+      "related": ["vector-database", "two-tower-model"]
+    },
+    {
+      "id": "two-tower-model",
+      "term": "Two-tower model",
+      "definition": "A retrieval model with one network for users or queries and one for items. Each produces an embedding, and a high similarity between the two predicts a match.",
+      "related": ["embedding", "approximate-nearest-neighbor"]
+    },
+    {
+      "id": "approximate-nearest-neighbor",
+      "term": "Approximate nearest neighbor search",
+      "definition": "Finding vectors close to a query vector without comparing it with every one, trading a little accuracy for large speedups, using indexes such as HNSW or IVF.",
+      "aliases": ["ANN"],
+      "related": ["vector-database", "embedding"]
+    },
+    {
+      "id": "vector-database",
+      "term": "Vector database",
+      "definition": "A store that indexes embeddings for fast similarity search, usually with filtering on metadata.",
+      "related": ["approximate-nearest-neighbor", "embedding"]
+    },
+    {
+      "id": "candidate-generation",
+      "term": "Candidate generation",
+      "definition": "The first, cheap stage of a recommender or search system, which narrows millions of items to a few hundred for a heavier ranking model to score.",
+      "aliases": ["retrieval stage"],
+      "related": ["ranking-model", "two-tower-model"]
+    },
+    {
+      "id": "ranking-model",
+      "term": "Ranking model",
+      "definition": "The second, more expensive stage of a recommender or search system, which scores a small set of candidates with rich features to decide the final order.",
+      "related": ["candidate-generation"]
+    },
+    {
+      "id": "feature-store",
+      "term": "Feature store",
+      "definition": "A system that computes, stores and serves model features, so the values used in training match the ones used when serving.",
+      "related": ["training-serving-skew"]
+    },
+    {
+      "id": "training-serving-skew",
+      "term": "Training–serving skew",
+      "definition": "A gap between the data or feature logic a model was trained with and what it receives in production, which quietly lowers quality.",
+      "related": ["feature-store", "data-drift"]
+    },
+    {
+      "id": "data-drift",
+      "term": "Data drift",
+      "definition": "A change over time in the inputs a model receives compared with its training data, which can make its predictions worse.",
+      "related": ["training-serving-skew"]
+    },
+    {
+      "id": "offline-evaluation",
+      "term": "Offline evaluation",
+      "definition": "Measuring a model on held-out historical data, with metrics such as precision, recall or AUC, before it reaches users.",
+      "related": ["ab-test"]
+    },
+    {
+      "id": "ab-test",
+      "term": "A/B test",
+      "definition": "An experiment that shows a change to a random share of users and compares their outcomes with a control group to measure its real effect.",
+      "aliases": ["online experiment"],
+      "related": ["offline-evaluation"]
+    },
+    {
+      "id": "cold-start",
+      "term": "Cold start",
+      "definition": "The difficulty of making good predictions for new users or items that have little or no interaction history yet.",
+      "related": ["candidate-generation"]
+    },
+    {
+      "id": "rag",
+      "term": "Retrieval-augmented generation",
+      "definition": "Answering with a language model after retrieving relevant passages and adding them to the prompt, so answers are grounded in your own data.",
+      "aliases": ["RAG"],
+      "related": ["chunking", "embedding", "reranking"]
+    },
+    {
+      "id": "chunking",
+      "term": "Chunking",
+      "definition": "Splitting documents into passages small enough to embed and fit in a prompt, usually a few hundred tokens with some overlap.",
+      "related": ["rag", "embedding"]
+    },
+    {
+      "id": "reranking",
+      "term": "Reranking",
+      "definition": "Re-scoring the top retrieved results with a slower, more accurate model, such as a cross-encoder, before using them.",
+      "related": ["rag"]
+    },
+    {
+      "id": "hallucination",
+      "term": "Hallucination",
+      "definition": "A fluent statement from a language model that is false or not supported by its sources.",
+      "related": ["rag"]
+    },
+    {
+      "id": "token",
+      "term": "Token",
+      "definition": "The unit a language model reads and writes: a word or part of a word. In English, a token is about three quarters of a word on average.",
+      "related": ["context-window"]
+    },
+    {
+      "id": "context-window",
+      "term": "Context window",
+      "definition": "The maximum number of tokens a language model can handle in one request, counting both the prompt and the answer.",
+      "related": ["token", "rag"]
     }
   ]
 }

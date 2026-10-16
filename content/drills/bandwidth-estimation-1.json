@@ -1,0 +1,41 @@
+{
+  "id": "bandwidth-estimation-1",
+  "title": "Estimate video streaming bandwidth",
+  "topics": ["estimation", "bandwidth"],
+  "difficulty": "intermediate",
+  "scenario": "A video platform wants to know how much bandwidth it needs and whether a CDN is worth it. Viewers watch at **5 Mbit/s** on average. Use decimal units (1 Gbit = 1,000 Mbit, 1 TB = 1,000,000 MB) and 86,400 seconds per day. Anything within 25% counts.",
+  "givens": [
+    { "label": "Daily active viewers", "value": "5 million" },
+    { "label": "Minutes watched per viewer per day", "value": 40 },
+    { "label": "Average bitrate", "value": 5, "unit": "Mbit/s" },
+    { "label": "Peak factor", "value": "3× average" },
+    { "label": "Share of traffic served by the CDN", "value": "95%" }
+  ],
+  "questions": [
+    {
+      "id": "concurrent",
+      "prompt": "Average number of people watching at the same moment",
+      "unit": "viewers",
+      "answer": 138889
+    },
+    {
+      "id": "peak-egress",
+      "prompt": "Peak egress bandwidth, before the CDN",
+      "unit": "Gbit/s",
+      "answer": 2083
+    },
+    {
+      "id": "origin-egress",
+      "prompt": "Peak egress that still reaches the origin servers with the CDN",
+      "unit": "Gbit/s",
+      "answer": 104
+    },
+    {
+      "id": "daily-volume",
+      "prompt": "Total data served per day",
+      "unit": "TB",
+      "answer": 7500
+    }
+  ],
+  "solution": "1. **Concurrent viewers (Little's law):** watch time per day is 5 million × 40 minutes = 200 million minutes = 12 billion seconds. Spread over 86,400 seconds, that's 12,000,000,000 ÷ 86,400 ≈ **139,000 people watching at any moment** on average.\n2. **Peak egress:** 139,000 × 5 Mbit/s ≈ 694,000 Mbit/s ≈ 694 Gbit/s on average, × 3 at peak ≈ **2,100 Gbit/s** (about 2 Tbit/s). No single data center serves that comfortably.\n3. **Origin egress with a CDN:** the CDN absorbs 95%, so 5% of 2,083 Gbit/s ≈ **104 Gbit/s** reaches the origin. The CDN turns an impossible number into a large but manageable one.\n4. **Daily volume:** 12 billion seconds × 5 Mbit/s = 60 billion Mbit = 60,000,000,000 ÷ 8 MB ≈ 7.5 billion MB = **7,500 TB (7.5 PB) per day**. At this scale, CDN pricing and caching efficiency dominate the cost of running the service."
+}

@@ -1,0 +1,86 @@
+{
+  "id": "interview-framework-quiz",
+  "title": "The system design interview framework",
+  "topics": ["interviews"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "first-step",
+      "prompt": "The interviewer says \"Design a URL shortener.\" What should you do first?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Draw a load balancer, app servers and a database" },
+        {
+          "id": "b",
+          "text": "Ask about features, scale and quality targets, and agree what's in scope"
+        },
+        { "id": "c", "text": "Pick a database technology" }
+      ],
+      "correct": ["b"],
+      "explanation": "Requirements turn a vague prompt into a concrete problem. Every later decision refers back to them."
+    },
+    {
+      "id": "non-functional",
+      "prompt": "Which of these are non-functional requirements?",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Redirects complete in under 50 ms" },
+        { "id": "b", "text": "Users can choose a custom alias" },
+        { "id": "c", "text": "The service is available 99.99% of the time" },
+        { "id": "d", "text": "A created link is never lost" }
+      ],
+      "correct": ["a", "c", "d"],
+      "explanation": "Latency, availability and durability describe how well the system works. Custom aliases are a feature, so a functional requirement."
+    },
+    {
+      "id": "estimate-purpose",
+      "prompt": "You estimate 18,000 reads per second at peak. What makes this estimate useful?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Computing it to the exact request" },
+        {
+          "id": "b",
+          "text": "Saying what it implies, for example that the database needs a cache in front of it"
+        },
+        { "id": "c", "text": "Converting it to requests per hour" }
+      ],
+      "correct": ["b"],
+      "explanation": "An estimate earns its place by driving a decision. Precision beyond the order of magnitude rarely matters."
+    },
+    {
+      "id": "deep-dive",
+      "prompt": "Which is the strongest way to handle a deep dive into short-code generation?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Name a library that generates IDs" },
+        {
+          "id": "b",
+          "text": "Compare random codes with a collision check and counter-based codes, then choose one with reasons tied to the requirements"
+        },
+        { "id": "c", "text": "Say it's a detail that doesn't matter" }
+      ],
+      "correct": ["b"],
+      "explanation": "Deep dives are where you show judgement: at least two options, their trade-offs, and a choice justified by your requirements."
+    },
+    {
+      "id": "own-weaknesses",
+      "prompt": "Near the end, you point out that your single cache cluster is a bottleneck at 10× traffic and explain how you'd shard it. How does this land?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Badly: it admits the design has a flaw" },
+        {
+          "id": "b",
+          "text": "Well: finding and fixing your own design's limits is a senior signal"
+        },
+        { "id": "c", "text": "Neutral: interviewers only grade the diagram" }
+      ],
+      "correct": ["b"],
+      "explanation": "Every design has limits. Naming bottlenecks and failure modes yourself, with a plan, shows the judgement interviewers look for most."
+    }
+  ]
+}
