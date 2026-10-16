@@ -2,83 +2,184 @@
   "id": "video-recommendations-hld",
   "title": "Video recommendations: retrieval, ranking and the training loop",
   "nodes": [
-    { "id": "client", "type": "client", "label": "Viewer apps", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Viewer apps",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
     {
       "id": "recs",
       "type": "app-server",
       "label": "Recs API",
-      "position": { "x": 250, "y": 170 },
-      "config": { "instances": 20 }
+      "position": {
+        "x": 250,
+        "y": 170
+      },
+      "config": {
+        "instances": 20
+      }
     },
     {
       "id": "features",
       "type": "feature-store",
       "label": "Feature store",
-      "position": { "x": 250, "y": 0 }
+      "position": {
+        "x": 250,
+        "y": 0
+      }
     },
     {
       "id": "usertower",
       "type": "model-server-cpu",
       "label": "User tower",
-      "position": { "x": 500, "y": 0 }
+      "position": {
+        "x": 500,
+        "y": 0
+      }
     },
     {
       "id": "ann",
       "type": "vector-db",
-      "label": "Video index (ANN)",
-      "position": { "x": 500, "y": 170 },
-      "config": { "instances": 6 }
+      "label": "Video index",
+      "position": {
+        "x": 500,
+        "y": 170
+      },
+      "config": {
+        "instances": 6
+      }
     },
     {
       "id": "ranker",
       "type": "model-server-gpu",
       "label": "Ranking model",
-      "position": { "x": 500, "y": 340 },
-      "config": { "instances": 64 }
+      "position": {
+        "x": 500,
+        "y": 340
+      },
+      "config": {
+        "instances": 64
+      }
     },
     {
       "id": "itememb",
       "type": "batch-inference",
-      "label": "Video tower (batch)",
-      "position": { "x": 760, "y": 170 }
+      "label": "Video tower",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
     },
     {
       "id": "registry",
       "type": "model-registry",
       "label": "Model registry",
-      "position": { "x": 760, "y": 340 }
+      "position": {
+        "x": 760,
+        "y": 340
+      }
     },
     {
       "id": "events",
       "type": "event-stream",
       "label": "Watch events",
-      "position": { "x": 0, "y": 510 }
+      "position": {
+        "x": 0,
+        "y": 510
+      }
     },
     {
       "id": "warehouse",
       "type": "data-warehouse",
       "label": "Training logs",
-      "position": { "x": 250, "y": 510 }
+      "position": {
+        "x": 250,
+        "y": 510
+      }
     },
     {
       "id": "training",
       "type": "training-pipeline",
-      "label": "Training pipelines",
-      "position": { "x": 500, "y": 510 }
+      "label": "Training jobs",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
     }
   ],
   "edges": [
-    { "id": "e1", "from": "client", "to": "recs", "label": "home feed" },
-    { "id": "e2", "from": "recs", "to": "features", "label": "user features" },
-    { "id": "e3", "from": "recs", "to": "usertower", "label": "1. embed user" },
-    { "id": "e4", "from": "recs", "to": "ann", "label": "2. top 500" },
-    { "id": "e5", "from": "recs", "to": "ranker", "label": "3. score 500" },
-    { "id": "e6", "from": "client", "to": "events", "label": "impressions, watches" },
-    { "id": "e7", "from": "events", "to": "warehouse" },
-    { "id": "e8", "from": "warehouse", "to": "training" },
-    { "id": "e9", "from": "training", "to": "registry", "label": "new models" },
-    { "id": "e10", "from": "registry", "to": "ranker", "label": "deploy" },
-    { "id": "e11", "from": "registry", "to": "itememb" },
-    { "id": "e12", "from": "itememb", "to": "ann", "label": "refresh index" }
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "recs",
+      "label": "home feed"
+    },
+    {
+      "id": "e2",
+      "from": "recs",
+      "to": "features",
+      "label": "user features"
+    },
+    {
+      "id": "e3",
+      "from": "recs",
+      "to": "usertower",
+      "label": "1. embed user"
+    },
+    {
+      "id": "e4",
+      "from": "recs",
+      "to": "ann",
+      "label": "2. top 500"
+    },
+    {
+      "id": "e5",
+      "from": "recs",
+      "to": "ranker",
+      "label": "3. score 500"
+    },
+    {
+      "id": "e6",
+      "from": "client",
+      "to": "events",
+      "label": "impressions, watches"
+    },
+    {
+      "id": "e7",
+      "from": "events",
+      "to": "warehouse"
+    },
+    {
+      "id": "e8",
+      "from": "warehouse",
+      "to": "training"
+    },
+    {
+      "id": "e9",
+      "from": "training",
+      "to": "registry",
+      "label": "new models"
+    },
+    {
+      "id": "e10",
+      "from": "registry",
+      "to": "ranker",
+      "label": "deploy"
+    },
+    {
+      "id": "e11",
+      "from": "registry",
+      "to": "itememb"
+    },
+    {
+      "id": "e12",
+      "from": "itememb",
+      "to": "ann",
+      "label": "refresh index"
+    }
   ]
 }

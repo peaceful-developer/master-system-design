@@ -134,8 +134,7 @@
     {
       "id": "e7",
       "from": "fanout",
-      "to": "graph",
-      "label": "followers"
+      "to": "graph"
     },
     {
       "id": "e8",

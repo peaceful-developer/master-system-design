@@ -35,7 +35,7 @@
     {
       "id": "embed",
       "type": "embedding-model",
-      "label": "Embedding model",
+      "label": "Embedding API",
       "position": {
         "x": 500,
         "y": 0
@@ -125,7 +125,7 @@
       "id": "e5",
       "from": "qa",
       "to": "kw",
-      "label": "keyword search"
+      "label": "keywords"
     },
     {
       "id": "e6",
