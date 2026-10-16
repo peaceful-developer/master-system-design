@@ -245,6 +245,30 @@
         {
           "kind": "case-study",
           "ref": "voice-assistant"
+        },
+        {
+          "kind": "case-study",
+          "ref": "text-to-sql"
+        },
+        {
+          "kind": "case-study",
+          "ref": "llm-personalization"
+        },
+        {
+          "kind": "case-study",
+          "ref": "semantic-cache"
+        },
+        {
+          "kind": "case-study",
+          "ref": "assistant-memory"
+        },
+        {
+          "kind": "case-study",
+          "ref": "ai-search-engine"
+        },
+        {
+          "kind": "case-study",
+          "ref": "image-generation-service"
         }
       ]
     },

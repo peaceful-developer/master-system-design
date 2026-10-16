@@ -1,0 +1,143 @@
+{
+  "id": "ai-search-engine-hld",
+  "title": "AI search engine: rewrite, hybrid retrieval, rerank and cited generation",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "answer",
+      "type": "app-server",
+      "label": "Answer service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "rewriter",
+      "type": "llm-self-hosted",
+      "label": "Query rewriter",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "keyword",
+      "type": "search-index",
+      "label": "Keyword index",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "vector",
+      "type": "vector-db",
+      "label": "Vector index",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "reranker",
+      "type": "reranker",
+      "label": "Reranker",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-self-hosted",
+      "label": "Answer LLM",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "indexer",
+      "type": "worker",
+      "label": "Indexer",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Eval suite",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "users",
+      "to": "answer",
+      "label": "question"
+    },
+    {
+      "id": "e2",
+      "from": "answer",
+      "to": "rewriter",
+      "label": "rewrite"
+    },
+    {
+      "id": "e3",
+      "from": "answer",
+      "to": "keyword",
+      "label": "keywords"
+    },
+    {
+      "id": "e4",
+      "from": "answer",
+      "to": "vector",
+      "label": "vectors"
+    },
+    {
+      "id": "e5",
+      "from": "answer",
+      "to": "reranker",
+      "label": "rerank 200"
+    },
+    {
+      "id": "e6",
+      "from": "answer",
+      "to": "llm",
+      "label": "10 passages"
+    },
+    {
+      "id": "e7",
+      "from": "indexer",
+      "to": "keyword",
+      "label": "pages"
+    },
+    {
+      "id": "e8",
+      "from": "indexer",
+      "to": "vector",
+      "label": "embeddings"
+    },
+    {
+      "id": "e9",
+      "from": "answer",
+      "to": "evals",
+      "label": "logs"
+    }
+  ]
+}

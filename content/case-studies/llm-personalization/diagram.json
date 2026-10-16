@@ -1,0 +1,149 @@
+{
+  "id": "llm-personalization-hld",
+  "title": "LLM personalization: batch LLM jobs feeding a fast online recommender",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "client",
+      "label": "Shoppers",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "home",
+      "type": "app-server",
+      "label": "Home service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "ranker",
+      "type": "model-server-gpu",
+      "label": "Ranking model",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "index",
+      "type": "vector-db",
+      "label": "Item index",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "copy",
+      "type": "cache",
+      "label": "Copy cache",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Event stream",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "batch",
+      "type": "batch-inference",
+      "label": "LLM batch jobs",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "checker",
+      "type": "guardrail",
+      "label": "Fact checker",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "users",
+      "to": "home",
+      "label": "home page"
+    },
+    {
+      "id": "e2",
+      "from": "home",
+      "to": "ranker",
+      "label": "score"
+    },
+    {
+      "id": "e3",
+      "from": "home",
+      "to": "index",
+      "label": "retrieve"
+    },
+    {
+      "id": "e4",
+      "from": "home",
+      "to": "features",
+      "label": "profile"
+    },
+    {
+      "id": "e5",
+      "from": "home",
+      "to": "copy",
+      "label": "titles"
+    },
+    {
+      "id": "e6",
+      "from": "events",
+      "to": "batch",
+      "label": "history"
+    },
+    {
+      "id": "e7",
+      "from": "batch",
+      "to": "features",
+      "label": "profiles"
+    },
+    {
+      "id": "e8",
+      "from": "batch",
+      "to": "index",
+      "label": "item vectors"
+    },
+    {
+      "id": "e9",
+      "from": "batch",
+      "to": "checker",
+      "label": "drafts"
+    },
+    {
+      "id": "e10",
+      "from": "checker",
+      "to": "copy",
+      "label": "verified"
+    }
+  ]
+}

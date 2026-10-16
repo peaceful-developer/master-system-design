@@ -1,0 +1,137 @@
+{
+  "id": "text-to-sql-hld",
+  "title": "Text-to-SQL assistant: schema retrieval, validation and execution",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "assistant",
+      "type": "app-server",
+      "label": "SQL assistant",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "schema",
+      "type": "vector-db",
+      "label": "Schema index",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "sync",
+      "type": "worker",
+      "label": "Catalog sync",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "catalog",
+      "type": "sql-primary",
+      "label": "Data catalog",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-api",
+      "label": "LLM",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "validator",
+      "type": "guardrail",
+      "label": "SQL validator",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "warehouse",
+      "type": "data-warehouse",
+      "label": "Warehouse",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Eval suite",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "users",
+      "to": "assistant",
+      "label": "question"
+    },
+    {
+      "id": "e2",
+      "from": "assistant",
+      "to": "schema",
+      "label": "retrieve"
+    },
+    {
+      "id": "e3",
+      "from": "assistant",
+      "to": "llm",
+      "label": "prompt"
+    },
+    {
+      "id": "e4",
+      "from": "assistant",
+      "to": "validator",
+      "label": "draft SQL"
+    },
+    {
+      "id": "e5",
+      "from": "validator",
+      "to": "warehouse",
+      "label": "read-only"
+    },
+    {
+      "id": "e6",
+      "from": "catalog",
+      "to": "sync",
+      "label": "definitions"
+    },
+    {
+      "id": "e7",
+      "from": "sync",
+      "to": "schema",
+      "label": "embed"
+    },
+    {
+      "id": "e8",
+      "from": "evals",
+      "to": "warehouse",
+      "label": "benchmark"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "id": "assistant-memory-hld",
+  "title": "Assistant memory: recall, extraction and consolidation",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "chat",
+      "type": "app-server",
+      "label": "Chat service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Eval suite",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "embed",
+      "type": "embedding-model",
+      "label": "Embedder",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "store",
+      "type": "sql-primary",
+      "label": "Memory store",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "memory",
+      "type": "app-server",
+      "label": "Memory service",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "index",
+      "type": "vector-db",
+      "label": "Memory index",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-api",
+      "label": "Assistant LLM",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "queue",
+      "type": "message-queue",
+      "label": "Turn queue",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "extractor",
+      "type": "worker",
+      "label": "Extractor",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "users",
+      "to": "chat",
+      "label": "message"
+    },
+    {
+      "id": "e2",
+      "from": "chat",
+      "to": "memory",
+      "label": "recall"
+    },
+    {
+      "id": "e3",
+      "from": "chat",
+      "to": "llm",
+      "label": "prompt"
+    },
+    {
+      "id": "e4",
+      "from": "memory",
+      "to": "embed",
+      "label": "embed"
+    },
+    {
+      "id": "e5",
+      "from": "memory",
+      "to": "index",
+      "label": "search"
+    },
+    {
+      "id": "e6",
+      "from": "memory",
+      "to": "store",
+      "label": "records"
+    },
+    {
+      "id": "e7",
+      "from": "chat",
+      "to": "queue",
+      "label": "turns"
+    },
+    {
+      "id": "e8",
+      "from": "queue",
+      "to": "extractor"
+    },
+    {
+      "id": "e9",
+      "from": "extractor",
+      "to": "memory",
+      "label": "candidates"
+    },
+    {
+      "id": "e10",
+      "from": "evals",
+      "to": "chat",
+      "label": "test chats"
+    }
+  ]
+}

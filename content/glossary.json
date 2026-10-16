@@ -1569,6 +1569,76 @@
       "definition": "The tendency for two people with a friend in common to become friends themselves. It is why friends of friends are the best source of connection suggestions.",
       "aliases": ["friends of friends"],
       "related": ["graph-database", "graph-embedding"]
+    },
+    {
+      "id": "batch-inference",
+      "term": "Batch inference",
+      "definition": "Running a model over many inputs on a schedule and storing the outputs, so requests later look up a precomputed result instead of calling the model. It is far cheaper per prediction but less fresh.",
+      "aliases": ["offline inference"],
+      "related": ["feature-store", "cold-start"]
+    },
+    {
+      "id": "content-provenance",
+      "term": "Content provenance",
+      "definition": "Signed metadata, often paired with an invisible watermark, that records how an image or video was made, such as by an AI model, so others can check its origin later.",
+      "aliases": ["C2PA"],
+      "related": ["guardrails"]
+    },
+    {
+      "id": "diffusion-model",
+      "term": "Diffusion model",
+      "definition": "A generative model that makes an image by starting from random noise and removing a little of it over many steps, guided by a text prompt. Fewer steps are faster but can lower quality.",
+      "related": ["quantization", "dynamic-batching"]
+    },
+    {
+      "id": "dynamic-batching",
+      "term": "Dynamic batching",
+      "definition": "Holding incoming inference requests for a few milliseconds and running them through the model as one batch, which raises GPU throughput at a small, bounded cost in latency.",
+      "related": ["continuous-batching", "throughput"]
+    },
+    {
+      "id": "execution-accuracy",
+      "term": "Execution accuracy",
+      "definition": "A text-to-SQL metric: the share of test questions whose generated query returns the same result as a reference query. It compares results, not SQL text, because many different queries are correct.",
+      "related": ["golden-dataset", "offline-evaluation"]
+    },
+    {
+      "id": "memory-consolidation",
+      "term": "Memory consolidation",
+      "definition": "Comparing a newly extracted memory with similar stored ones and deciding to add it, merge it, update an old one or drop it, so an assistant's memory stays current and free of contradictions.",
+      "related": ["memory-extraction"]
+    },
+    {
+      "id": "memory-extraction",
+      "term": "Memory extraction",
+      "definition": "Having a language model read a conversation and write down the few lasting facts or preferences worth remembering, as short standalone statements an assistant can recall later.",
+      "related": ["memory-consolidation", "rag"]
+    },
+    {
+      "id": "query-rewriting",
+      "term": "Query rewriting",
+      "definition": "Turning a user's question, often a follow-up that depends on the conversation, into one or more standalone search queries that a retrieval system can answer well.",
+      "aliases": ["query reformulation"],
+      "related": ["rag", "hybrid-search"]
+    },
+    {
+      "id": "schema-linking",
+      "term": "Schema linking",
+      "definition": "In text-to-SQL, finding which tables and columns a question refers to, so the model sees only the relevant part of a large database schema.",
+      "related": ["semantic-layer", "rag"]
+    },
+    {
+      "id": "semantic-layer",
+      "term": "Semantic layer",
+      "definition": "A shared set of business definitions, such as how \"net revenue\" or \"active customer\" is calculated from the raw tables, so every report and query computes them the same way.",
+      "aliases": ["metrics layer"],
+      "related": ["schema-linking"]
+    },
+    {
+      "id": "similarity-threshold",
+      "term": "Similarity threshold",
+      "definition": "The minimum similarity score, such as cosine similarity between two embeddings, at which two items count as a match. Raising it gives fewer wrong matches but also fewer matches.",
+      "related": ["semantic-cache", "embedding"]
     }
   ]
 }

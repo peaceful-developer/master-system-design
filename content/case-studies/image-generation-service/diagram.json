@@ -1,0 +1,157 @@
+{
+  "id": "image-generation-service-hld",
+  "title": "Image generation: job queues, GPU workers and safety checks",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "api",
+      "type": "api-gateway",
+      "label": "Image API",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "pfilter",
+      "type": "guardrail",
+      "label": "Prompt filter",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "jobs",
+      "type": "nosql-store",
+      "label": "Job store",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "queue",
+      "type": "message-queue",
+      "label": "Job queues",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "gpu",
+      "type": "model-server-gpu",
+      "label": "GPU workers",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Model evals",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "ifilter",
+      "type": "guardrail",
+      "label": "Image filter",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "storage",
+      "type": "object-storage",
+      "label": "Image store",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "cdn",
+      "type": "cdn",
+      "label": "CDN",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "users",
+      "to": "api",
+      "label": "prompt"
+    },
+    {
+      "id": "e2",
+      "from": "api",
+      "to": "pfilter",
+      "label": "check"
+    },
+    {
+      "id": "e3",
+      "from": "api",
+      "to": "queue",
+      "label": "enqueue"
+    },
+    {
+      "id": "e4",
+      "from": "queue",
+      "to": "gpu",
+      "label": "pull jobs"
+    },
+    {
+      "id": "e5",
+      "from": "gpu",
+      "to": "ifilter",
+      "label": "images"
+    },
+    {
+      "id": "e6",
+      "from": "ifilter",
+      "to": "storage",
+      "label": "safe images"
+    },
+    {
+      "id": "e7",
+      "from": "storage",
+      "to": "cdn"
+    },
+    {
+      "id": "e8",
+      "from": "cdn",
+      "to": "users",
+      "label": "view"
+    },
+    {
+      "id": "e9",
+      "from": "gpu",
+      "to": "jobs",
+      "label": "progress"
+    },
+    {
+      "id": "e10",
+      "from": "evals",
+      "to": "gpu",
+      "label": "approved model"
+    }
+  ]
+}
