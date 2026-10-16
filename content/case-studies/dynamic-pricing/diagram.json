@@ -1,0 +1,57 @@
+{
+  "id": "dynamic-pricing-hld",
+  "title": "Dynamic pricing: live zone counts, pricing model and quotes",
+  "nodes": [
+    { "id": "drivers", "type": "client", "label": "Driver apps", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Market events",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Zone features",
+      "position": { "x": 500, "y": 0 }
+    },
+    { "id": "client", "type": "client", "label": "Rider apps", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "quote",
+      "type": "app-server",
+      "label": "Quote API",
+      "position": { "x": 250, "y": 170 }
+    },
+    { "id": "cache", "type": "cache", "label": "Zone prices", "position": { "x": 500, "y": 170 } },
+    {
+      "id": "pricer",
+      "type": "model-server-cpu",
+      "label": "Pricing model",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "warehouse",
+      "type": "data-warehouse",
+      "label": "Quote logs",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training jobs",
+      "position": { "x": 500, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "drivers", "to": "events", "label": "locations" },
+    { "id": "e2", "from": "quote", "to": "events", "label": "requests" },
+    { "id": "e3", "from": "events", "to": "features", "label": "zone counts" },
+    { "id": "e4", "from": "features", "to": "pricer" },
+    { "id": "e5", "from": "client", "to": "quote", "label": "get quote" },
+    { "id": "e6", "from": "quote", "to": "cache" },
+    { "id": "e7", "from": "pricer", "to": "cache", "label": "every 60 s" },
+    { "id": "e8", "from": "quote", "to": "warehouse", "label": "quotes, trips" },
+    { "id": "e9", "from": "warehouse", "to": "training" },
+    { "id": "e10", "from": "training", "to": "pricer", "label": "new models" }
+  ]
+}

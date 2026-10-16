@@ -1,0 +1,74 @@
+{
+  "id": "visual-search-hld",
+  "title": "Visual search: detect, embed, retrieve and re-rank",
+  "nodes": [
+    {
+      "id": "detector",
+      "type": "model-server-gpu",
+      "label": "Crop detector",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "encoder",
+      "type": "model-server-gpu",
+      "label": "Image encoder",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "images",
+      "type": "object-storage",
+      "label": "Product images",
+      "position": { "x": 760, "y": 0 }
+    },
+    { "id": "client", "type": "client", "label": "Shopper apps", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "api",
+      "type": "app-server",
+      "label": "Search API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "index",
+      "type": "vector-db",
+      "label": "Vector index",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 6 }
+    },
+    {
+      "id": "embedder",
+      "type": "batch-inference",
+      "label": "Batch embedder",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "reranker",
+      "type": "reranker",
+      "label": "Re-ranker",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "logs",
+      "type": "data-warehouse",
+      "label": "Click logs",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training jobs",
+      "position": { "x": 760, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "api", "label": "photo" },
+    { "id": "e2", "from": "api", "to": "detector", "label": "1. detect" },
+    { "id": "e3", "from": "api", "to": "encoder", "label": "2. embed" },
+    { "id": "e4", "from": "api", "to": "index", "label": "3. top 1,000" },
+    { "id": "e5", "from": "api", "to": "reranker", "label": "4. re-rank" },
+    { "id": "e6", "from": "api", "to": "logs", "label": "clicks" },
+    { "id": "e7", "from": "logs", "to": "training", "label": "pairs" },
+    { "id": "e8", "from": "training", "to": "embedder", "label": "new model" },
+    { "id": "e9", "from": "images", "to": "embedder", "label": "new items" },
+    { "id": "e10", "from": "embedder", "to": "index", "label": "upsert" }
+  ]
+}

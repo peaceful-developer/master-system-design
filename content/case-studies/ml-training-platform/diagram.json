@@ -1,0 +1,68 @@
+{
+  "id": "ml-training-platform-hld",
+  "title": "ML training platform: schedule, train, checkpoint and register",
+  "nodes": [
+    { "id": "cron", "type": "scheduler", "label": "Retrain cron", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "tracking",
+      "type": "sql-primary",
+      "label": "Run tracking",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": { "x": 760, "y": 0 }
+    },
+    { "id": "client", "type": "client", "label": "ML engineers", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "api",
+      "type": "app-server",
+      "label": "Training API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "scheduler",
+      "type": "scheduler",
+      "label": "Job scheduler",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "workers",
+      "type": "training-pipeline",
+      "label": "GPU workers",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 250 }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "eval",
+      "type": "eval-service",
+      "label": "Evaluation",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "checkpoints",
+      "type": "object-storage",
+      "label": "Checkpoints",
+      "position": { "x": 760, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "api", "label": "submit job" },
+    { "id": "e2", "from": "cron", "to": "api", "label": "nightly" },
+    { "id": "e3", "from": "api", "to": "tracking", "label": "run record" },
+    { "id": "e4", "from": "api", "to": "scheduler", "label": "job spec" },
+    { "id": "e5", "from": "scheduler", "to": "workers", "label": "place gang" },
+    { "id": "e6", "from": "features", "to": "workers", "label": "snapshot" },
+    { "id": "e7", "from": "workers", "to": "checkpoints", "label": "every 30 min" },
+    { "id": "e8", "from": "checkpoints", "to": "eval", "label": "final model" },
+    { "id": "e9", "from": "eval", "to": "registry", "label": "if better" }
+  ]
+}

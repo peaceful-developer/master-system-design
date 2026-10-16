@@ -1,0 +1,66 @@
+{
+  "id": "model-serving-platform-hld",
+  "title": "Model serving platform: route, batch, monitor and roll out",
+  "nodes": [
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "cpu",
+      "type": "model-server-cpu",
+      "label": "CPU models",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "client",
+      "type": "app-server",
+      "label": "App services",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "api",
+      "type": "api-gateway",
+      "label": "Inference API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "gpu",
+      "type": "model-server-gpu",
+      "label": "GPU models",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "logs",
+      "type": "event-stream",
+      "label": "Prediction logs",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "monitor",
+      "type": "drift-monitor",
+      "label": "Drift monitor",
+      "position": { "x": 500, "y": 340 }
+    },
+    { "id": "deployer", "type": "worker", "label": "Deployer", "position": { "x": 760, "y": 340 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "api", "label": "predict" },
+    { "id": "e2", "from": "api", "to": "features", "label": "lookup" },
+    { "id": "e3", "from": "api", "to": "cpu" },
+    { "id": "e4", "from": "api", "to": "gpu", "label": "canary split" },
+    { "id": "e5", "from": "api", "to": "logs", "label": "inputs, outputs" },
+    { "id": "e6", "from": "logs", "to": "monitor" },
+    { "id": "e7", "from": "registry", "to": "deployer", "label": "new version" },
+    { "id": "e8", "from": "deployer", "to": "gpu", "label": "roll out" },
+    { "id": "e9", "from": "monitor", "to": "deployer", "label": "rollback" }
+  ]
+}

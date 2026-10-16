@@ -1,0 +1,73 @@
+{
+  "id": "anomaly-detection-hld",
+  "title": "Anomaly detection: baselines, streaming scorers and alert feedback",
+  "nodes": [
+    {
+      "id": "agents",
+      "type": "client",
+      "label": "Metric agents",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "stream",
+      "type": "event-stream",
+      "label": "Metric stream",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "scorers",
+      "type": "worker",
+      "label": "Scorers",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 20 }
+    },
+    {
+      "id": "alertmodel",
+      "type": "model-server-cpu",
+      "label": "Alert model",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "history",
+      "type": "nosql-store",
+      "label": "Metric history",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "baselines",
+      "type": "batch-inference",
+      "label": "Baseline jobs",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "alerts",
+      "type": "app-server",
+      "label": "Alert manager",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training jobs",
+      "position": { "x": 500, "y": 510 }
+    },
+    {
+      "id": "feedback",
+      "type": "sql-primary",
+      "label": "Alert feedback",
+      "position": { "x": 760, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "agents", "to": "stream", "label": "points" },
+    { "id": "e2", "from": "stream", "to": "scorers", "label": "by series id" },
+    { "id": "e3", "from": "stream", "to": "history" },
+    { "id": "e4", "from": "history", "to": "baselines", "label": "8 weeks" },
+    { "id": "e5", "from": "baselines", "to": "scorers", "label": "nightly fit" },
+    { "id": "e6", "from": "scorers", "to": "alertmodel", "label": "candidates" },
+    { "id": "e7", "from": "alertmodel", "to": "alerts" },
+    { "id": "e8", "from": "alerts", "to": "feedback", "label": "useful?" },
+    { "id": "e9", "from": "feedback", "to": "training" },
+    { "id": "e10", "from": "training", "to": "alertmodel", "label": "weekly" }
+  ]
+}

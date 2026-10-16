@@ -189,6 +189,34 @@
         {
           "kind": "case-study",
           "ref": "eta-prediction"
+        },
+        {
+          "kind": "case-study",
+          "ref": "dynamic-pricing"
+        },
+        {
+          "kind": "case-study",
+          "ref": "visual-search"
+        },
+        {
+          "kind": "case-study",
+          "ref": "feature-store"
+        },
+        {
+          "kind": "case-study",
+          "ref": "ml-training-platform"
+        },
+        {
+          "kind": "case-study",
+          "ref": "model-serving-platform"
+        },
+        {
+          "kind": "case-study",
+          "ref": "anomaly-detection"
+        },
+        {
+          "kind": "case-study",
+          "ref": "experimentation-platform"
         }
       ]
     },

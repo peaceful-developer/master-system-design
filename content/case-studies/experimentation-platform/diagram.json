@@ -1,0 +1,50 @@
+{
+  "id": "experimentation-platform-hld",
+  "title": "Experimentation platform: assignment, events and the stats engine",
+  "nodes": [
+    { "id": "owners", "type": "client", "label": "Experimenters", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "expapi",
+      "type": "app-server",
+      "label": "Experiment API",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "scorecards",
+      "type": "sql-primary",
+      "label": "Scorecards",
+      "position": { "x": 500, "y": 0 }
+    },
+    { "id": "stats", "type": "worker", "label": "Stats engine", "position": { "x": 760, "y": 0 } },
+    { "id": "apps", "type": "client", "label": "Apps with SDK", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "collector",
+      "type": "api-gateway",
+      "label": "Collector",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "stream",
+      "type": "event-stream",
+      "label": "Event stream",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "warehouse",
+      "type": "data-warehouse",
+      "label": "Warehouse",
+      "position": { "x": 760, "y": 170 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "owners", "to": "expapi", "label": "define" },
+    { "id": "e2", "from": "apps", "to": "expapi", "label": "config" },
+    { "id": "e3", "from": "apps", "to": "collector", "label": "exposures" },
+    { "id": "e4", "from": "collector", "to": "stream" },
+    { "id": "e5", "from": "stream", "to": "warehouse" },
+    { "id": "e6", "from": "stream", "to": "stats", "label": "hourly" },
+    { "id": "e7", "from": "warehouse", "to": "stats", "label": "daily" },
+    { "id": "e8", "from": "stats", "to": "scorecards", "label": "results" },
+    { "id": "e9", "from": "scorecards", "to": "expapi" }
+  ]
+}

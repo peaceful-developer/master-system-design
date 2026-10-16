@@ -1,0 +1,74 @@
+{
+  "id": "feature-store-hld",
+  "title": "Feature store: one definition, online and offline paths",
+  "nodes": [
+    {
+      "id": "models",
+      "type": "app-server",
+      "label": "Model services",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "api",
+      "type": "api-gateway",
+      "label": "Feature API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "online",
+      "type": "nosql-store",
+      "label": "Online store",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 12 }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Event stream",
+      "position": { "x": 0, "y": 340 }
+    },
+    {
+      "id": "stream",
+      "type": "worker",
+      "label": "Stream jobs",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "monitor",
+      "type": "drift-monitor",
+      "label": "Drift monitor",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "tables",
+      "type": "data-warehouse",
+      "label": "Source tables",
+      "position": { "x": 0, "y": 510 }
+    },
+    { "id": "batch", "type": "worker", "label": "Batch jobs", "position": { "x": 250, "y": 510 } },
+    {
+      "id": "offline",
+      "type": "data-warehouse",
+      "label": "Offline store",
+      "position": { "x": 500, "y": 510 }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training jobs",
+      "position": { "x": 760, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "models", "to": "api", "label": "get features" },
+    { "id": "e2", "from": "api", "to": "online", "label": "multi-get" },
+    { "id": "e3", "from": "events", "to": "stream" },
+    { "id": "e4", "from": "stream", "to": "online", "label": "fresh values" },
+    { "id": "e5", "from": "stream", "to": "offline" },
+    { "id": "e6", "from": "tables", "to": "batch" },
+    { "id": "e7", "from": "batch", "to": "offline", "label": "daily" },
+    { "id": "e8", "from": "offline", "to": "online", "label": "materialize" },
+    { "id": "e9", "from": "offline", "to": "training", "label": "point-in-time" },
+    { "id": "e10", "from": "offline", "to": "monitor" }
+  ]
+}

@@ -1639,6 +1639,91 @@
       "term": "Similarity threshold",
       "definition": "The minimum similarity score, such as cosine similarity between two embeddings, at which two items count as a match. Raising it gives fewer wrong matches but also fewer matches.",
       "related": ["semantic-cache", "embedding"]
+    },
+    {
+      "id": "alert-fatigue",
+      "term": "Alert fatigue",
+      "definition": "When people receive so many alerts, especially false ones, that they start ignoring or muting them and miss the alerts that matter.",
+      "related": ["precision-and-recall"]
+    },
+    {
+      "id": "backfill",
+      "term": "Backfill",
+      "definition": "Running a new or changed computation over past data, such as computing a new feature for every day of the last year, so history is available as if the computation had always existed.",
+      "related": ["feature-store"]
+    },
+    {
+      "id": "canary-release",
+      "term": "Canary release",
+      "definition": "Rolling out a new version to a small share of traffic first, such as 1%, and comparing its errors and latency with the old version before sending it more.",
+      "aliases": ["canary deployment", "canary"],
+      "related": ["shadow-deployment", "ab-test"]
+    },
+    {
+      "id": "contrastive-learning",
+      "term": "Contrastive learning",
+      "definition": "Training a model to place matching pairs, such as two photos of the same product, close together in embedding space and non-matching pairs far apart.",
+      "related": ["embedding", "two-tower-model"]
+    },
+    {
+      "id": "cuped",
+      "term": "CUPED",
+      "definition": "A variance-reduction method for experiments that adjusts each user's metric using the same metric from before the experiment, so smaller effects can be detected with fewer users.",
+      "aliases": ["variance reduction"],
+      "related": ["ab-test", "minimum-detectable-effect"]
+    },
+    {
+      "id": "minimum-detectable-effect",
+      "term": "Minimum detectable effect",
+      "definition": "The smallest change an experiment is designed to detect reliably. Halving it needs about four times as many users.",
+      "aliases": ["MDE", "statistical power"],
+      "related": ["ab-test"]
+    },
+    {
+      "id": "model-registry",
+      "term": "Model registry",
+      "definition": "A versioned catalog of trained models that records each version's code, training data, metrics and approval stage, so deployments use a known version and can roll back to an earlier one.",
+      "related": ["offline-evaluation", "feature-store"]
+    },
+    {
+      "id": "object-detection",
+      "term": "Object detection",
+      "definition": "A vision model that finds the objects in an image and draws a labeled box around each one, such as every shoe, bag and lamp in a photo.",
+      "related": ["embedding"]
+    },
+    {
+      "id": "point-in-time-join",
+      "term": "Point-in-time join",
+      "definition": "Building training data by joining each labeled event with the feature values that were known at that event's time, never later ones, so the model does not learn from the future.",
+      "aliases": ["point-in-time correctness", "as-of join"],
+      "related": ["feature-store", "training-serving-skew"]
+    },
+    {
+      "id": "price-elasticity",
+      "term": "Price elasticity",
+      "definition": "How strongly demand responds to a change in price. If a 10% higher price cuts purchases by 20%, demand is elastic; if purchases barely change, it is inelastic.",
+      "aliases": ["elasticity of demand"],
+      "related": ["switchback-experiment"]
+    },
+    {
+      "id": "sample-ratio-mismatch",
+      "term": "Sample ratio mismatch",
+      "definition": "When the number of users in each experiment group differs from the planned split by more than chance allows, a sign that assignment or logging is broken and the results cannot be trusted.",
+      "aliases": ["SRM"],
+      "related": ["ab-test"]
+    },
+    {
+      "id": "seasonality",
+      "term": "Seasonality",
+      "definition": "A pattern in a time series that repeats on a fixed cycle, such as traffic peaking every evening or orders rising every weekend.",
+      "related": ["time-series-database"]
+    },
+    {
+      "id": "sequential-testing",
+      "term": "Sequential testing",
+      "definition": "Statistical tests designed to be checked repeatedly while an experiment runs, keeping the false-positive rate at the stated level even when people look at results every day.",
+      "aliases": ["peeking problem", "always-valid inference"],
+      "related": ["ab-test"]
     }
   ]
 }
