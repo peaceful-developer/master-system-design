@@ -149,6 +149,21 @@ describe('invalid content is rejected with the field named', () => {
     expect(errorsOf(ComponentCatalogSchema, c).join('\n')).toMatch(/components\.0\.sim\.instances/);
   });
 
+  it('component whose node subtitle is too long', () => {
+    const c = structuredClone(json('components.json')) as {
+      components: { label: string; shortLabel?: string }[];
+    };
+    c.components[0]!.label = 'Client application (any)';
+    delete c.components[0]!.shortLabel;
+    expect(errorsOf(ComponentCatalogSchema, c).join('\n')).toMatch(
+      /components\.0\.label: .*add a shortLabel/,
+    );
+    c.components[0]!.shortLabel = 'Client';
+    expect(errorsOf(ComponentCatalogSchema, c)).toEqual([]);
+    c.components[0]!.shortLabel = 'Still far too long here';
+    expect(errorsOf(ComponentCatalogSchema, c).join('\n')).toMatch(/components\.0\.shortLabel/);
+  });
+
   it('component catalog without the illustrative-values note', () => {
     const c = { ...(json('components.json') as object), note: 'Benchmarks' };
     expect(errorsOf(ComponentCatalogSchema, c).join('\n')).toMatch(/^note: /m);

@@ -83,6 +83,7 @@
     {
       "type": "serverless-function",
       "label": "Serverless function",
+      "shortLabel": "Serverless",
       "category": "compute",
       "icon": "serverless-function",
       "description": "Code that runs on demand and scales per request; you pay per invocation.",
@@ -122,6 +123,7 @@
     {
       "type": "sql-primary",
       "label": "SQL database (primary)",
+      "shortLabel": "SQL primary",
       "category": "data",
       "icon": "sql-primary",
       "description": "Relational database that accepts writes; the source of truth.",
@@ -296,6 +298,7 @@
     {
       "type": "model-server-cpu",
       "label": "Model server (CPU)",
+      "shortLabel": "CPU inference",
       "category": "ml",
       "icon": "model-server-cpu",
       "description": "Serves predictions from smaller models on CPU machines.",
@@ -309,6 +312,7 @@
     {
       "type": "model-server-gpu",
       "label": "Model server (GPU)",
+      "shortLabel": "GPU inference",
       "category": "ml",
       "icon": "model-server-gpu",
       "description": "Serves predictions from larger models on GPUs, batching requests together.",
@@ -323,6 +327,7 @@
     {
       "type": "batch-inference",
       "label": "Batch inference job",
+      "shortLabel": "Batch inference",
       "category": "ml",
       "icon": "batch-inference",
       "description": "Scores large datasets offline, usually on a schedule.",
@@ -349,6 +354,7 @@
     {
       "type": "llm-api",
       "label": "LLM endpoint (hosted API)",
+      "shortLabel": "Hosted LLM API",
       "category": "llm",
       "icon": "llm-api",
       "description": "A model provider’s API: pay per token and run no GPUs yourself.",
@@ -365,6 +371,7 @@
     {
       "type": "llm-self-hosted",
       "label": "Self-hosted LLM (GPU)",
+      "shortLabel": "Self-hosted LLM",
       "category": "llm",
       "icon": "llm-self-hosted",
       "description": "An open-weight model on your own GPUs, batching many requests at once.",
@@ -382,6 +389,7 @@
     {
       "type": "embedding-model",
       "label": "Embedding model",
+      "shortLabel": "Embeddings",
       "category": "llm",
       "icon": "embedding-model",
       "description": "Turns text or images into vectors so similar items end up close together.",
@@ -421,6 +429,7 @@
     {
       "type": "semantic-cache",
       "label": "Prompt / semantic cache",
+      "shortLabel": "Semantic cache",
       "category": "llm",
       "icon": "semantic-cache",
       "description": "Returns stored answers for repeated or very similar prompts.",
@@ -448,6 +457,7 @@
     {
       "type": "agent-orchestrator",
       "label": "Agent orchestrator",
+      "shortLabel": "Orchestrator",
       "category": "llm",
       "icon": "agent-orchestrator",
       "description": "Runs the plan, act, observe loop: calls the model and tools step by step.",
@@ -474,6 +484,7 @@
     {
       "type": "eval-service",
       "label": "Evaluation service",
+      "shortLabel": "Eval service",
       "category": "llm",
       "icon": "eval-service",
       "description": "Scores model outputs against test sets and rubrics.",

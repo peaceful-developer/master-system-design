@@ -131,7 +131,7 @@ let nextId = 0;
                 </svg>
                 <text class="diagram-node-label" x="48" y="34">{{ short(node.label) }}</text>
                 <text class="diagram-node-type" x="48" y="52">
-                  {{ node.typeLabel }}{{ node.instances > 1 ? ' ×' + node.instances : '' }}
+                  {{ node.typeShort }}{{ node.instances > 1 ? ' ×' + node.instances : '' }}
                 </text>
               </g>
             }

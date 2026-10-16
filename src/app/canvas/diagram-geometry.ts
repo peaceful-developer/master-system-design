@@ -16,6 +16,8 @@ export interface LaidOutNode {
   label: string;
   type: string;
   typeLabel: string;
+  /** The type name that fits under the node title. */
+  typeShort: string;
   category: ComponentCategory;
   icon: string;
   instances: number;
@@ -68,6 +70,7 @@ export function layoutDiagram(
       label: node.label,
       type: node.type,
       typeLabel: def?.label ?? node.type,
+      typeShort: def?.shortLabel ?? def?.label ?? node.type,
       category,
       icon: def?.icon ?? 'circle',
       instances: Number.isFinite(instances) ? instances : 1,

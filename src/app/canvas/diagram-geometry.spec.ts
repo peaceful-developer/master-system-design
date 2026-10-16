@@ -101,6 +101,20 @@ describe('layoutDiagram', () => {
     });
   });
 
+  it('gives nodes a subtitle from the short type label, falling back to the label', () => {
+    const long = {
+      ...comp('cache', 'data'),
+      label: 'Cache cluster (in memory)',
+      shortLabel: 'Cache',
+    };
+    const nodes = layoutDiagram(diagram, new Map([...catalog, ['cache', long]])).nodes;
+    expect(nodes.find((n) => n.id === 'k')).toMatchObject({
+      typeLabel: 'Cache cluster (in memory)',
+      typeShort: 'Cache',
+    });
+    expect(nodes.find((n) => n.id === 'a')?.typeShort).toBe('app-server');
+  });
+
   it('uses a default viewBox for an empty diagram', () => {
     expect(layoutDiagram({ id: 'x', nodes: [], edges: [] }, catalog).viewBox).toEqual({
       x: 0,

@@ -13,7 +13,7 @@ const comp = (type: string, label: string, category: ComponentDef['category']): 
 });
 const CATALOG = new Map([
   ['client', comp('client', 'Client', 'clients-edge')],
-  ['app-server', comp('app-server', 'App server', 'compute')],
+  ['app-server', { ...comp('app-server', 'App server', 'compute'), shortLabel: 'Server' }],
 ]);
 const DIAGRAM: Diagram = {
   id: 'demo',
@@ -67,6 +67,14 @@ describe('DiagramViewerComponent', () => {
     expect(text).toContain('Browser (Client)');
     expect(text).toContain('API (App server, ×3)');
     expect(text).toContain('Browser → API (HTTPS)');
+  });
+
+  it('puts the short type name under each node title', async () => {
+    const [first] = await render();
+    const subtitles = [...first!.querySelectorAll('.diagram-node-type')].map((t) =>
+      t.textContent!.trim(),
+    );
+    expect(subtitles).toEqual(['Client', 'Server ×3']);
   });
 
   it('shows a legend that names each category in words', async () => {

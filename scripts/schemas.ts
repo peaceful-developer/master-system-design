@@ -172,9 +172,14 @@ export const DiagramSchema = z
 
 // ------------------------------------------------------------ component catalog
 
+/** Diagram nodes show the component type under the node title; longer names spill out of the node. */
+export const NODE_SUBTITLE_MAX = 17;
+
 export const ComponentDefSchema = z.strictObject({
   type: slug,
   label: text(),
+  /** Shown under a node's title when `label` is too long to fit there. */
+  shortLabel: text().max(NODE_SUBTITLE_MAX).optional(),
   category: z.enum(COMPONENT_CATEGORIES),
   icon: slug,
   description: text(10),
@@ -202,6 +207,15 @@ export const ComponentCatalogSchema = z
         message: `duplicate type "${types[i]}"`,
       });
     }
+    catalog.components.forEach((c, i) => {
+      if (c.shortLabel === undefined && c.label.length > NODE_SUBTITLE_MAX) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['components', i, 'label'],
+          message: `too long to fit under a node title (over ${NODE_SUBTITLE_MAX} characters): add a shortLabel`,
+        });
+      }
+    });
   });
 
 // ------------------------------------------------------------- quizzes, drills
