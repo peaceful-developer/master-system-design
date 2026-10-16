@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { GlossaryTerm, LessonMeta } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
@@ -31,6 +31,9 @@ export function groupTerms(terms: readonly GlossaryTerm[]): LetterGroup[] {
   selector: 'app-glossary-page',
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './glossary.page.css',
   template: `
     <div class="page">
       <header class="page-header">

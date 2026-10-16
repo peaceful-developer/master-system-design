@@ -1,0 +1,45 @@
+/* Nav level chip */
+.game-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--color-black);
+  border-radius: 999px;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.game-chip:hover {
+  background-color: var(--color-ok-soft);
+}
+
+.game-chip-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding-left: 0.35rem;
+  border-left: 1px solid var(--color-rule);
+}
+
+.game-chip-streak-short {
+  display: none;
+}
+
+/* Below 1440px the chip shrinks to "Lv 4 · 6" so the nav stays on one row. */
+@media (max-width: 90rem) {
+  .game-chip-name,
+  .game-chip-streak-text {
+    display: none;
+  }
+
+  .game-chip-streak-short {
+    display: inline;
+  }
+}

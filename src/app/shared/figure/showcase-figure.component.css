@@ -1,0 +1,22 @@
+/* Showcase figure (home) */
+.showcase-figure {
+  margin-top: 1.5rem;
+  max-width: 75ch;
+}
+
+.showcase-figure-art {
+  overflow-x: auto;
+}
+
+.showcase-figure-art svg {
+  display: block;
+  width: 100%;
+  min-width: 32rem;
+  height: auto;
+}
+
+.showcase-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  text-align: center;
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { SeoService } from '../../core/seo/seo.service';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { REPO_URL } from '../../site';
@@ -30,6 +30,9 @@ const WAYS = [
   selector: 'app-contribute-page',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './contribute.page.css',
   template: `
     <div class="page">
       <header class="page-header">

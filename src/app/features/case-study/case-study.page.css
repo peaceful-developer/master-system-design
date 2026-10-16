@@ -1,0 +1,32 @@
+/* Case study page */
+.concept-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.concept-chip {
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  color: var(--color-fg);
+  font-size: 0.8125rem;
+  text-decoration: none;
+}
+
+.concept-chip:hover {
+  border-color: var(--color-fg);
+}
+
+.outline-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  max-width: 75ch;
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-rule);
+  border-left: 3px solid var(--color-sun);
+  border-radius: var(--radius-control);
+  background-color: var(--color-xp-soft);
+}

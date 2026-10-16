@@ -15,6 +15,7 @@
     "noUncheckedIndexedAccess": true,
     "paths": {
       "@content/types": ["./scripts/content-types.ts"],
+      "@content/search-options": ["./scripts/search-options.ts"],
       "@generated/*": ["./src/generated/*"]
     },
     "resolveJsonModule": true

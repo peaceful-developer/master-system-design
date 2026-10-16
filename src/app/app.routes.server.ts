@@ -12,6 +12,11 @@ export const serverRoutes: ServerRoute[] = [
     getPrerenderParams: async () => ROUTES.params.lessons,
   },
   {
+    path: 'case-studies/:slug',
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: async () => ROUTES.params.caseStudies,
+  },
+  {
     path: 'playbooks/:slug',
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => ROUTES.params.playbooks,

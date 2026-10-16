@@ -1,0 +1,108 @@
+/* Mascot */
+/* "Where should I start?" picker */
+.picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.picker-legend {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.picker-compact .picker-legend {
+  margin-bottom: 0.75rem;
+  font-size: 1.0625rem;
+}
+
+.picker-options {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.picker-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  cursor: pointer;
+}
+
+.picker-compact .picker-card {
+  padding: 0.625rem 0.875rem;
+}
+
+.picker-card:hover {
+  border-color: var(--color-fg);
+}
+
+.picker-card.is-selected {
+  border: 2px solid var(--color-parrot);
+  padding: calc(1rem - 1px) calc(1.125rem - 1px);
+}
+
+.picker-compact .picker-card.is-selected {
+  padding: calc(0.625rem - 1px) calc(0.875rem - 1px);
+}
+
+.picker-card:focus-within {
+  outline: 2px solid var(--color-fg);
+  outline-offset: 2px;
+}
+
+.picker-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.picker-card-title {
+  font-weight: 700;
+}
+
+.picker-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+}
+
+.is-selected .picker-check {
+  border-color: var(--color-parrot-deep);
+  background-color: var(--color-parrot);
+  color: var(--color-on-parrot);
+}
+
+.picker-card-detail {
+  font-size: 0.9375rem;
+}
+
+.picker-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background-color: var(--color-ok-soft);
+}
+
+.picker-fast-track {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+}

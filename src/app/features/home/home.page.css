@@ -1,0 +1,83 @@
+/* Home */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem 0 3rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.hero-title {
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-lead {
+  max-width: 55ch;
+  margin-top: 1rem;
+  font-size: 1.1875rem;
+}
+
+.hero-mascot {
+  flex-shrink: 0;
+}
+
+@media (max-width: 40rem) {
+  .hero-mascot {
+    display: none;
+  }
+}
+
+.home-section {
+  padding: 3rem 0 0;
+}
+
+.ladder {
+  display: grid;
+  gap: 0;
+  margin-top: 1.5rem;
+  max-width: 75ch;
+}
+
+.ladder-step {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.ladder-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-parrot-deep);
+  border-radius: 999px;
+  background-color: var(--color-parrot);
+  color: var(--color-on-parrot);
+  font-weight: 700;
+}
+
+.ladder-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.ladder-title a {
+  color: var(--color-fg);
+}
+
+.ladder-outcome {
+  margin-top: 0.35rem;
+}
+
+.ladder-meta {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+}

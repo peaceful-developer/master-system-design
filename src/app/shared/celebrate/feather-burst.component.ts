@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { REDUCED_MOTION } from '../../core/a11y/reduced-motion';
 import { ProgressStore } from '../../core/progress/progress.store';
 
@@ -11,6 +18,9 @@ const FEATHERS = [0, 1, 2, 3, 4, 5, 6, 7];
 @Component({
   selector: 'app-feather-burst',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './feather-burst.component.css',
   host: { 'aria-hidden': 'true', class: 'feather-burst-host' },
   template: `
     @if (show()) {
