@@ -1,0 +1,157 @@
+{
+  "id": "feed-ranking-hld",
+  "title": "Feed ranking: candidate sources, two-stage ranking and the training loop",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Apps",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "feed",
+      "type": "app-server",
+      "label": "Feed service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "timelines",
+      "type": "cache",
+      "label": "Timelines",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "postindex",
+      "type": "vector-db",
+      "label": "Post index",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "light",
+      "type": "model-server-cpu",
+      "label": "Light ranker",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "heavy",
+      "type": "model-server-gpu",
+      "label": "Heavy ranker",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Engagement",
+      "position": {
+        "x": 0,
+        "y": 510
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training",
+      "position": {
+        "x": 250,
+        "y": 510
+      }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "feed",
+      "label": "open feed"
+    },
+    {
+      "id": "e2",
+      "from": "feed",
+      "to": "timelines",
+      "label": "followed"
+    },
+    {
+      "id": "e3",
+      "from": "feed",
+      "to": "postindex",
+      "label": "unfollowed"
+    },
+    {
+      "id": "e4",
+      "from": "feed",
+      "to": "light",
+      "label": "1,500 posts"
+    },
+    {
+      "id": "e5",
+      "from": "light",
+      "to": "heavy",
+      "label": "top 300"
+    },
+    {
+      "id": "e6",
+      "from": "heavy",
+      "to": "features",
+      "label": "features"
+    },
+    {
+      "id": "e7",
+      "from": "client",
+      "to": "events",
+      "label": "likes, hides"
+    },
+    {
+      "id": "e8",
+      "from": "events",
+      "to": "training"
+    },
+    {
+      "id": "e9",
+      "from": "training",
+      "to": "registry",
+      "label": "daily"
+    },
+    {
+      "id": "e10",
+      "from": "registry",
+      "to": "heavy",
+      "label": "deploy"
+    }
+  ]
+}

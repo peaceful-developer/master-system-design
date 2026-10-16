@@ -161,6 +161,34 @@
         {
           "kind": "case-study",
           "ref": "video-recommendations"
+        },
+        {
+          "kind": "case-study",
+          "ref": "ads-ctr-prediction"
+        },
+        {
+          "kind": "case-study",
+          "ref": "search-ranking"
+        },
+        {
+          "kind": "case-study",
+          "ref": "fraud-detection"
+        },
+        {
+          "kind": "case-study",
+          "ref": "feed-ranking"
+        },
+        {
+          "kind": "case-study",
+          "ref": "people-you-may-know"
+        },
+        {
+          "kind": "case-study",
+          "ref": "content-moderation"
+        },
+        {
+          "kind": "case-study",
+          "ref": "eta-prediction"
         }
       ]
     },

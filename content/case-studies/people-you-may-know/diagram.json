@@ -1,0 +1,157 @@
+{
+  "id": "people-you-may-know-hld",
+  "title": "People you may know: nightly graph candidates and online ranking",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Members",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "api",
+      "type": "app-server",
+      "label": "PYMK API",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "cands",
+      "type": "nosql-store",
+      "label": "Candidate lists",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "candjob",
+      "type": "batch-inference",
+      "label": "Candidate job",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "graph",
+      "type": "nosql-store",
+      "label": "Social graph",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "ranker",
+      "type": "model-server-cpu",
+      "label": "Ranker",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Invite events",
+      "position": {
+        "x": 0,
+        "y": 340
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "api",
+      "label": "suggestions"
+    },
+    {
+      "id": "e2",
+      "from": "api",
+      "to": "cands",
+      "label": "1,000 ids"
+    },
+    {
+      "id": "e3",
+      "from": "candjob",
+      "to": "cands",
+      "label": "nightly"
+    },
+    {
+      "id": "e4",
+      "from": "graph",
+      "to": "candjob",
+      "label": "2-hop walks"
+    },
+    {
+      "id": "e5",
+      "from": "api",
+      "to": "ranker",
+      "label": "rank"
+    },
+    {
+      "id": "e6",
+      "from": "ranker",
+      "to": "features",
+      "label": "features"
+    },
+    {
+      "id": "e7",
+      "from": "client",
+      "to": "events",
+      "label": "invites"
+    },
+    {
+      "id": "e8",
+      "from": "events",
+      "to": "training"
+    },
+    {
+      "id": "e9",
+      "from": "training",
+      "to": "registry",
+      "label": "weekly"
+    },
+    {
+      "id": "e10",
+      "from": "registry",
+      "to": "ranker",
+      "label": "deploy"
+    }
+  ]
+}

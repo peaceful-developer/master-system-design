@@ -1,0 +1,156 @@
+{
+  "id": "eta-prediction-hld",
+  "title": "ETA prediction: live traffic, routing and a learned correction",
+  "nodes": [
+    {
+      "id": "drivers",
+      "type": "client",
+      "label": "Driver apps",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "pings",
+      "type": "event-stream",
+      "label": "GPS pings",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "mapmatch",
+      "type": "worker",
+      "label": "Map matching",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "traffic",
+      "type": "feature-store",
+      "label": "Live traffic",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "riders",
+      "type": "client",
+      "label": "Rider apps",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "eta",
+      "type": "app-server",
+      "label": "ETA service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "routing",
+      "type": "app-server",
+      "label": "Routing engine",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "model",
+      "type": "model-server-cpu",
+      "label": "ETA model",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "logs",
+      "type": "data-warehouse",
+      "label": "Trip logs",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training",
+      "position": {
+        "x": 250,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "drivers",
+      "to": "pings",
+      "label": "every 4 s"
+    },
+    {
+      "id": "e2",
+      "from": "pings",
+      "to": "mapmatch"
+    },
+    {
+      "id": "e3",
+      "from": "mapmatch",
+      "to": "traffic",
+      "label": "speeds"
+    },
+    {
+      "id": "e4",
+      "from": "traffic",
+      "to": "routing",
+      "label": "live speeds"
+    },
+    {
+      "id": "e5",
+      "from": "riders",
+      "to": "eta",
+      "label": "request"
+    },
+    {
+      "id": "e6",
+      "from": "eta",
+      "to": "routing",
+      "label": "route"
+    },
+    {
+      "id": "e7",
+      "from": "eta",
+      "to": "model",
+      "label": "correct"
+    },
+    {
+      "id": "e8",
+      "from": "eta",
+      "to": "logs",
+      "label": "predictions"
+    },
+    {
+      "id": "e9",
+      "from": "logs",
+      "to": "training"
+    },
+    {
+      "id": "e10",
+      "from": "training",
+      "to": "model",
+      "label": "daily"
+    }
+  ]
+}

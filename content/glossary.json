@@ -1462,6 +1462,113 @@
       "definition": "A cache for language model answers keyed by the meaning of a prompt rather than its exact text: a new prompt whose embedding is close enough to a cached one reuses the stored answer.",
       "aliases": ["Semantic caching"],
       "related": ["embedding", "caching"]
+    },
+    {
+      "id": "active-learning",
+      "term": "Active learning",
+      "definition": "Choosing which unlabeled examples people should label next, usually the ones the model is least sure about, so each label improves the model as much as possible.",
+      "related": ["human-in-the-loop"]
+    },
+    {
+      "id": "contraction-hierarchies",
+      "term": "Contraction hierarchies",
+      "definition": "A routing technique that precomputes shortcut edges over a road graph, so a shortest route across a large region is found in milliseconds instead of seconds.",
+      "related": ["map-matching"]
+    },
+    {
+      "id": "delayed-labels",
+      "term": "Delayed labels",
+      "definition": "Outcomes that become known only some time after a prediction is made, such as a click minutes later or a chargeback weeks later. Training must wait for them or correct for the ones not yet seen.",
+      "aliases": ["label delay", "delayed feedback"],
+      "related": ["online-learning", "offline-evaluation"]
+    },
+    {
+      "id": "feature-hashing",
+      "term": "Feature hashing",
+      "definition": "Turning a huge or open-ended set of categories, such as user ids or search words, into a fixed number of buckets with a hash function, so the model's input size stays bounded.",
+      "aliases": ["hashing trick"],
+      "related": ["embedding"]
+    },
+    {
+      "id": "gradient-boosted-trees",
+      "term": "Gradient-boosted trees",
+      "definition": "A model made of many small decision trees, each trained to fix the errors of the ones before it. A strong default for tabular data such as counts, amounts and categories.",
+      "aliases": ["GBDT", "XGBoost", "LightGBM"],
+      "related": ["ranking-model"]
+    },
+    {
+      "id": "graph-embedding",
+      "term": "Graph embedding",
+      "definition": "A vector for each node in a graph, learned from its connections, so that nodes that are close or similar in the graph get similar vectors.",
+      "aliases": ["node embedding"],
+      "related": ["embedding", "triadic-closure"]
+    },
+    {
+      "id": "inverted-index",
+      "term": "Inverted index",
+      "definition": "A map from each word to the list of documents that contain it, so a search can find all matching documents without scanning every one.",
+      "aliases": ["posting list"],
+      "related": ["index", "hybrid-search"]
+    },
+    {
+      "id": "learning-to-rank",
+      "term": "Learning to rank",
+      "definition": "Training a model to put a list of results in the best order, by learning from pairs or whole lists of results rather than scoring each one in isolation.",
+      "aliases": ["LTR"],
+      "related": ["ranking-model", "ndcg"]
+    },
+    {
+      "id": "map-matching",
+      "term": "Map matching",
+      "definition": "Snapping a sequence of noisy GPS points onto the road segments a vehicle most likely drove along.",
+      "related": ["stream-processing"]
+    },
+    {
+      "id": "multi-task-learning",
+      "term": "Multi-task learning",
+      "definition": "Training one model to predict several related outcomes at once, such as like, comment and hide, with shared layers and a separate output for each.",
+      "related": ["ranking-model"]
+    },
+    {
+      "id": "ndcg",
+      "term": "NDCG",
+      "definition": "Normalized discounted cumulative gain: a score from 0 to 1 for a ranked list that rewards putting the most relevant results at the top, where they count most.",
+      "aliases": ["normalized discounted cumulative gain"],
+      "related": ["offline-evaluation", "learning-to-rank"]
+    },
+    {
+      "id": "online-learning",
+      "term": "Online learning",
+      "definition": "Updating a model continuously or every few minutes with the newest labeled examples, instead of retraining from scratch on a fixed schedule.",
+      "aliases": ["continuous training", "incremental training"],
+      "related": ["delayed-labels", "data-drift"]
+    },
+    {
+      "id": "perceptual-hash",
+      "term": "Perceptual hash",
+      "definition": "A fingerprint of an image or video that stays nearly the same after resizing, cropping or recompression, so copies of known content can be matched quickly.",
+      "aliases": ["pHash"],
+      "related": ["simhash"]
+    },
+    {
+      "id": "position-bias",
+      "term": "Position bias",
+      "definition": "People click items near the top of a list more often just because they are near the top. Click data must be corrected for it, or a model learns to repeat its old order.",
+      "related": ["learning-to-rank", "ranking-model"]
+    },
+    {
+      "id": "switchback-experiment",
+      "term": "Switchback experiment",
+      "definition": "An experiment that switches a whole market, such as one city, between the old and new version in alternating time windows. It is used when users in the same market affect each other, which biases a per-user A/B test.",
+      "aliases": ["switchback test", "time-split experiment"],
+      "related": ["ab-test"]
+    },
+    {
+      "id": "triadic-closure",
+      "term": "Triadic closure",
+      "definition": "The tendency for two people with a friend in common to become friends themselves. It is why friends of friends are the best source of connection suggestions.",
+      "aliases": ["friends of friends"],
+      "related": ["graph-database", "graph-embedding"]
     }
   ]
 }

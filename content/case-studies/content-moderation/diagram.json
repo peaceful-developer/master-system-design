@@ -1,0 +1,147 @@
+{
+  "id": "content-moderation-hld",
+  "title": "Content moderation: inline checks, async scans and human review",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "post",
+      "type": "app-server",
+      "label": "Post service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "fast",
+      "type": "model-server-cpu",
+      "label": "Fast checks",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "hashes",
+      "type": "nosql-store",
+      "label": "Hash list",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "queue",
+      "type": "message-queue",
+      "label": "Scan queue",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "deep",
+      "type": "model-server-gpu",
+      "label": "Deep models",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "review",
+      "type": "worker",
+      "label": "Human review",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "labels",
+      "type": "data-warehouse",
+      "label": "Labels",
+      "position": {
+        "x": 760,
+        "y": 510
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "post",
+      "label": "posts, reports"
+    },
+    {
+      "id": "e2",
+      "from": "post",
+      "to": "fast",
+      "label": "pre-publish"
+    },
+    {
+      "id": "e3",
+      "from": "fast",
+      "to": "hashes",
+      "label": "hash match"
+    },
+    {
+      "id": "e4",
+      "from": "post",
+      "to": "queue",
+      "label": "published"
+    },
+    {
+      "id": "e5",
+      "from": "queue",
+      "to": "deep"
+    },
+    {
+      "id": "e6",
+      "from": "deep",
+      "to": "post",
+      "label": "enforce"
+    },
+    {
+      "id": "e7",
+      "from": "deep",
+      "to": "review",
+      "label": "uncertain"
+    },
+    {
+      "id": "e8",
+      "from": "review",
+      "to": "labels",
+      "label": "decisions"
+    },
+    {
+      "id": "e9",
+      "from": "labels",
+      "to": "training"
+    },
+    {
+      "id": "e10",
+      "from": "training",
+      "to": "deep",
+      "label": "weekly"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "id": "ads-ctr-prediction-hld",
+  "title": "Ads CTR prediction: scoring, auction and the 30-minute training loop",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Apps and sites",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "adserver",
+      "type": "app-server",
+      "label": "Ad server",
+      "position": {
+        "x": 250,
+        "y": 170
+      },
+      "config": {
+        "instances": 40
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "adindex",
+      "type": "search-index",
+      "label": "Ad index",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "ctr",
+      "type": "model-server-gpu",
+      "label": "CTR model",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Ad events",
+      "position": {
+        "x": 0,
+        "y": 340
+      }
+    },
+    {
+      "id": "joiner",
+      "type": "worker",
+      "label": "Label joiner",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "trainer",
+      "type": "training-pipeline",
+      "label": "Trainer",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "adserver",
+      "label": "ad request"
+    },
+    {
+      "id": "e2",
+      "from": "adserver",
+      "to": "features",
+      "label": "features"
+    },
+    {
+      "id": "e3",
+      "from": "adserver",
+      "to": "adindex",
+      "label": "300 ads"
+    },
+    {
+      "id": "e4",
+      "from": "adserver",
+      "to": "ctr",
+      "label": "score 300"
+    },
+    {
+      "id": "e5",
+      "from": "client",
+      "to": "events",
+      "label": "clicks"
+    },
+    {
+      "id": "e6",
+      "from": "adserver",
+      "to": "events",
+      "label": "impressions"
+    },
+    {
+      "id": "e7",
+      "from": "events",
+      "to": "joiner"
+    },
+    {
+      "id": "e8",
+      "from": "joiner",
+      "to": "trainer",
+      "label": "samples"
+    },
+    {
+      "id": "e9",
+      "from": "trainer",
+      "to": "registry"
+    },
+    {
+      "id": "e10",
+      "from": "registry",
+      "to": "ctr",
+      "label": "every 30 min"
+    }
+  ]
+}

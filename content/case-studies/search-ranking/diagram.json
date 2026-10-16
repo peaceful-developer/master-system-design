@@ -1,0 +1,157 @@
+{
+  "id": "search-ranking-hld",
+  "title": "Search ranking: query parsing, hybrid retrieval and two-stage ranking",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Shoppers",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "api",
+      "type": "app-server",
+      "label": "Search API",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "parser",
+      "type": "model-server-cpu",
+      "label": "Query parser",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "textidx",
+      "type": "search-index",
+      "label": "Text index",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "vecidx",
+      "type": "vector-db",
+      "label": "Vector index",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "ranker",
+      "type": "model-server-gpu",
+      "label": "Rankers",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "logs",
+      "type": "event-stream",
+      "label": "Search logs",
+      "position": {
+        "x": 0,
+        "y": 510
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "LTR training",
+      "position": {
+        "x": 250,
+        "y": 510
+      }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "api",
+      "label": "query"
+    },
+    {
+      "id": "e2",
+      "from": "api",
+      "to": "parser",
+      "label": "parse"
+    },
+    {
+      "id": "e3",
+      "from": "api",
+      "to": "textidx",
+      "label": "top 1,500"
+    },
+    {
+      "id": "e4",
+      "from": "api",
+      "to": "vecidx",
+      "label": "top 500"
+    },
+    {
+      "id": "e5",
+      "from": "api",
+      "to": "ranker",
+      "label": "rank 2,000"
+    },
+    {
+      "id": "e6",
+      "from": "ranker",
+      "to": "features",
+      "label": "features"
+    },
+    {
+      "id": "e7",
+      "from": "client",
+      "to": "logs",
+      "label": "clicks, buys"
+    },
+    {
+      "id": "e8",
+      "from": "logs",
+      "to": "training",
+      "label": "daily"
+    },
+    {
+      "id": "e9",
+      "from": "training",
+      "to": "registry"
+    },
+    {
+      "id": "e10",
+      "from": "registry",
+      "to": "ranker",
+      "label": "deploy"
+    }
+  ]
+}

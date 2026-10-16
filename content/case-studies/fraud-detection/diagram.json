@@ -1,0 +1,148 @@
+{
+  "id": "fraud-detection-hld",
+  "title": "Fraud detection: real-time scoring, streaming features and delayed labels",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Checkout",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "payapi",
+      "type": "app-server",
+      "label": "Payment API",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "scorer",
+      "type": "model-server-cpu",
+      "label": "Risk scorer",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "features",
+      "type": "feature-store",
+      "label": "Feature store",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Payment events",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "counters",
+      "type": "worker",
+      "label": "Stream counters",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "review",
+      "type": "worker",
+      "label": "Analyst review",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "labels",
+      "type": "data-warehouse",
+      "label": "Labels",
+      "position": {
+        "x": 250,
+        "y": 510
+      }
+    },
+    {
+      "id": "training",
+      "type": "training-pipeline",
+      "label": "Training",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "payapi",
+      "label": "pay"
+    },
+    {
+      "id": "e2",
+      "from": "payapi",
+      "to": "scorer",
+      "label": "score"
+    },
+    {
+      "id": "e3",
+      "from": "scorer",
+      "to": "features",
+      "label": "lookup"
+    },
+    {
+      "id": "e4",
+      "from": "payapi",
+      "to": "events",
+      "label": "payments"
+    },
+    {
+      "id": "e5",
+      "from": "events",
+      "to": "counters"
+    },
+    {
+      "id": "e6",
+      "from": "counters",
+      "to": "features",
+      "label": "velocity"
+    },
+    {
+      "id": "e7",
+      "from": "payapi",
+      "to": "review",
+      "label": "gray zone"
+    },
+    {
+      "id": "e8",
+      "from": "review",
+      "to": "labels",
+      "label": "verdicts"
+    },
+    {
+      "id": "e9",
+      "from": "labels",
+      "to": "training",
+      "label": "weekly"
+    },
+    {
+      "id": "e10",
+      "from": "training",
+      "to": "scorer",
+      "label": "deploy"
+    }
+  ]
+}
