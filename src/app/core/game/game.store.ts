@@ -1,5 +1,6 @@
 import {
   computed,
+  DestroyRef,
   effect,
   inject,
   Injectable,
@@ -37,6 +38,7 @@ export class GameStore {
   private readonly pendingTasks = inject(PendingTasks);
   private readonly meta = signal<GameMeta | null>(null);
   private loading = false;
+  private destroyed = false;
 
   /** True once progress and content metadata are both available. */
   readonly active = computed(() => this.progress.ready() && this.meta() !== null);
@@ -70,6 +72,7 @@ export class GameStore {
   );
 
   constructor() {
+    inject(DestroyRef).onDestroy(() => (this.destroyed = true));
     effect(() => {
       if (this.progress.ready() && !this.loading) {
         this.loading = true;
@@ -82,6 +85,8 @@ export class GameStore {
     const done = this.pendingTasks.add();
     try {
       const { ContentService } = await import('../content/content.service');
+      // The app (or a test) may have been torn down while the chunk loaded.
+      if (this.destroyed) return;
       const content = this.injector.get(ContentService);
       const lessonsByPhase = new Map<PhaseId, ItemKey[]>();
       for (const l of content.lessons()) {
