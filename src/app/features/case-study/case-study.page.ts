@@ -90,7 +90,7 @@ import { TRACK_LABELS } from '../case-studies/tracks';
           }
           @if (prerequisites().length > 0) {
             <p class="prerequisites mt-3 text-sm">
-              <span class="font-semibold">Read first:</span>
+              <span class="font-semibold">Read first: </span>
               @for (p of prerequisites(); track p.slug; let last = $last) {
                 <a [routerLink]="p.url">{{ p.title }}</a
                 >{{ last ? '' : ', ' }}

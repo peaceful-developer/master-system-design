@@ -52,6 +52,12 @@ describe('CaseStudyPage', () => {
     expect(prereq?.textContent).toContain('Case study url-shortener');
   });
 
+  it('separates the prerequisites label from the first link', async () => {
+    const el = await render('complete');
+    const line = el.querySelector('.prerequisites')?.textContent?.replace(/\s+/g, ' ').trim();
+    expect(line).toBe('Read first: Case study url-shortener');
+  });
+
   it('shows no outline banner for a complete case study', async () => {
     const el = await render('complete');
     expect(el.querySelector('.outline-banner')).toBeNull();
