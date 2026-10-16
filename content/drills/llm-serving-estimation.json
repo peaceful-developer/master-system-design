@@ -1,0 +1,36 @@
+{
+  "id": "llm-serving-estimation",
+  "title": "Size an LLM serving fleet",
+  "topics": ["estimation", "llm-systems", "gpus"],
+  "difficulty": "advanced",
+  "scenario": "Size the GPU fleet for a 70B-parameter model. Every value is an illustrative assumption. Use decimal units (1 GB = 10⁹ bytes, 1 MB = 10⁶ bytes). Anything within 25% counts.",
+  "givens": [
+    { "label": "Layers", "value": 80 },
+    { "label": "KV heads × head dimension", "value": "8 × 128" },
+    { "label": "Bytes per value (BF16)", "value": 2 },
+    { "label": "Peak requests", "value": 200, "unit": "per second" },
+    { "label": "Output tokens per request", "value": 300 },
+    { "label": "Time per request", "value": 12.5, "unit": "s" },
+    { "label": "Output tokens one replica sustains", "value": "2,500", "unit": "per second" },
+    { "label": "Headroom", "value": "1.3×" },
+    { "label": "GPUs per replica", "value": 4 },
+    { "label": "GPU price", "value": "$2.50 per GPU-hour" }
+  ],
+  "questions": [
+    {
+      "id": "kv-per-token",
+      "prompt": "KV cache per token (keys and values, all layers)",
+      "unit": "MB",
+      "answer": 0.328
+    },
+    {
+      "id": "in-flight",
+      "prompt": "Requests in progress at peak",
+      "unit": "requests",
+      "answer": 2500
+    },
+    { "id": "gpus", "prompt": "GPUs needed at peak, with headroom", "unit": "GPUs", "answer": 125 },
+    { "id": "cost", "prompt": "Cost per 1,000 requests at peak load", "unit": "$", "answer": 0.43 }
+  ],
+  "solution": "1. **KV per token:** 2 (K and V) × 80 layers × 8 × 128 values × 2 bytes = 327,680 bytes ≈ **0.33 MB**. A 1,300-token request holds about 430 MB.\n2. **In flight (Little's law):** 200 per second × 12.5 s = **2,500 requests** at once.\n3. **GPUs:** 200 × 300 = 60,000 output tokens per second ÷ 2,500 per replica = 24 replicas, × 1.3 ≈ 31 replicas × 4 GPUs ≈ **125 GPUs** (round up to 32 replicas, 128 GPUs).\n4. **Cost per 1,000 requests:** 125 GPUs × $2.50 = $312.50 per hour; at peak the fleet serves 200 × 3,600 = 720,000 requests per hour, or 720 thousand. $312.50 ÷ 720 ≈ **$0.43**. Averaged over a day with lower traffic, the cost per request is higher unless the fleet scales down."
+}

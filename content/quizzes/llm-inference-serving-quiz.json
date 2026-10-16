@@ -1,0 +1,80 @@
+{
+  "id": "llm-inference-serving-quiz",
+  "title": "LLM inference serving at scale",
+  "topics": ["case-study", "llm-systems", "gpus"],
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "id": "replica-size",
+      "prompt": "A 70B-parameter model in BF16 (2 bytes per parameter) is served on 80 GB GPUs. What's the smallest sensible replica?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "1 GPU" },
+        { "id": "b", "text": "2 GPUs, with almost no room for the KV cache" },
+        { "id": "c", "text": "4 GPUs, leaving roughly 150 GB for the KV cache" }
+      ],
+      "correct": ["c"],
+      "explanation": "Weights alone are 140 GB. Two GPUs (160 GB) would hold them but leave too little memory for the KV cache, so batch size would be tiny. Four GPUs leave room to batch many requests."
+    },
+    {
+      "id": "batching",
+      "prompt": "Why does batching raise decode throughput so much?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "It reduces the number of tokens generated" },
+        {
+          "id": "b",
+          "text": "Each decode step reads all the weights from memory; batching produces a token for many sequences per read"
+        },
+        { "id": "c", "text": "It lets the GPU skip attention" }
+      ],
+      "correct": ["b"],
+      "explanation": "Decode is limited by memory bandwidth, not arithmetic. One pass over the weights can serve dozens of sequences almost as fast as one."
+    },
+    {
+      "id": "littles-law",
+      "prompt": "Requests arrive at 200 per second and each takes about 12.5 seconds to complete. How many are in progress at once?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "About 16" },
+        { "id": "b", "text": "About 2,500" },
+        { "id": "c", "text": "About 200" }
+      ],
+      "correct": ["b"],
+      "explanation": "Little's law: in-flight = arrival rate × time in system = 200 × 12.5 = 2,500 sequences, each needing KV cache memory somewhere."
+    },
+    {
+      "id": "levers",
+      "prompt": "Which changes typically lower cost per output token?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Quantizing weights to 8 bits after checking quality" },
+        { "id": "b", "text": "Paged KV cache memory, allowing larger batches" },
+        { "id": "c", "text": "Reserving the maximum context length for every request" },
+        { "id": "d", "text": "Filling idle night-time capacity with batch jobs" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Fewer bytes per weight, bigger batches and higher utilization all spread GPU cost over more tokens. Reserving max context wastes memory and shrinks batches."
+    },
+    {
+      "id": "overload",
+      "prompt": "Traffic spikes beyond capacity. What's the best behaviour?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Queue every request until capacity frees up" },
+        {
+          "id": "b",
+          "text": "Admit what can meet the latency SLO, shed batch traffic first, and reject the rest quickly with 429 and Retry-After"
+        },
+        { "id": "c", "text": "Lower the batch size to speed up each request" }
+      ],
+      "correct": ["b"],
+      "explanation": "Unbounded queues turn into timeouts that waste GPU time on answers nobody receives. Fast, honest rejection plus priorities keeps the service useful for the traffic it accepts."
+    }
+  ]
+}

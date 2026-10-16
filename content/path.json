@@ -123,6 +123,10 @@
       "items": [
         {
           "kind": "case-study",
+          "ref": "llm-inference-serving"
+        },
+        {
+          "kind": "case-study",
           "ref": "enterprise-rag"
         }
       ]

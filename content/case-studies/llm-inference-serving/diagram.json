@@ -1,0 +1,137 @@
+{
+  "id": "llm-inference-serving-hld",
+  "title": "LLM inference serving: routing, batching and autoscaling",
+  "nodes": [
+    {
+      "id": "clients",
+      "type": "client",
+      "label": "Clients",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "API gateway",
+      "position": {
+        "x": 250,
+        "y": 170
+      },
+      "config": {
+        "instances": 6
+      }
+    },
+    {
+      "id": "cache",
+      "type": "semantic-cache",
+      "label": "Response cache",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "router",
+      "type": "app-server",
+      "label": "Router + queues",
+      "position": {
+        "x": 500,
+        "y": 170
+      },
+      "config": {
+        "instances": 4
+      }
+    },
+    {
+      "id": "replicas",
+      "type": "model-server-gpu",
+      "label": "Model replicas",
+      "position": {
+        "x": 760,
+        "y": 170
+      },
+      "config": {
+        "instances": 32
+      }
+    },
+    {
+      "id": "registry",
+      "type": "model-registry",
+      "label": "Model registry",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "autoscaler",
+      "type": "scheduler",
+      "label": "Autoscaler",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Quality evals",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "clients",
+      "to": "gateway",
+      "label": "prompts"
+    },
+    {
+      "id": "e2",
+      "from": "gateway",
+      "to": "cache",
+      "label": "exact repeats"
+    },
+    {
+      "id": "e3",
+      "from": "gateway",
+      "to": "router",
+      "label": "auth, quotas"
+    },
+    {
+      "id": "e4",
+      "from": "router",
+      "to": "replicas",
+      "label": "by prefix"
+    },
+    {
+      "id": "e5",
+      "from": "registry",
+      "to": "replicas",
+      "label": "load weights"
+    },
+    {
+      "id": "e6",
+      "from": "router",
+      "to": "autoscaler",
+      "label": "queue depth, TTFT"
+    },
+    {
+      "id": "e7",
+      "from": "autoscaler",
+      "to": "replicas",
+      "label": "add or drain"
+    },
+    {
+      "id": "e8",
+      "from": "evals",
+      "to": "registry",
+      "label": "approves"
+    }
+  ]
+}
