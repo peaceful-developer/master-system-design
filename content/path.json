@@ -109,6 +109,18 @@
         {
           "kind": "case-study",
           "ref": "video-streaming"
+        },
+        {
+          "kind": "case-study",
+          "ref": "file-sync"
+        },
+        {
+          "kind": "case-study",
+          "ref": "ride-matching"
+        },
+        {
+          "kind": "case-study",
+          "ref": "payment-system"
         }
       ]
     },
@@ -125,6 +137,14 @@
         {
           "kind": "case-study",
           "ref": "search-autocomplete"
+        },
+        {
+          "kind": "case-study",
+          "ref": "message-queue"
+        },
+        {
+          "kind": "case-study",
+          "ref": "metrics-monitoring"
         }
       ]
     },

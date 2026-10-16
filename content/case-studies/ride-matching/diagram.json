@@ -1,0 +1,62 @@
+{
+  "id": "ride-matching-hld",
+  "title": "Ride matching: location updates, geo index and dispatch",
+  "nodes": [
+    { "id": "drivers", "type": "client", "label": "Driver apps", "position": { "x": 0, "y": 0 } },
+    { "id": "riders", "type": "client", "label": "Rider apps", "position": { "x": 0, "y": 340 } },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "Gateway",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "locsvc",
+      "type": "app-server",
+      "label": "Location service",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "loclog",
+      "type": "event-stream",
+      "label": "Location log",
+      "position": { "x": 760, "y": 0 }
+    },
+    {
+      "id": "matcher",
+      "type": "app-server",
+      "label": "Matcher",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "geo",
+      "type": "cache",
+      "label": "Geo index",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 6 }
+    },
+    {
+      "id": "trips",
+      "type": "app-server",
+      "label": "Trip service",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "tripsdb",
+      "type": "sql-primary",
+      "label": "Trips DB",
+      "position": { "x": 760, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "drivers", "to": "gateway", "label": "GPS every 4 s" },
+    { "id": "e2", "from": "riders", "to": "gateway", "label": "request ride" },
+    { "id": "e3", "from": "gateway", "to": "locsvc", "label": "positions" },
+    { "id": "e4", "from": "gateway", "to": "matcher", "label": "requests" },
+    { "id": "e5", "from": "locsvc", "to": "geo", "label": "update cell" },
+    { "id": "e6", "from": "locsvc", "to": "loclog", "label": "append" },
+    { "id": "e7", "from": "matcher", "to": "geo", "label": "find nearby" },
+    { "id": "e8", "from": "matcher", "to": "trips", "label": "assign" },
+    { "id": "e9", "from": "trips", "to": "tripsdb", "label": "trip state" }
+  ]
+}

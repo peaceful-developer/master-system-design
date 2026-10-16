@@ -1295,6 +1295,112 @@
       "definition": "Precision is the share of items a model flags that really are positive; recall is the share of all real positives that it flags. Raising one usually lowers the other.",
       "aliases": ["precision", "recall", "precision-recall curve"],
       "related": ["class-imbalance", "offline-evaluation"]
+    },
+    {
+      "id": "append-only-log",
+      "term": "Append-only log",
+      "definition": "A sequence of records that only grows at the end and is never changed in place. Each record has a position, called an offset, and each reader remembers how far it has read.",
+      "aliases": ["commit log"],
+      "related": ["sequence-number", "lsm-tree"]
+    },
+    {
+      "id": "card-tokenization",
+      "term": "Card tokenization",
+      "definition": "Replacing a card number with a random token that is useless if stolen. Only the payment provider or a secured vault can turn the token back into the card.",
+      "aliases": ["payment tokenization"]
+    },
+    {
+      "id": "cardinality",
+      "term": "Cardinality",
+      "definition": "The number of distinct values something can take. In monitoring, it is the number of unique label combinations a metric has, and so the number of separate time series it creates.",
+      "aliases": ["high cardinality"],
+      "related": ["time-series-database", "index"]
+    },
+    {
+      "id": "consumer-group",
+      "term": "Consumer group",
+      "definition": "A set of consumers that share the work of reading a partitioned topic. Each partition is read by one member at a time, and the group stores an offset per partition that says how far it has processed.",
+      "related": ["pub-sub", "message-queue", "append-only-log"]
+    },
+    {
+      "id": "content-addressable-storage",
+      "term": "Content-addressable storage",
+      "definition": "Storing each piece of data under a hash of its contents. Identical data gets the same name, so it is stored only once, and anyone can check that a block matches its name.",
+      "aliases": ["content-addressed storage"],
+      "related": ["delta-sync", "object-storage"]
+    },
+    {
+      "id": "delta-sync",
+      "term": "Delta sync",
+      "definition": "Syncing a changed file by sending only the parts that changed. The file is split into blocks, and only blocks the server doesn't already have are uploaded.",
+      "aliases": ["block-level sync"],
+      "related": ["content-addressable-storage", "bandwidth"]
+    },
+    {
+      "id": "double-entry-ledger",
+      "term": "Double-entry ledger",
+      "definition": "A record of money movements in which every transaction is written as debit and credit entries that sum to zero. A bug or a missing entry shows up as a balance that doesn't add up.",
+      "related": ["transaction", "reconciliation"]
+    },
+    {
+      "id": "downsampling",
+      "term": "Downsampling",
+      "definition": "Replacing detailed data with coarser summaries as it ages, such as one point per hour that keeps the min, max, sum and count of the 360 ten-second points it replaces. Long-range queries then read far fewer points.",
+      "aliases": ["rollup"],
+      "related": ["time-series-database"]
+    },
+    {
+      "id": "erasure-coding",
+      "term": "Erasure coding",
+      "definition": "Splitting data into fragments and adding a few extra parity fragments, so the original can be rebuilt from any large enough subset. It survives several lost disks for roughly 1.5× the storage, instead of 3× for three full copies.",
+      "related": ["replication", "object-storage"]
+    },
+    {
+      "id": "geospatial-index",
+      "term": "Geospatial index",
+      "definition": "An index that quickly finds the points near a location. It usually divides the map into cells, such as geohashes, quadtree squares or hexagons, and searches only the cells around the query point.",
+      "related": ["index", "sharding"]
+    },
+    {
+      "id": "in-sync-replicas",
+      "term": "In-sync replicas",
+      "definition": "The replicas of a partition that are fully caught up with its leader. A write is committed once all of them have it, and only they can become leader without losing committed data.",
+      "aliases": ["ISR"],
+      "related": ["leader-follower", "replication"]
+    },
+    {
+      "id": "object-storage",
+      "term": "Object storage",
+      "definition": "A service that stores files and large blobs as whole objects addressed by a key, such as Amazon S3. It is cheap, very durable and almost unlimited in size, but objects are replaced rather than edited in place.",
+      "aliases": ["blob storage"],
+      "related": ["erasure-coding", "cdn"]
+    },
+    {
+      "id": "optimistic-concurrency-control",
+      "term": "Optimistic concurrency control",
+      "definition": "Letting writers work without locks, then accepting a write only if the data still has the version the writer started from. If someone else changed it first, the write is rejected and must be retried or merged.",
+      "aliases": ["compare-and-set", "conditional write"],
+      "related": ["lock", "race-condition"]
+    },
+    {
+      "id": "reconciliation",
+      "term": "Reconciliation",
+      "definition": "Regularly comparing your own records with an independent source, such as a payment provider's settlement report, to find and fix every mismatch.",
+      "related": ["double-entry-ledger"]
+    },
+    {
+      "id": "time-series-database",
+      "term": "Time-series database",
+      "definition": "A database built for streams of timestamped measurements, such as a server's CPU use every 10 seconds. It appends points in time order, compresses them heavily and answers queries over time ranges.",
+      "aliases": ["TSDB"],
+      "related": ["downsampling", "cardinality"]
+    },
+    {
+      "id": "transactional-outbox",
+      "term": "Transactional outbox",
+      "definition": "Writing an outgoing event to an outbox table in the same database transaction as the change it describes. A separate relay then publishes outbox rows, so an event is never lost or sent for a change that didn't commit.",
+      "aliases": ["outbox pattern"],
+      "related": ["transaction", "change-data-capture", "at-least-once"]
     }
   ]
 }

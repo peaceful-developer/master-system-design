@@ -1,0 +1,47 @@
+{
+  "id": "message-queue-hld",
+  "title": "Distributed message queue: one partition from producer to consumer",
+  "nodes": [
+    { "id": "producers", "type": "client", "label": "Producers", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "consumers",
+      "type": "client",
+      "label": "Consumer group",
+      "position": { "x": 0, "y": 340 }
+    },
+    {
+      "id": "leader",
+      "type": "event-stream",
+      "label": "Partition leader",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "followers",
+      "type": "event-stream",
+      "label": "Followers",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 2 }
+    },
+    {
+      "id": "tiered",
+      "type": "object-storage",
+      "label": "Tiered storage",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "controller",
+      "type": "app-server",
+      "label": "Controllers",
+      "position": { "x": 500, "y": 340 },
+      "config": { "instances": 3 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "producers", "to": "leader", "label": "batches" },
+    { "id": "e2", "from": "consumers", "to": "leader", "label": "fetch" },
+    { "id": "e3", "from": "leader", "to": "followers", "label": "replicate" },
+    { "id": "e4", "from": "leader", "to": "tiered", "label": "old segments" },
+    { "id": "e5", "from": "controller", "to": "leader", "label": "elect leader" },
+    { "id": "e6", "from": "followers", "to": "controller", "label": "heartbeats" }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "metrics-monitoring-hld",
+  "title": "Metrics and monitoring: ingest, storage, queries and alerts",
+  "nodes": [
+    { "id": "dashboards", "type": "client", "label": "Dashboards", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "query",
+      "type": "app-server",
+      "label": "Query service",
+      "position": { "x": 500, "y": 0 }
+    },
+    { "id": "hosts", "type": "client", "label": "Host agents", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "collectors",
+      "type": "app-server",
+      "label": "Collectors",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "ingest",
+      "type": "event-stream",
+      "label": "Ingest log",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "tsdb",
+      "type": "nosql-store",
+      "label": "TSDB nodes",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 12 }
+    },
+    {
+      "id": "blocks",
+      "type": "object-storage",
+      "label": "Object storage",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "downsampler",
+      "type": "worker",
+      "label": "Downsampler",
+      "position": { "x": 760, "y": 510 }
+    },
+    { "id": "rules", "type": "worker", "label": "Rule engine", "position": { "x": 500, "y": 340 } },
+    {
+      "id": "alerts",
+      "type": "app-server",
+      "label": "Alert manager",
+      "position": { "x": 250, "y": 340 }
+    },
+    { "id": "oncall", "type": "client", "label": "On-call", "position": { "x": 0, "y": 340 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "dashboards", "to": "query", "label": "queries" },
+    { "id": "e2", "from": "query", "to": "tsdb", "label": "fan out" },
+    { "id": "e3", "from": "hosts", "to": "collectors", "label": "every 10 s" },
+    { "id": "e4", "from": "collectors", "to": "ingest", "label": "append" },
+    { "id": "e5", "from": "ingest", "to": "tsdb", "label": "consume" },
+    { "id": "e6", "from": "tsdb", "to": "blocks", "label": "2-hour blocks" },
+    { "id": "e7", "from": "downsampler", "to": "blocks", "label": "rollups" },
+    { "id": "e8", "from": "rules", "to": "tsdb", "label": "evaluate" },
+    { "id": "e9", "from": "rules", "to": "alerts", "label": "firing" },
+    { "id": "e10", "from": "alerts", "to": "oncall", "label": "page" }
+  ]
+}

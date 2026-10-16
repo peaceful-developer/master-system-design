@@ -1,0 +1,60 @@
+{
+  "id": "file-sync-hld",
+  "title": "File sync and storage: blocks, metadata and change notification",
+  "nodes": [
+    { "id": "client", "type": "client", "label": "Sync clients", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "API gateway",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "blocksvc",
+      "type": "app-server",
+      "label": "Block service",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "blocks",
+      "type": "object-storage",
+      "label": "Block store",
+      "position": { "x": 760, "y": 0 }
+    },
+    {
+      "id": "metasvc",
+      "type": "app-server",
+      "label": "Metadata service",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "metadb",
+      "type": "sql-primary",
+      "label": "Metadata DB",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 8 }
+    },
+    {
+      "id": "changes",
+      "type": "pub-sub",
+      "label": "Change events",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "notifier",
+      "type": "app-server",
+      "label": "Notifier",
+      "position": { "x": 250, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "gateway" },
+    { "id": "e2", "from": "gateway", "to": "blocksvc", "label": "new blocks" },
+    { "id": "e3", "from": "gateway", "to": "metasvc", "label": "commit" },
+    { "id": "e4", "from": "blocksvc", "to": "blocks", "label": "by hash" },
+    { "id": "e5", "from": "metasvc", "to": "metadb", "label": "new version" },
+    { "id": "e6", "from": "metasvc", "to": "changes", "label": "changed" },
+    { "id": "e7", "from": "changes", "to": "notifier", "label": "wake" },
+    { "id": "e8", "from": "client", "to": "notifier", "label": "long poll" }
+  ]
+}

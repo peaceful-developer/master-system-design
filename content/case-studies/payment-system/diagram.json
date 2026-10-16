@@ -1,0 +1,59 @@
+{
+  "id": "payment-system-hld",
+  "title": "Payment system: charge, outbox, ledger and reconciliation",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Checkout apps",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "API gateway",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "paysvc",
+      "type": "app-server",
+      "label": "Payment service",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "psp",
+      "type": "app-server",
+      "label": "External PSPs",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "paydb",
+      "type": "sql-primary",
+      "label": "Payments DB",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "recon",
+      "type": "scheduler",
+      "label": "Reconciliation",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "events",
+      "type": "event-stream",
+      "label": "Payment events",
+      "position": { "x": 500, "y": 510 }
+    },
+    { "id": "ledger", "type": "sql-primary", "label": "Ledger", "position": { "x": 760, "y": 510 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "gateway", "label": "pay + key" },
+    { "id": "e2", "from": "gateway", "to": "paysvc" },
+    { "id": "e3", "from": "paysvc", "to": "psp", "label": "authorize" },
+    { "id": "e4", "from": "paysvc", "to": "paydb", "label": "state + outbox" },
+    { "id": "e5", "from": "paydb", "to": "events", "label": "outbox relay" },
+    { "id": "e6", "from": "events", "to": "ledger", "label": "entries" },
+    { "id": "e7", "from": "psp", "to": "recon", "label": "settlement file" },
+    { "id": "e8", "from": "recon", "to": "ledger", "label": "compare" }
+  ]
+}
