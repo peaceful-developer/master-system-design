@@ -1,0 +1,33 @@
+{
+  "id": "enterprise-rag-estimation",
+  "title": "Tokens and cost for a RAG assistant",
+  "topics": ["estimation", "llm-systems"],
+  "difficulty": "intermediate",
+  "scenario": "Estimate token throughput and cost for an internal question-answering assistant. All prices are illustrative assumptions. Anything within 25% counts.",
+  "givens": [
+    { "label": "Questions per working day", "value": "200,000" },
+    { "label": "Working hours per day", "value": 8 },
+    { "label": "Peak factor", "value": "3× the working-hours average" },
+    { "label": "Input tokens per question", "value": 2500 },
+    { "label": "Output tokens per question", "value": 300 },
+    { "label": "Input price", "value": "$3 per million tokens" },
+    { "label": "Output price", "value": "$15 per million tokens" }
+  ],
+  "questions": [
+    {
+      "id": "peak-qps",
+      "prompt": "Peak questions per second",
+      "unit": "questions/s",
+      "answer": 20.8
+    },
+    {
+      "id": "peak-output",
+      "prompt": "Peak output tokens per second",
+      "unit": "tokens/s",
+      "answer": 6250
+    },
+    { "id": "per-1k", "prompt": "Cost per 1,000 questions", "unit": "$", "answer": 12 },
+    { "id": "per-day", "prompt": "Cost per working day", "unit": "$", "answer": 2400 }
+  ],
+  "solution": "1. **Peak questions:** 200,000 ÷ (8 × 3,600 s) ≈ 6.9 per second during working hours, × 3 ≈ **21 per second**.\n2. **Peak output tokens:** 20.8 × 300 ≈ **6,250 tokens per second** (and 20.8 × 2,500 ≈ 52,000 input tokens per second).\n3. **Cost per 1,000 questions:** input 2,500 × $3 ÷ 1,000,000 = $0.0075; output 300 × $15 ÷ 1,000,000 = $0.0045; total $0.012 per question = **$12 per 1,000**.\n4. **Daily cost:** 200,000 × $0.012 = **$2,400 per working day**. Input tokens are 62% of the cost, so retrieving fewer, better passages is the main cost lever."
+}

@@ -120,7 +120,12 @@
       "number": 4,
       "title": "LLM systems",
       "summary": "Building fast, reliable and affordable products on top of large language models.",
-      "items": []
+      "items": [
+        {
+          "kind": "case-study",
+          "ref": "enterprise-rag"
+        }
+      ]
     },
     {
       "id": "frontier-infrastructure",

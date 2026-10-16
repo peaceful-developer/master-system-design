@@ -1,0 +1,160 @@
+{
+  "id": "enterprise-rag-hld",
+  "title": "Enterprise RAG: question answering over company documents",
+  "nodes": [
+    {
+      "id": "user",
+      "type": "client",
+      "label": "Employees",
+      "position": {
+        "x": 0,
+        "y": 210
+      }
+    },
+    {
+      "id": "qa",
+      "type": "app-server",
+      "label": "Q&A service",
+      "position": {
+        "x": 250,
+        "y": 210
+      },
+      "config": {
+        "instances": 4
+      }
+    },
+    {
+      "id": "guard",
+      "type": "guardrail",
+      "label": "Guardrails",
+      "position": {
+        "x": 250,
+        "y": 30
+      }
+    },
+    {
+      "id": "embed",
+      "type": "embedding-model",
+      "label": "Embedding model",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "vdb",
+      "type": "vector-db",
+      "label": "Vector index",
+      "position": {
+        "x": 500,
+        "y": 140
+      }
+    },
+    {
+      "id": "kw",
+      "type": "search-index",
+      "label": "Keyword index",
+      "position": {
+        "x": 500,
+        "y": 280
+      }
+    },
+    {
+      "id": "rerank",
+      "type": "reranker",
+      "label": "Reranker",
+      "position": {
+        "x": 500,
+        "y": 420
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-api",
+      "label": "LLM",
+      "position": {
+        "x": 250,
+        "y": 420
+      }
+    },
+    {
+      "id": "sources",
+      "type": "object-storage",
+      "label": "Sources",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "ingest",
+      "type": "worker",
+      "label": "Ingestion",
+      "position": {
+        "x": 760,
+        "y": 140
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "user",
+      "to": "qa",
+      "label": "question"
+    },
+    {
+      "id": "e2",
+      "from": "qa",
+      "to": "guard",
+      "label": "check in and out"
+    },
+    {
+      "id": "e3",
+      "from": "qa",
+      "to": "embed",
+      "label": "embed question"
+    },
+    {
+      "id": "e4",
+      "from": "qa",
+      "to": "vdb",
+      "label": "vector search"
+    },
+    {
+      "id": "e5",
+      "from": "qa",
+      "to": "kw",
+      "label": "keyword search"
+    },
+    {
+      "id": "e6",
+      "from": "qa",
+      "to": "rerank",
+      "label": "rerank 40"
+    },
+    {
+      "id": "e7",
+      "from": "qa",
+      "to": "llm",
+      "label": "prompt + 5 passages"
+    },
+    {
+      "id": "e8",
+      "from": "sources",
+      "to": "ingest",
+      "label": "changes"
+    },
+    {
+      "id": "e9",
+      "from": "ingest",
+      "to": "vdb",
+      "label": "upsert chunks"
+    },
+    {
+      "id": "e10",
+      "from": "ingest",
+      "to": "kw"
+    }
+  ]
+}

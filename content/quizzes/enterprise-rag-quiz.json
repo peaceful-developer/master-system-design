@@ -1,0 +1,83 @@
+{
+  "id": "enterprise-rag-quiz",
+  "title": "Enterprise RAG Q&A",
+  "topics": ["case-study", "llm-systems", "retrieval"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "why-rag",
+      "prompt": "Why is RAG preferred over fine-tuning an LLM on the company's documents for this assistant?",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Answers can cite the exact source passages" },
+        { "id": "b", "text": "Changed documents are reflected within an hour without retraining" },
+        { "id": "c", "text": "Permissions can be enforced per document at retrieval time" },
+        { "id": "d", "text": "RAG never makes mistakes" }
+      ],
+      "correct": ["a", "b", "c"],
+      "explanation": "Retrieval keeps knowledge fresh, traceable and permission-aware. It reduces, but doesn't eliminate, wrong answers, which is why evaluation and citation checks still matter."
+    },
+    {
+      "id": "permissions",
+      "prompt": "Where should document permissions be enforced?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "In the prompt: tell the model not to reveal restricted content" },
+        {
+          "id": "b",
+          "text": "As a filter inside the retrieval query, so restricted chunks are never retrieved or sent to the model"
+        },
+        { "id": "c", "text": "After the answer is generated, by deleting restricted sentences" }
+      ],
+      "correct": ["b"],
+      "explanation": "Anything placed in the prompt can leak into the answer. Filtering at retrieval keeps restricted text away from the model entirely."
+    },
+    {
+      "id": "hybrid",
+      "prompt": "Someone asks about error code \"E-4021\". Why add keyword search alongside vector search?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Keyword search is always more accurate" },
+        {
+          "id": "b",
+          "text": "Exact identifiers like error codes are matched reliably by keywords, while embeddings may blur them"
+        },
+        { "id": "c", "text": "Vector search can't handle numbers at all" }
+      ],
+      "correct": ["b"],
+      "explanation": "Vectors capture meaning; keywords capture exact strings. Hybrid search gets both, and fusion merges the result lists."
+    },
+    {
+      "id": "cost",
+      "prompt": "Prompts average 2,500 input tokens and answers 300 output tokens. With prices of $3 per million input and $15 per million output tokens, roughly what does one question cost?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "About $0.0012" },
+        { "id": "b", "text": "About $0.012" },
+        { "id": "c", "text": "About $0.12" }
+      ],
+      "correct": ["b"],
+      "explanation": "2,500 × $3/1M = $0.0075 and 300 × $15/1M = $0.0045, so about $0.012 per question, or $12 per thousand."
+    },
+    {
+      "id": "evaluate",
+      "prompt": "You change the chunk size. How should you decide whether to keep the change?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Try a few questions by hand" },
+        {
+          "id": "b",
+          "text": "Rerun a curated test set measuring retrieval recall, answer faithfulness and citation precision, then confirm with online feedback"
+        },
+        { "id": "c", "text": "Keep it if answers get longer" }
+      ],
+      "correct": ["b"],
+      "explanation": "A fixed test set with retrieval and answer metrics catches regressions that spot checks miss; online signals confirm the effect on real use."
+    }
+  ]
+}
