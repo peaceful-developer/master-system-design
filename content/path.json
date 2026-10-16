@@ -77,6 +77,10 @@
         {
           "kind": "playbook",
           "ref": "system-design-interview-framework"
+        },
+        {
+          "kind": "case-study",
+          "ref": "url-shortener"
         }
       ]
     },

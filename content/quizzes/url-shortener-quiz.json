@@ -1,0 +1,80 @@
+{
+  "id": "url-shortener-quiz",
+  "title": "URL shortener",
+  "topics": ["case-study", "caching", "id-generation"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "read-heavy",
+      "prompt": "With about 100 redirects for every link created, which part of the design matters most for performance?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Making link creation as fast as possible" },
+        { "id": "b", "text": "Serving redirects from a cache, because reads dominate" },
+        { "id": "c", "text": "Compressing long URLs" }
+      ],
+      "correct": ["b"],
+      "explanation": "Reads outnumber writes 100 to 1, and a few links get most clicks, so caching redirects removes most of the load."
+    },
+    {
+      "id": "status-code",
+      "prompt": "Why does the design return 302 rather than 301 for redirects?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "302 is faster for browsers" },
+        {
+          "id": "b",
+          "text": "Browsers cache 301s, so later clicks skip our servers, breaking click counts and link expiry"
+        },
+        { "id": "c", "text": "301 is not allowed for external URLs" }
+      ],
+      "correct": ["b"],
+      "explanation": "A permanent redirect is remembered by browsers. That saves load but means we stop seeing clicks and can't expire or take down a link for people who already followed it."
+    },
+    {
+      "id": "code-length",
+      "prompt": "Why use 7 base62 characters for 6 billion random codes, when 6 characters give 57 billion?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Base62 requires an odd length" },
+        {
+          "id": "b",
+          "text": "With 6 characters the space would be over 10% full, so random codes would collide often; 7 characters keep it under 0.2% full"
+        },
+        { "id": "c", "text": "Six characters can't represent letters" }
+      ],
+      "correct": ["b"],
+      "explanation": "Random generation needs plenty of spare space: the collision rate equals the fraction of codes already used."
+    },
+    {
+      "id": "counter-problems",
+      "prompt": "What are the problems with a single global counter encoded in base62?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "It is a bottleneck and a single point of failure" },
+        { "id": "b", "text": "Sequential codes let anyone enumerate every link" },
+        { "id": "c", "text": "It produces collisions" },
+        { "id": "d", "text": "It needs coordination on every link creation" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "A counter never collides, but one shared counter needs coordination per write and makes codes guessable. Handing out ranges and scrambling numbers fixes most of that."
+    },
+    {
+      "id": "cache-outage",
+      "prompt": "The cache cluster fails during peak traffic with a 95% hit rate. Roughly how much does read load on the store increase?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "About 5%" },
+        { "id": "b", "text": "About 2×" },
+        { "id": "c", "text": "About 20×" }
+      ],
+      "correct": ["c"],
+      "explanation": "With a 95% hit rate the store serves 5% of reads. Without the cache it serves 100%: twenty times as much. Size the store, or protect it, for that case."
+    }
+  ]
+}

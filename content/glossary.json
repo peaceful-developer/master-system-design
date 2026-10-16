@@ -906,6 +906,68 @@
       "term": "Context window",
       "definition": "The maximum number of tokens a language model can handle in one request, counting both the prompt and the answer.",
       "related": ["token", "rag"]
+    },
+    {
+      "id": "base62-encoding",
+      "term": "Base62 encoding",
+      "definition": "Writing a number with 62 symbols (0–9, a–z and A–Z), so short strings cover huge ranges: 7 characters give about 3.5 trillion values.",
+      "related": ["distributed-id-generation"]
+    },
+    {
+      "id": "distributed-id-generation",
+      "term": "Distributed ID generation",
+      "definition": "Producing unique identifiers on many servers without one bottleneck, for example by handing out counter ranges or combining a timestamp, a machine id and a sequence number.",
+      "related": ["base62-encoding"]
+    },
+    {
+      "id": "hybrid-search",
+      "term": "Hybrid search",
+      "definition": "Combining keyword search, which is good at exact terms, with vector search, which is good at meaning, and merging the two result lists.",
+      "related": ["vector-database", "rag"]
+    },
+    {
+      "id": "kv-cache",
+      "term": "KV cache",
+      "definition": "The attention keys and values a language model has already computed for earlier tokens, kept in GPU memory so each new token doesn't reprocess the whole sequence. It often limits how many requests fit on a GPU.",
+      "related": ["continuous-batching", "prefill-and-decode"]
+    },
+    {
+      "id": "continuous-batching",
+      "term": "Continuous batching",
+      "definition": "Adding new requests to a running batch and removing finished ones at every generation step, instead of waiting for the whole batch to finish, which keeps GPUs busy.",
+      "aliases": ["in-flight batching"],
+      "related": ["kv-cache"]
+    },
+    {
+      "id": "prefill-and-decode",
+      "term": "Prefill and decode",
+      "definition": "The two phases of language model generation: prefill processes the whole prompt in parallel and is compute-bound; decode produces output tokens one at a time and is limited by memory bandwidth.",
+      "related": ["time-to-first-token", "kv-cache"]
+    },
+    {
+      "id": "time-to-first-token",
+      "term": "Time to first token",
+      "definition": "How long a user waits before the first word of a streamed answer appears; mostly queueing plus prefill.",
+      "aliases": ["TTFT"],
+      "related": ["prefill-and-decode"]
+    },
+    {
+      "id": "tensor-parallelism",
+      "term": "Tensor parallelism",
+      "definition": "Splitting each layer's weight matrices across several GPUs so a model too large for one GPU can run, at the cost of fast GPU-to-GPU communication on every layer.",
+      "related": ["quantization"]
+    },
+    {
+      "id": "quantization",
+      "term": "Quantization",
+      "definition": "Storing model weights, and sometimes activations, in fewer bits (such as 8 or 4 instead of 16) to cut memory use and speed up inference at a small cost in accuracy.",
+      "related": ["tensor-parallelism"]
+    },
+    {
+      "id": "speculative-decoding",
+      "term": "Speculative decoding",
+      "definition": "A small draft model proposes several tokens and the large model checks them in one pass. Accepted tokens come almost for free, speeding up generation without changing the output distribution.",
+      "related": ["prefill-and-decode"]
     }
   ]
 }
