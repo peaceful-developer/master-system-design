@@ -1,5 +1,6 @@
 import type { Routes } from '@angular/router';
 import {
+  caseStudyResolver,
   exampleResolver,
   exerciseResolver,
   lessonResolver,
@@ -20,6 +21,17 @@ export const routes: Routes = [
     path: 'learn/:phase/:lesson',
     loadComponent: () => import('./features/lesson/lesson.page').then((m) => m.LessonPage),
     resolve: { lesson: lessonResolver },
+  },
+  {
+    path: 'case-studies',
+    loadComponent: () =>
+      import('./features/case-studies/case-studies.page').then((m) => m.CaseStudiesPage),
+  },
+  {
+    path: 'case-studies/:slug',
+    loadComponent: () =>
+      import('./features/case-study/case-study.page').then((m) => m.CaseStudyPage),
+    resolve: { caseStudy: caseStudyResolver },
   },
   {
     path: 'playbooks',
