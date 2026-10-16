@@ -1,0 +1,55 @@
+{
+  "id": "multi-agent-orchestrator-hld",
+  "title": "Multi-agent orchestrator: durable run history, step queues and workers",
+  "nodes": [
+    { "id": "reviewers", "type": "client", "label": "Reviewers", "position": { "x": 0, "y": 0 } },
+    { "id": "clients", "type": "client", "label": "Apps", "position": { "x": 0, "y": 170 } },
+    { "id": "api", "type": "api-gateway", "label": "Runs API", "position": { "x": 250, "y": 170 } },
+    {
+      "id": "orchestrator",
+      "type": "agent-orchestrator",
+      "label": "Orchestrator",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "history",
+      "type": "sql-primary",
+      "label": "Run history",
+      "position": { "x": 760, "y": 170 }
+    },
+    { "id": "evals", "type": "eval-service", "label": "Evals", "position": { "x": 760, "y": 0 } },
+    {
+      "id": "queues",
+      "type": "message-queue",
+      "label": "Step queues",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "artifacts",
+      "type": "object-storage",
+      "label": "Artifacts",
+      "position": { "x": 760, "y": 340 }
+    },
+    { "id": "llm", "type": "llm-api", "label": "LLM gateway", "position": { "x": 250, "y": 510 } },
+    {
+      "id": "workers",
+      "type": "worker",
+      "label": "Agent workers",
+      "position": { "x": 500, "y": 510 },
+      "config": { "instances": 40 }
+    },
+    { "id": "tools", "type": "tool", "label": "Tool gateway", "position": { "x": 760, "y": 510 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "clients", "to": "api", "label": "start run" },
+    { "id": "e2", "from": "reviewers", "to": "api", "label": "approve" },
+    { "id": "e3", "from": "api", "to": "orchestrator" },
+    { "id": "e4", "from": "orchestrator", "to": "history", "label": "append" },
+    { "id": "e5", "from": "orchestrator", "to": "queues", "label": "ready steps" },
+    { "id": "e6", "from": "queues", "to": "workers", "label": "lease" },
+    { "id": "e7", "from": "workers", "to": "llm", "label": "prompts" },
+    { "id": "e8", "from": "workers", "to": "tools", "label": "tool calls" },
+    { "id": "e9", "from": "workers", "to": "artifacts", "label": "outputs" },
+    { "id": "e10", "from": "history", "to": "evals", "label": "recorded runs" }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "vector-search-hld",
+  "title": "Vector search: sharded ANN queries and a log-based write path",
+  "nodes": [
+    { "id": "apps", "type": "client", "label": "Applications", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "api",
+      "type": "api-gateway",
+      "label": "Vector API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "embed",
+      "type": "embedding-model",
+      "label": "Embeddings",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "router",
+      "type": "app-server",
+      "label": "Query router",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "recall",
+      "type": "eval-service",
+      "label": "Recall monitor",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "keyword",
+      "type": "search-index",
+      "label": "Keyword index",
+      "position": { "x": 760, "y": 0 }
+    },
+    {
+      "id": "shards",
+      "type": "vector-db",
+      "label": "Index shards",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 32 }
+    },
+    {
+      "id": "log",
+      "type": "event-stream",
+      "label": "Write log",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "builder",
+      "type": "worker",
+      "label": "Index builder",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "snapshots",
+      "type": "object-storage",
+      "label": "Snapshots",
+      "position": { "x": 760, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "apps", "to": "api", "label": "query, upsert" },
+    { "id": "e2", "from": "api", "to": "embed", "label": "embed text" },
+    { "id": "e3", "from": "api", "to": "router", "label": "vector" },
+    { "id": "e4", "from": "router", "to": "shards", "label": "fan out" },
+    { "id": "e5", "from": "router", "to": "keyword", "label": "keywords" },
+    { "id": "e6", "from": "router", "to": "recall", "label": "samples" },
+    { "id": "e7", "from": "api", "to": "log", "label": "upserts" },
+    { "id": "e8", "from": "log", "to": "shards", "label": "apply" },
+    { "id": "e9", "from": "builder", "to": "shards", "label": "segments" },
+    { "id": "e10", "from": "builder", "to": "snapshots", "label": "upload" }
+  ]
+}

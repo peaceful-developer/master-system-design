@@ -1,0 +1,58 @@
+{
+  "id": "support-agent-hld",
+  "title": "Support agent: retrieval, scoped tools and human handoff",
+  "nodes": [
+    { "id": "customers", "type": "client", "label": "Customers", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "channels",
+      "type": "api-gateway",
+      "label": "Channels",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "agent",
+      "type": "agent-orchestrator",
+      "label": "Support agent",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 4 }
+    },
+    { "id": "guard", "type": "guardrail", "label": "Guardrails", "position": { "x": 500, "y": 0 } },
+    {
+      "id": "articles",
+      "type": "vector-db",
+      "label": "Help articles",
+      "position": { "x": 760, "y": 0 }
+    },
+    { "id": "llm", "type": "llm-api", "label": "LLM", "position": { "x": 760, "y": 170 } },
+    {
+      "id": "humans",
+      "type": "client",
+      "label": "Human agents",
+      "position": { "x": 250, "y": 340 }
+    },
+    { "id": "tools", "type": "tool", "label": "Order tools", "position": { "x": 500, "y": 340 } },
+    {
+      "id": "transcripts",
+      "type": "event-stream",
+      "label": "Transcripts",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "QA and evals",
+      "position": { "x": 760, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "customers", "to": "channels", "label": "messages" },
+    { "id": "e2", "from": "channels", "to": "agent", "label": "verified id" },
+    { "id": "e3", "from": "agent", "to": "guard", "label": "check reply" },
+    { "id": "e4", "from": "agent", "to": "articles", "label": "policies" },
+    { "id": "e5", "from": "agent", "to": "llm", "label": "next step" },
+    { "id": "e6", "from": "agent", "to": "tools", "label": "tool calls" },
+    { "id": "e7", "from": "agent", "to": "humans", "label": "handoff" },
+    { "id": "e8", "from": "agent", "to": "transcripts", "label": "outcomes" },
+    { "id": "e9", "from": "transcripts", "to": "evals", "label": "samples" }
+  ]
+}

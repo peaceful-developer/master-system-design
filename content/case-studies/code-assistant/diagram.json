@@ -1,0 +1,68 @@
+{
+  "id": "code-assistant-hld",
+  "title": "Code assistant: fast inline completions and repository-aware chat",
+  "nodes": [
+    { "id": "ide", "type": "client", "label": "Editor plugin", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "Edge gateway",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "completion",
+      "type": "app-server",
+      "label": "Completions",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 12 }
+    },
+    {
+      "id": "code-model",
+      "type": "llm-self-hosted",
+      "label": "Code model",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "telemetry",
+      "type": "event-stream",
+      "label": "Telemetry",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "agent",
+      "type": "agent-orchestrator",
+      "label": "Chat agent",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "chat-model",
+      "type": "llm-api",
+      "label": "Chat model",
+      "position": { "x": 760, "y": 340 }
+    },
+    { "id": "evals", "type": "eval-service", "label": "Evals", "position": { "x": 250, "y": 510 } },
+    {
+      "id": "sandbox",
+      "type": "tool",
+      "label": "Test sandbox",
+      "position": { "x": 500, "y": 510 }
+    },
+    {
+      "id": "index",
+      "type": "vector-db",
+      "label": "Code index",
+      "position": { "x": 760, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "ide", "to": "gateway", "label": "context" },
+    { "id": "e2", "from": "gateway", "to": "completion" },
+    { "id": "e3", "from": "completion", "to": "code-model", "label": "FIM prompt" },
+    { "id": "e4", "from": "gateway", "to": "agent", "label": "chat, edits" },
+    { "id": "e5", "from": "agent", "to": "chat-model", "label": "tools" },
+    { "id": "e6", "from": "agent", "to": "sandbox", "label": "run tests" },
+    { "id": "e7", "from": "agent", "to": "index", "label": "search" },
+    { "id": "e8", "from": "gateway", "to": "telemetry", "label": "accepts" },
+    { "id": "e9", "from": "telemetry", "to": "evals", "label": "metrics" }
+  ]
+}

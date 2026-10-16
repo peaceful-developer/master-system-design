@@ -1,0 +1,75 @@
+{
+  "id": "llm-gateway-hld",
+  "title": "LLM gateway: budgets, routing and failover across model providers",
+  "nodes": [
+    { "id": "apps", "type": "client", "label": "Internal apps", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "LLM gateway",
+      "position": { "x": 250, "y": 170 },
+      "config": { "instances": 6 }
+    },
+    { "id": "budgets", "type": "cache", "label": "Budgets", "position": { "x": 250, "y": 0 } },
+    {
+      "id": "cache",
+      "type": "semantic-cache",
+      "label": "Response cache",
+      "position": { "x": 250, "y": 340 }
+    },
+    {
+      "id": "router",
+      "type": "app-server",
+      "label": "Model router",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "redact",
+      "type": "guardrail",
+      "label": "PII redaction",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "provider-a",
+      "type": "llm-api",
+      "label": "Provider A",
+      "position": { "x": 760, "y": 0 }
+    },
+    {
+      "id": "provider-b",
+      "type": "llm-api",
+      "label": "Provider B",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "self-hosted",
+      "type": "llm-self-hosted",
+      "label": "Self-hosted",
+      "position": { "x": 760, "y": 340 }
+    },
+    {
+      "id": "usage",
+      "type": "event-stream",
+      "label": "Usage log",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Router evals",
+      "position": { "x": 500, "y": 510 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "apps", "to": "gateway", "label": "model alias" },
+    { "id": "e2", "from": "gateway", "to": "budgets", "label": "reserve tokens" },
+    { "id": "e3", "from": "gateway", "to": "cache", "label": "lookup" },
+    { "id": "e4", "from": "gateway", "to": "router" },
+    { "id": "e5", "from": "router", "to": "redact", "label": "redact" },
+    { "id": "e6", "from": "router", "to": "provider-a" },
+    { "id": "e7", "from": "router", "to": "provider-b", "label": "stream" },
+    { "id": "e8", "from": "router", "to": "self-hosted" },
+    { "id": "e9", "from": "router", "to": "usage", "label": "usage" },
+    { "id": "e10", "from": "usage", "to": "evals", "label": "samples" }
+  ]
+}

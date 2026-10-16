@@ -172,11 +172,35 @@
       "items": [
         {
           "kind": "case-study",
+          "ref": "chat-assistant"
+        },
+        {
+          "kind": "case-study",
           "ref": "llm-inference-serving"
         },
         {
           "kind": "case-study",
           "ref": "enterprise-rag"
+        },
+        {
+          "kind": "case-study",
+          "ref": "code-assistant"
+        },
+        {
+          "kind": "case-study",
+          "ref": "vector-search"
+        },
+        {
+          "kind": "case-study",
+          "ref": "support-agent"
+        },
+        {
+          "kind": "case-study",
+          "ref": "multi-agent-orchestrator"
+        },
+        {
+          "kind": "case-study",
+          "ref": "llm-gateway"
         },
         {
           "kind": "case-study",

@@ -1401,6 +1401,67 @@
       "definition": "Writing an outgoing event to an outbox table in the same database transaction as the change it describes. A separate relay then publishes outbox rows, so an event is never lost or sent for a change that didn't commit.",
       "aliases": ["outbox pattern"],
       "related": ["transaction", "change-data-capture", "at-least-once"]
+    },
+    {
+      "id": "circuit-breaker",
+      "term": "Circuit breaker",
+      "definition": "A guard around calls to a dependency that stops sending requests after repeated failures, fails fast for a cooldown period, then lets a few trial requests through to test whether it has recovered.",
+      "related": ["retry-with-backoff", "failover"]
+    },
+    {
+      "id": "durable-execution",
+      "term": "Durable execution",
+      "definition": "Running a long workflow so that the result of every completed step is recorded. After a crash or restart, it resumes from the last recorded step instead of starting over or repeating side effects.",
+      "aliases": ["Durable workflow"],
+      "related": ["idempotency-key"]
+    },
+    {
+      "id": "fill-in-the-middle",
+      "term": "Fill-in-the-middle",
+      "definition": "A way of training and prompting code models with the text both before and after the cursor, so the model writes the missing piece in between instead of only continuing from the end.",
+      "aliases": ["FIM"],
+      "related": ["context-window", "token"]
+    },
+    {
+      "id": "hnsw",
+      "term": "HNSW",
+      "definition": "Hierarchical navigable small world: a graph index for approximate nearest neighbor search. Each vector links to nearby vectors across a few layers, and a search walks the graph greedily toward the query.",
+      "aliases": ["Hierarchical navigable small world"],
+      "related": ["approximate-nearest-neighbor", "vector-database"]
+    },
+    {
+      "id": "model-routing",
+      "term": "Model routing",
+      "definition": "Choosing which language model handles each request, for example sending simple requests to a small, cheap model and hard ones to a large model, to balance quality, latency and cost.",
+      "aliases": ["LLM routing"],
+      "related": ["latency-budget"]
+    },
+    {
+      "id": "pass-at-k",
+      "term": "pass@k",
+      "definition": "A code-generation metric: the share of problems for which at least one of k generated solutions passes the problem's unit tests.",
+      "aliases": ["pass@1"],
+      "related": ["offline-evaluation"]
+    },
+    {
+      "id": "product-quantization",
+      "term": "Product quantization",
+      "definition": "Compressing vectors by splitting each one into short sub-vectors and replacing each sub-vector with the id of its closest entry in a learned codebook, so a vector takes tens of bytes instead of thousands.",
+      "aliases": ["PQ"],
+      "related": ["approximate-nearest-neighbor", "quantization"]
+    },
+    {
+      "id": "recall-at-k",
+      "term": "Recall@k",
+      "definition": "The share of the truly relevant items, or the true nearest neighbors, that appear in the top k results. It measures how much a retrieval step or an approximate index misses.",
+      "related": ["approximate-nearest-neighbor", "offline-evaluation"]
+    },
+    {
+      "id": "semantic-cache",
+      "term": "Semantic cache",
+      "definition": "A cache for language model answers keyed by the meaning of a prompt rather than its exact text: a new prompt whose embedding is close enough to a cached one reuses the stored answer.",
+      "aliases": ["Semantic caching"],
+      "related": ["embedding", "caching"]
     }
   ]
 }
