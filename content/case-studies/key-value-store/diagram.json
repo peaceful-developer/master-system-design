@@ -1,0 +1,105 @@
+{
+  "id": "key-value-store-hld",
+  "title": "Distributed key-value store: ring, replicas and repair",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Clients",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "router",
+      "type": "load-balancer",
+      "label": "Request router",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "coordinator",
+      "type": "app-server",
+      "label": "Coordinator node",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "replica-a",
+      "type": "nosql-store",
+      "label": "Replica A",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "replica-b",
+      "type": "nosql-store",
+      "label": "Replica B",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "replica-c",
+      "type": "nosql-store",
+      "label": "Replica C",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "repair",
+      "type": "worker",
+      "label": "Anti-entropy",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "router",
+      "label": "get / put"
+    },
+    {
+      "id": "e2",
+      "from": "router",
+      "to": "coordinator",
+      "label": "by key hash"
+    },
+    {
+      "id": "e3",
+      "from": "coordinator",
+      "to": "replica-a",
+      "label": "write N=3"
+    },
+    {
+      "id": "e4",
+      "from": "coordinator",
+      "to": "replica-b"
+    },
+    {
+      "id": "e5",
+      "from": "coordinator",
+      "to": "replica-c"
+    },
+    {
+      "id": "e6",
+      "from": "repair",
+      "to": "replica-c",
+      "label": "Merkle sync"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "chat-app-hld",
+  "title": "Chat application: connections, sessions, messages and inboxes",
+  "nodes": [
+    { "id": "apps", "type": "client", "label": "Chat apps", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "lb",
+      "type": "load-balancer",
+      "label": "Load balancer",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "chat",
+      "type": "app-server",
+      "label": "Chat servers",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 500 }
+    },
+    { "id": "sessions", "type": "cache", "label": "Sessions", "position": { "x": 500, "y": 0 } },
+    {
+      "id": "messages",
+      "type": "nosql-store",
+      "label": "Message store",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "inboxes",
+      "type": "nosql-store",
+      "label": "Inboxes",
+      "position": { "x": 760, "y": 0 }
+    },
+    { "id": "push", "type": "worker", "label": "Push notifier", "position": { "x": 500, "y": 340 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "apps", "to": "lb", "label": "WebSocket" },
+    { "id": "e2", "from": "lb", "to": "chat" },
+    { "id": "e3", "from": "chat", "to": "sessions", "label": "who is where" },
+    { "id": "e4", "from": "chat", "to": "messages", "label": "append" },
+    { "id": "e5", "from": "chat", "to": "inboxes", "label": "fan-out" },
+    { "id": "e6", "from": "chat", "to": "push", "label": "if offline" }
+  ]
+}

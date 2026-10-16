@@ -1,0 +1,59 @@
+{
+  "id": "video-streaming-hld",
+  "title": "Video streaming: upload, transcode and CDN delivery",
+  "nodes": [
+    { "id": "creators", "type": "client", "label": "Creators", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "upload",
+      "type": "app-server",
+      "label": "Upload API",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "jobs",
+      "type": "message-queue",
+      "label": "Transcode jobs",
+      "position": { "x": 500, "y": 0 }
+    },
+    {
+      "id": "transcoders",
+      "type": "worker",
+      "label": "Transcoders",
+      "position": { "x": 760, "y": 0 },
+      "config": { "instances": 300 }
+    },
+    {
+      "id": "playback",
+      "type": "app-server",
+      "label": "Playback API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "metadata",
+      "type": "sql-primary",
+      "label": "Metadata",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "storage",
+      "type": "object-storage",
+      "label": "Video storage",
+      "position": { "x": 760, "y": 170 }
+    },
+    { "id": "viewers", "type": "client", "label": "Viewers", "position": { "x": 0, "y": 340 } },
+    { "id": "edges", "type": "cdn", "label": "CDN edges", "position": { "x": 250, "y": 340 } },
+    { "id": "shield", "type": "cdn", "label": "Origin shield", "position": { "x": 500, "y": 340 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "creators", "to": "upload", "label": "8 MB parts" },
+    { "id": "e2", "from": "upload", "to": "jobs", "label": "new video" },
+    { "id": "e3", "from": "jobs", "to": "transcoders" },
+    { "id": "e4", "from": "transcoders", "to": "storage", "label": "segments" },
+    { "id": "e5", "from": "upload", "to": "storage", "label": "original" },
+    { "id": "e6", "from": "viewers", "to": "playback", "label": "play" },
+    { "id": "e7", "from": "playback", "to": "metadata", "label": "manifest" },
+    { "id": "e8", "from": "viewers", "to": "edges", "label": "segments" },
+    { "id": "e9", "from": "edges", "to": "shield", "label": "miss" },
+    { "id": "e10", "from": "shield", "to": "storage", "label": "miss" }
+  ]
+}

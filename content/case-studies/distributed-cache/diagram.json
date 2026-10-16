@@ -1,0 +1,56 @@
+{
+  "id": "distributed-cache-hld",
+  "title": "Distributed cache: routing, shards and invalidation",
+  "nodes": [
+    { "id": "app", "type": "app-server", "label": "App servers", "position": { "x": 0, "y": 170 } },
+    {
+      "id": "router",
+      "type": "load-balancer",
+      "label": "Cache router",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "config",
+      "type": "nosql-store",
+      "label": "Shard map",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "shards",
+      "type": "cache",
+      "label": "Cache shards",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 100 }
+    },
+    {
+      "id": "replicas",
+      "type": "cache",
+      "label": "Replicas",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 100 }
+    },
+    { "id": "db", "type": "sql-primary", "label": "Database", "position": { "x": 250, "y": 340 } },
+    {
+      "id": "changelog",
+      "type": "event-stream",
+      "label": "Change log",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "invalidator",
+      "type": "worker",
+      "label": "Invalidator",
+      "position": { "x": 760, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "app", "to": "router", "label": "get / set" },
+    { "id": "e2", "from": "config", "to": "router", "label": "shard map" },
+    { "id": "e3", "from": "router", "to": "shards", "label": "by key hash" },
+    { "id": "e4", "from": "shards", "to": "replicas", "label": "replicate" },
+    { "id": "e5", "from": "app", "to": "db", "label": "on miss" },
+    { "id": "e6", "from": "db", "to": "changelog", "label": "row changes" },
+    { "id": "e7", "from": "changelog", "to": "invalidator" },
+    { "id": "e8", "from": "invalidator", "to": "shards", "label": "delete key" }
+  ]
+}

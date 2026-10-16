@@ -968,6 +968,128 @@
       "term": "Speculative decoding",
       "definition": "A small draft model proposes several tokens and the large model checks them in one pass. Accepted tokens come almost for free, speeding up generation without changing the output distribution.",
       "related": ["prefill-and-decode"]
+    },
+    {
+      "id": "vector-clock",
+      "term": "Vector clock",
+      "definition": "A list of counters, one per replica, attached to each version of a value. Comparing two vector clocks shows whether one write happened before the other or whether they conflict.",
+      "related": ["leaderless", "eventual-consistency"]
+    },
+    {
+      "id": "gossip-protocol",
+      "term": "Gossip protocol",
+      "definition": "Each node periodically shares what it knows, such as which nodes are alive, with a few random peers. Information spreads through the whole cluster in a few rounds without a central coordinator.",
+      "related": ["health-check"]
+    },
+    {
+      "id": "hinted-handoff",
+      "term": "Hinted handoff",
+      "definition": "When a replica is unreachable, another node accepts its writes along with a hint naming the intended owner, and forwards them once the owner recovers.",
+      "related": ["leaderless", "quorum"]
+    },
+    {
+      "id": "merkle-tree",
+      "term": "Merkle tree",
+      "definition": "A tree of hashes where each parent hashes its children. Two replicas compare roots and walk down only the branches that differ, finding mismatched keys quickly.",
+      "aliases": ["Hash tree"],
+      "related": ["replication"]
+    },
+    {
+      "id": "adaptive-bitrate-streaming",
+      "term": "Adaptive bitrate streaming",
+      "definition": "Splitting a video into short segments encoded at several qualities, so the player can switch quality every few seconds to match the viewer's bandwidth.",
+      "aliases": ["ABR", "HLS", "DASH"],
+      "related": ["transcoding", "cdn", "bandwidth"]
+    },
+    {
+      "id": "bloom-filter",
+      "term": "Bloom filter",
+      "definition": "A compact bit array that answers \"definitely not seen\" or \"probably seen\" for an item. It uses little memory and never gives false negatives.",
+      "related": ["hash-partitioning"]
+    },
+    {
+      "id": "change-data-capture",
+      "term": "Change data capture",
+      "definition": "Reading a database's own change log to stream every insert, update and delete to other systems, such as a cache invalidator or a search index.",
+      "aliases": ["CDC"],
+      "related": ["cache-invalidation", "pub-sub"]
+    },
+    {
+      "id": "crawl-politeness",
+      "term": "Crawl politeness",
+      "definition": "Rules a web crawler follows so it does not overload a site: obey robots.txt and wait between requests to the same host.",
+      "aliases": ["politeness policy", "robots.txt"],
+      "related": ["url-frontier", "rate-limiting"]
+    },
+    {
+      "id": "debouncing",
+      "term": "Debouncing",
+      "definition": "Waiting until input has paused for a short time, such as 100 ms, before acting on it, so a burst of keystrokes sends one request instead of many.",
+      "related": ["rate-limiting"]
+    },
+    {
+      "id": "device-token",
+      "term": "Device token",
+      "definition": "An address issued by Apple's or Google's push service that identifies one app install on one device. The server sends a push notification to this token, and it can change or expire.",
+      "aliases": ["push token"],
+      "related": ["message-queue"]
+    },
+    {
+      "id": "origin-shield",
+      "term": "Origin shield",
+      "definition": "A middle cache layer between CDN edge servers and the origin, so a cache miss at many edges becomes one request to the origin.",
+      "related": ["cdn", "request-coalescing"]
+    },
+    {
+      "id": "presence",
+      "term": "Presence",
+      "definition": "Showing whether a user is online, usually tracked with periodic heartbeats from their device and a short timeout.",
+      "related": ["websocket", "ttl"]
+    },
+    {
+      "id": "request-coalescing",
+      "term": "Request coalescing",
+      "definition": "When many requests for the same missing item arrive at once, only one fetches it from the source and the rest wait for and share its result.",
+      "aliases": ["single flight"],
+      "related": ["cache-stampede", "caching"]
+    },
+    {
+      "id": "sequence-number",
+      "term": "Sequence number",
+      "definition": "A number that goes up by one for each new item in a stream, such as each message in a conversation, so receivers can order items and notice gaps.",
+      "related": ["distributed-id-generation"]
+    },
+    {
+      "id": "simhash",
+      "term": "SimHash",
+      "definition": "A fingerprint for a document where similar documents get fingerprints that differ in only a few bits, so near-duplicate pages can be found cheaply.",
+      "related": ["bloom-filter"]
+    },
+    {
+      "id": "stream-processing",
+      "term": "Stream processing",
+      "definition": "Computing results continuously over events as they arrive, such as counts over the last five minutes, instead of in periodic batch jobs.",
+      "aliases": ["streaming aggregation"],
+      "related": ["message-queue", "feature-store"]
+    },
+    {
+      "id": "transcoding",
+      "term": "Transcoding",
+      "definition": "Converting a video from its uploaded format into other codecs, resolutions and bitrates so it can play well on every device and network.",
+      "related": ["adaptive-bitrate-streaming"]
+    },
+    {
+      "id": "trie",
+      "term": "Trie",
+      "definition": "A tree where each edge is one character, so all words that share a prefix share a path from the root. Finding everything that starts with a prefix is a short walk down the tree.",
+      "aliases": ["prefix tree"],
+      "related": ["index"]
+    },
+    {
+      "id": "url-frontier",
+      "term": "URL frontier",
+      "definition": "The crawler's to-do list: the queues of discovered URLs waiting to be fetched, ordered by priority and grouped by host.",
+      "related": ["crawl-politeness", "message-queue"]
     }
   ]
 }

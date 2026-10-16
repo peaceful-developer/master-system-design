@@ -1,0 +1,73 @@
+{
+  "id": "notification-system-hld",
+  "title": "Notification system: settings, priority queues and channel workers",
+  "nodes": [
+    {
+      "id": "services",
+      "type": "app-server",
+      "label": "Services",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "campaigns",
+      "type": "scheduler",
+      "label": "Campaigns",
+      "position": { "x": 0, "y": 340 }
+    },
+    {
+      "id": "api",
+      "type": "app-server",
+      "label": "Notify API",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "settings",
+      "type": "nosql-store",
+      "label": "User settings",
+      "position": { "x": 250, "y": 0 }
+    },
+    { "id": "dedup", "type": "cache", "label": "Dedup store", "position": { "x": 500, "y": 0 } },
+    {
+      "id": "queues",
+      "type": "message-queue",
+      "label": "Priority queues",
+      "position": { "x": 500, "y": 170 }
+    },
+    {
+      "id": "workers",
+      "type": "worker",
+      "label": "Channel workers",
+      "position": { "x": 760, "y": 170 },
+      "config": { "instances": 40 }
+    },
+    {
+      "id": "providers",
+      "type": "api-gateway",
+      "label": "Providers",
+      "position": { "x": 760, "y": 0 }
+    },
+    {
+      "id": "dlq",
+      "type": "message-queue",
+      "label": "Dead letters",
+      "position": { "x": 500, "y": 340 }
+    },
+    {
+      "id": "log",
+      "type": "nosql-store",
+      "label": "Delivery log",
+      "position": { "x": 760, "y": 340 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "services", "to": "api", "label": "send" },
+    { "id": "e2", "from": "campaigns", "to": "api", "label": "batches" },
+    { "id": "e3", "from": "api", "to": "settings", "label": "opt-outs" },
+    { "id": "e4", "from": "api", "to": "dedup", "label": "seen key?" },
+    { "id": "e5", "from": "api", "to": "queues", "label": "per channel" },
+    { "id": "e6", "from": "queues", "to": "workers" },
+    { "id": "e7", "from": "workers", "to": "providers", "label": "push, email, SMS" },
+    { "id": "e8", "from": "workers", "to": "dlq", "label": "after 5 tries" },
+    { "id": "e9", "from": "workers", "to": "log", "label": "status" }
+  ]
+}

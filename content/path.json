@@ -88,7 +88,27 @@
         },
         {
           "kind": "case-study",
+          "ref": "key-value-store"
+        },
+        {
+          "kind": "case-study",
+          "ref": "distributed-cache"
+        },
+        {
+          "kind": "case-study",
+          "ref": "notification-system"
+        },
+        {
+          "kind": "case-study",
           "ref": "news-feed"
+        },
+        {
+          "kind": "case-study",
+          "ref": "chat-app"
+        },
+        {
+          "kind": "case-study",
+          "ref": "video-streaming"
         }
       ]
     },
@@ -97,7 +117,16 @@
       "number": 2,
       "title": "Data systems",
       "summary": "Batch and stream processing, event logs, change data capture, lakes and warehouses, search indexes and feature stores.",
-      "items": []
+      "items": [
+        {
+          "kind": "case-study",
+          "ref": "web-crawler"
+        },
+        {
+          "kind": "case-study",
+          "ref": "search-autocomplete"
+        }
+      ]
     },
     {
       "id": "ml-systems",

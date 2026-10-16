@@ -1,0 +1,58 @@
+{
+  "id": "web-crawler-hld",
+  "title": "Web crawler: frontier, fetch, parse and dedupe loop",
+  "nodes": [
+    {
+      "id": "scheduler",
+      "type": "scheduler",
+      "label": "Scheduler",
+      "position": { "x": 0, "y": 170 }
+    },
+    {
+      "id": "frontier",
+      "type": "message-queue",
+      "label": "URL frontier",
+      "position": { "x": 250, "y": 170 }
+    },
+    {
+      "id": "fetchers",
+      "type": "worker",
+      "label": "Fetchers",
+      "position": { "x": 500, "y": 170 },
+      "config": { "instances": 100 }
+    },
+    { "id": "dns", "type": "dns", "label": "DNS cache", "position": { "x": 500, "y": 0 } },
+    { "id": "robots", "type": "cache", "label": "Robots cache", "position": { "x": 760, "y": 0 } },
+    {
+      "id": "pages",
+      "type": "object-storage",
+      "label": "Page store",
+      "position": { "x": 760, "y": 170 }
+    },
+    {
+      "id": "parsers",
+      "type": "worker",
+      "label": "Parsers",
+      "position": { "x": 500, "y": 340 },
+      "config": { "instances": 40 }
+    },
+    {
+      "id": "fingerprints",
+      "type": "nosql-store",
+      "label": "Fingerprints",
+      "position": { "x": 760, "y": 340 }
+    },
+    { "id": "seen", "type": "cache", "label": "Seen URLs", "position": { "x": 250, "y": 340 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "scheduler", "to": "frontier", "label": "seeds" },
+    { "id": "e2", "from": "frontier", "to": "fetchers", "label": "per host" },
+    { "id": "e3", "from": "fetchers", "to": "dns" },
+    { "id": "e4", "from": "fetchers", "to": "robots" },
+    { "id": "e5", "from": "fetchers", "to": "pages", "label": "raw HTML" },
+    { "id": "e6", "from": "fetchers", "to": "parsers" },
+    { "id": "e7", "from": "parsers", "to": "fingerprints", "label": "SimHash" },
+    { "id": "e8", "from": "parsers", "to": "seen", "label": "links" },
+    { "id": "e9", "from": "seen", "to": "frontier", "label": "unseen" }
+  ]
+}
