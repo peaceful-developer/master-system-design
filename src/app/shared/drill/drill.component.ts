@@ -4,7 +4,10 @@ import type { CompiledDrill, DrillQuestion } from '@content/types';
 import { ProgressStore } from '../../core/progress/progress.store';
 import { InternalLinksDirective } from '../content-blocks/internal-links.directive';
 import { TrustedHtmlPipe } from '../content-blocks/trusted-html.pipe';
+import { FeatherBurstComponent } from '../celebrate/feather-burst.component';
 import { IconComponent } from '../icon/icon.component';
+import { mascotLine } from '../mascot/mascot-lines';
+import { MascotComponent } from '../mascot/mascot.component';
 import { formatValue } from './format-number';
 import { parseHumanNumber } from './parse-number';
 import { checkAnswer, describeTolerance, type AnswerCheck } from './tolerance';
@@ -15,7 +18,13 @@ interface QuestionOutcome extends AnswerCheck {
 
 @Component({
   selector: 'app-drill',
-  imports: [IconComponent, TrustedHtmlPipe, InternalLinksDirective],
+  imports: [
+    IconComponent,
+    TrustedHtmlPipe,
+    InternalLinksDirective,
+    MascotComponent,
+    FeatherBurstComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block my-10' },
   template: `
@@ -100,8 +109,16 @@ interface QuestionOutcome extends AnswerCheck {
           @if (checked()) {
             <p class="quiz-score">
               {{ correctCount() }} of {{ drill().questions.length }} within range
+              <app-feather-burst [active]="correctCount() === drill().questions.length" />
             </p>
             <button type="button" class="btn-secondary" (click)="retry()">Try again</button>
+            <app-mascot
+              class="quiz-mascot"
+              size="3.5rem"
+              [pose]="reaction().pose"
+              [line]="reaction().line"
+              [feedback]="true"
+            />
           } @else {
             <button type="submit" class="btn" [disabled]="!canCheck()">Check my estimates</button>
           }
@@ -155,6 +172,15 @@ export class DrillComponent {
   protected readonly correctCount = computed(
     () => Object.values(this.outcomes() ?? {}).filter((o) => o.correct).length,
   );
+
+  protected readonly reaction = computed(() => {
+    const total = this.drill().questions.length;
+    const correct = this.correctCount();
+    const id = this.drill().id;
+    if (correct === total) return { pose: 'cheer' as const, line: mascotLine('perfect', id) };
+    if (correct * 2 >= total) return { pose: 'cheer' as const, line: mascotLine('correct', id) };
+    return { pose: 'puzzled' as const, line: mascotLine('incorrect', id) };
+  });
 
   protected error(questionId: string): string | null {
     const text = (this.raw()[questionId] ?? '').trim();

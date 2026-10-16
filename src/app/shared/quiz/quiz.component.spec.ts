@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { REDUCED_MOTION } from '../../core/a11y/reduced-motion';
+import { emptyProgress, PROGRESS_KEY } from '../../core/progress/progress-model';
 import { ProgressStore } from '../../core/progress/progress.store';
 import { createSafeStorage, SAFE_STORAGE } from '../../core/storage/safe-storage';
 import { TEST_QUIZ } from '../../testing/content-test-data';
@@ -92,5 +94,61 @@ describe('QuizComponent', () => {
     await fixture.whenStable();
     expect(el.querySelectorAll('input:checked')).toHaveLength(0);
     expect(submit().disabled).toBe(true);
+  });
+});
+
+describe('QuizComponent celebrations', () => {
+  async function answerAll(opts: { calm?: boolean; reducedMotion?: boolean; correct: boolean }) {
+    const storage = createSafeStorage(() => undefined);
+    storage.set(
+      PROGRESS_KEY,
+      JSON.stringify({ ...emptyProgress(), prefs: { learnerLevel: null, calmMode: !!opts.calm } }),
+    );
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: SAFE_STORAGE, useValue: storage },
+        { provide: REDUCED_MOTION, useValue: () => !!opts.reducedMotion },
+      ],
+    });
+    const fixture = TestBed.createComponent(QuizComponent);
+    fixture.componentRef.setInput('quiz', TEST_QUIZ);
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+    const click = async (q: number, option: string) => {
+      const fieldset = el.querySelectorAll('fieldset')[q]!;
+      fieldset.querySelector<HTMLInputElement>(`input[value="${option}"]`)!.click();
+      await fixture.whenStable();
+    };
+    await click(0, opts.correct ? 'a' : 'b');
+    await click(1, 'p99');
+    await click(1, 'p999');
+    el.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
+    await fixture.whenStable();
+    return el;
+  }
+
+  it('cheers and bursts feathers after a perfect score', async () => {
+    const el = await answerAll({ correct: true });
+    expect(el.querySelector('app-mascot')?.getAttribute('data-pose')).toBe('cheer');
+    expect(el.querySelector('.feather-burst')).not.toBeNull();
+  });
+
+  it('encourages without celebrating after a miss', async () => {
+    const el = await answerAll({ correct: false });
+    expect(el.querySelector('app-mascot')?.getAttribute('data-pose')).toBe('puzzled');
+    expect(el.querySelector('.feather-burst')).toBeNull();
+  });
+
+  it('skips the feather burst when reduced motion is preferred', async () => {
+    const el = await answerAll({ correct: true, reducedMotion: true });
+    expect(el.querySelector('app-mascot')?.getAttribute('data-pose')).toBe('cheer');
+    expect(el.querySelector('.feather-burst')).toBeNull();
+  });
+
+  it('shows neither mascot nor burst in Calm mode', async () => {
+    const el = await answerAll({ correct: true, calm: true });
+    expect(el.querySelector('app-mascot[data-pose]')).toBeNull();
+    expect(el.querySelector('.feather-burst')).toBeNull();
+    expect(el.textContent).toContain('2 of 2 correct');
   });
 });

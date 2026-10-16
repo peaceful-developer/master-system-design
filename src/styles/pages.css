@@ -145,15 +145,7 @@ kbd {
 }
 
 /* Mascot */
-.mascot {
-  display: inline-block;
-}
-
-.mascot svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+/* Mascot: see game.css */
 
 /* "Where should I start?" picker */
 .picker {

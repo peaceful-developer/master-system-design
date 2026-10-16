@@ -1,8 +1,11 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import type { CompiledQuiz, Difficulty, QuizQuestion } from '@content/types';
-import { ProgressStore } from '../../core/progress/progress.store';
+import { ProgressStore, QUIZ_PASS_RATIO } from '../../core/progress/progress.store';
+import { FeatherBurstComponent } from '../celebrate/feather-burst.component';
 import { IconComponent } from '../icon/icon.component';
+import { mascotLine } from '../mascot/mascot-lines';
+import { MascotComponent } from '../mascot/mascot.component';
 import { scoreQuiz } from './quiz-scoring';
 
 const LEVEL_LABELS: Record<Difficulty, string> = {
@@ -13,7 +16,7 @@ const LEVEL_LABELS: Record<Difficulty, string> = {
 
 @Component({
   selector: 'app-quiz',
-  imports: [IconComponent],
+  imports: [IconComponent, MascotComponent, FeatherBurstComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block my-10' },
   template: `
@@ -95,10 +98,20 @@ const LEVEL_LABELS: Record<Difficulty, string> = {
 
         <div class="quiz-actions">
           @if (result(); as r) {
-            <p class="quiz-score">{{ r.score }} of {{ r.total }} correct</p>
+            <p class="quiz-score">
+              {{ r.score }} of {{ r.total }} correct
+              <app-feather-burst [active]="r.score === r.total" />
+            </p>
             <button type="button" class="btn-secondary quiz-retry" (click)="retry()">
               Try again
             </button>
+            <app-mascot
+              class="quiz-mascot"
+              size="3.5rem"
+              [pose]="reaction().pose"
+              [line]="reaction().line"
+              [feedback]="true"
+            />
           } @else {
             <button type="submit" class="btn" [disabled]="!allAnswered()">Check answers</button>
             @if (!allAnswered()) {
@@ -134,6 +147,17 @@ export class QuizComponent {
   protected readonly result = computed(() =>
     this.checked() ? scoreQuiz(this.quiz(), this.answers()) : null,
   );
+
+  protected readonly reaction = computed(() => {
+    const r = this.result();
+    const id = this.quiz().id;
+    if (!r || r.total === 0) return { pose: 'thinking' as const, line: undefined };
+    if (r.score === r.total) return { pose: 'cheer' as const, line: mascotLine('perfect', id) };
+    if (r.score / r.total >= QUIZ_PASS_RATIO) {
+      return { pose: 'cheer' as const, line: mascotLine('correct', id) };
+    }
+    return { pose: 'puzzled' as const, line: mascotLine('incorrect', id) };
+  });
 
   protected levelLabel(level: Difficulty): string {
     return LEVEL_LABELS[level];

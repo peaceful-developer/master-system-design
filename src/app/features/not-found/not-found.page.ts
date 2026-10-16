@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SeoService } from '../../core/seo/seo.service';
+import { MascotComponent } from '../../shared/mascot/mascot.component';
 
 @Component({
   selector: 'app-not-found-page',
-  imports: [RouterLink],
+  imports: [RouterLink, MascotComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page text-center">
+      <app-mascot class="mx-auto mb-4" pose="fly" size="7rem" />
       <h1 class="page-title">This page flew the coop</h1>
       <p class="page-lead mx-auto">
         We couldn’t find what you were looking for. It may have moved, or the link may have a typo.

@@ -3,11 +3,14 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/content/content.service';
+import { ACHIEVEMENTS } from '../../core/game/achievements';
+import { GameStore } from '../../core/game/game.store';
 import { parseImport } from '../../core/progress/progress-io';
 import type { ItemKey } from '../../core/progress/progress-model';
 import { ProgressStore } from '../../core/progress/progress.store';
 import { SeoService } from '../../core/seo/seo.service';
 import { CLOCK, localDay } from '../../core/time/clock';
+import { CalmSwitchComponent } from '../../shared/calm-switch/calm-switch.component';
 import { confirmAction } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { ProgressRingComponent } from '../../shared/progress-ring/progress-ring.component';
@@ -22,7 +25,7 @@ interface CompletedRow {
 
 @Component({
   selector: 'app-progress-page',
-  imports: [RouterLink, IconComponent, ProgressRingComponent],
+  imports: [RouterLink, IconComponent, ProgressRingComponent, CalmSwitchComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page">
@@ -34,7 +37,50 @@ interface CompletedRow {
         </p>
       </header>
 
-      <section aria-labelledby="overview-title">
+      @if (game.active()) {
+        <section aria-labelledby="level-title">
+          <h2 id="level-title" class="sr-only">Level and streak</h2>
+          <div class="level-card">
+            <div class="level-head">
+              <p>
+                <span class="text-sm font-semibold">Level {{ game.level().level.n }}</span>
+                <span class="level-name block">{{ game.level().level.name }}</span>
+              </p>
+              <p class="text-sm">
+                <span class="font-semibold">{{ game.xp() }} XP</span>
+                @if (game.level().next; as next) {
+                  · {{ next.min - game.xp() }} XP to {{ next.name }}
+                } @else {
+                  · top level reached
+                }
+              </p>
+              <p class="flex items-center gap-1.5 text-sm">
+                <app-icon name="flame" size="1em" />
+                <span>
+                  <span class="font-semibold">{{ game.streak().current }}-day streak</span>
+                  · longest {{ game.streak().longest }}
+                </span>
+              </p>
+            </div>
+            <div
+              class="xp-bar"
+              role="progressbar"
+              aria-label="Progress to the next level"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              [attr.aria-valuenow]="xpPercent()"
+            >
+              <div class="xp-bar-fill" [style.width.%]="xpPercent()"></div>
+            </div>
+            <p class="text-sm">
+              Earn XP by finishing lessons (20), case studies (15–40) and exercises (10, plus 10 for
+              a perfect quiz). A streak counts days in a row with any learning.
+            </p>
+          </div>
+        </section>
+      }
+
+      <section class="progress-section" aria-labelledby="overview-title">
         <h2 id="overview-title" class="section-title">Overview</h2>
         <div class="progress-overview">
           <div class="progress-overall">
@@ -128,6 +174,30 @@ interface CompletedRow {
         </section>
       }
 
+      <section class="progress-section" aria-labelledby="achievements-title">
+        <h2 id="achievements-title" class="section-title">Achievements</h2>
+        <p class="mt-1 text-sm">{{ earnedCount() }} of {{ achievements.length }} earned</p>
+        <ul class="achievement-grid">
+          @for (a of achievements; track a.id) {
+            <li class="achievement" [class.is-earned]="isEarned(a.id)">
+              <span class="achievement-badge"><app-icon [name]="a.icon" /></span>
+              <div>
+                <p class="font-semibold">
+                  {{ a.title }}
+                  <span class="sr-only">({{ isEarned(a.id) ? 'earned' : 'not earned yet' }})</span>
+                </p>
+                <p class="text-sm">{{ a.description }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="progress-section" aria-labelledby="settings-title">
+        <h2 id="settings-title" class="section-title">Settings</h2>
+        <div class="mt-4"><app-calm-switch /></div>
+      </section>
+
       <section class="progress-section" aria-labelledby="data-title">
         <h2 id="data-title" class="section-title">Your data</h2>
         <div class="mt-4 flex flex-wrap items-center gap-3">
@@ -166,6 +236,10 @@ export class ProgressPage {
 
   protected readonly importError = signal<string | null>(null);
   protected readonly notice = signal<string | null>(null);
+  protected readonly game = inject(GameStore);
+  protected readonly achievements = ACHIEVEMENTS;
+  protected readonly earnedCount = computed(() => this.game.earned().length);
+  protected readonly xpPercent = computed(() => Math.round(this.game.level().progressToNext * 100));
 
   private readonly exerciseMap = exercisesByItem({
     lessons: this.content.lessons(),
@@ -251,6 +325,10 @@ export class ProgressPage {
       description: 'See what you have completed, your quiz scores, and export or import progress.',
       path: '/progress',
     });
+  }
+
+  protected isEarned(id: string): boolean {
+    return this.game.earned().includes(id);
   }
 
   protected exportProgress(): void {

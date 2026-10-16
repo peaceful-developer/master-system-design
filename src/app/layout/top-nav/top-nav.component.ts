@@ -3,6 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { ThemeService } from '../../core/theme/theme.service';
+import { CalmSwitchComponent } from '../../shared/calm-switch/calm-switch.component';
+import { GameChipComponent } from '../../shared/game-chip/game-chip.component';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { REPO_URL, SITE_NAME } from '../../site';
 
@@ -18,7 +20,7 @@ export const NAV_ITEMS = [
 
 @Component({
   selector: 'app-top-nav',
-  imports: [RouterLink, RouterLinkActive, IconComponent],
+  imports: [RouterLink, RouterLinkActive, IconComponent, GameChipComponent, CalmSwitchComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header
@@ -54,6 +56,10 @@ export const NAV_ITEMS = [
 
         <div class="ml-auto flex items-center gap-1">
           <ng-content />
+          @defer (on idle) {
+            <app-game-chip />
+            <app-calm-switch [compact]="true" />
+          }
           <button
             type="button"
             class="nav-icon-btn"
@@ -64,7 +70,7 @@ export const NAV_ITEMS = [
           </button>
           <a class="nav-icon-btn gap-1.5" [href]="repoUrl" rel="noopener">
             <app-icon name="code" />
-            <span class="sr-only xl:not-sr-only">GitHub</span>
+            <span class="sr-only 2xl:not-sr-only">GitHub</span>
           </a>
           <button
             type="button"

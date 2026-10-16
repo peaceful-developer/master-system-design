@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/theme/theme.service';
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopNavComponent } from './layout/top-nav/top-nav.component';
+import { AchievementToastComponent } from './shared/achievement-toast/achievement-toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TopNavComponent, FooterComponent],
+  imports: [RouterOutlet, TopNavComponent, FooterComponent, AchievementToastComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a class="skip-link" href="#main">Skip to content</a>
@@ -15,6 +16,9 @@ import { TopNavComponent } from './layout/top-nav/top-nav.component';
       <router-outlet />
     </main>
     <app-footer />
+    @defer (on idle) {
+      <app-achievement-toast />
+    }
   `,
 })
 export class App {
