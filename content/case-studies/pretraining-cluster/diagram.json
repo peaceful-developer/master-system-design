@@ -1,0 +1,152 @@
+{
+  "id": "pretraining-cluster-hld",
+  "title": "Pretraining cluster: data, training, checkpoints and recovery",
+  "nodes": [
+    {
+      "id": "researchers",
+      "type": "client",
+      "label": "Researchers",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "scheduler",
+      "type": "scheduler",
+      "label": "Job scheduler",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "health",
+      "type": "worker",
+      "label": "Health checks",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "trainers",
+      "type": "training-pipeline",
+      "label": "GPU servers",
+      "position": {
+        "x": 500,
+        "y": 170
+      },
+      "config": {
+        "instances": 1024
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Evals",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "metrics",
+      "type": "data-warehouse",
+      "label": "Run metrics",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "dataprep",
+      "type": "worker",
+      "label": "Data prep",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "shards",
+      "type": "object-storage",
+      "label": "Token shards",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "checkpoints",
+      "type": "object-storage",
+      "label": "Checkpoints",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "researchers",
+      "to": "scheduler",
+      "label": "launch run"
+    },
+    {
+      "id": "e2",
+      "from": "scheduler",
+      "to": "trainers",
+      "label": "allocate"
+    },
+    {
+      "id": "e3",
+      "from": "dataprep",
+      "to": "shards",
+      "label": "tokenize"
+    },
+    {
+      "id": "e4",
+      "from": "shards",
+      "to": "trainers",
+      "label": "batches"
+    },
+    {
+      "id": "e5",
+      "from": "trainers",
+      "to": "health",
+      "label": "heartbeats"
+    },
+    {
+      "id": "e6",
+      "from": "health",
+      "to": "scheduler",
+      "label": "replace"
+    },
+    {
+      "id": "e7",
+      "from": "trainers",
+      "to": "checkpoints",
+      "label": "every 30 min"
+    },
+    {
+      "id": "e8",
+      "from": "checkpoints",
+      "to": "evals",
+      "label": "load"
+    },
+    {
+      "id": "e9",
+      "from": "evals",
+      "to": "metrics",
+      "label": "scores"
+    },
+    {
+      "id": "e10",
+      "from": "trainers",
+      "to": "metrics",
+      "label": "loss"
+    }
+  ]
+}

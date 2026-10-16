@@ -157,6 +157,22 @@
         {
           "kind": "case-study",
           "ref": "enterprise-rag"
+        },
+        {
+          "kind": "case-study",
+          "ref": "llm-eval-platform"
+        },
+        {
+          "kind": "case-study",
+          "ref": "guardrails-pipeline"
+        },
+        {
+          "kind": "case-study",
+          "ref": "document-understanding"
+        },
+        {
+          "kind": "case-study",
+          "ref": "voice-assistant"
         }
       ]
     },
@@ -165,7 +181,16 @@
       "number": 5,
       "title": "Frontier infrastructure",
       "summary": "The infrastructure that trains and serves large models: parallelism, clusters, failures and cost.",
-      "items": []
+      "items": [
+        {
+          "kind": "case-study",
+          "ref": "fine-tuning-platform"
+        },
+        {
+          "kind": "case-study",
+          "ref": "pretraining-cluster"
+        }
+      ]
     }
   ]
 }

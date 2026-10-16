@@ -1090,6 +1090,211 @@
       "term": "URL frontier",
       "definition": "The crawler's to-do list: the queues of discovered URLs waiting to be fetched, ordered by priority and grouped by host.",
       "related": ["crawl-politeness", "message-queue"]
+    },
+    {
+      "id": "all-reduce",
+      "term": "All-reduce",
+      "definition": "A group communication step in which every worker contributes a value, such as its gradients, and every worker receives the combined result, such as their average.",
+      "related": ["data-parallelism"]
+    },
+    {
+      "id": "barge-in",
+      "term": "Barge-in",
+      "definition": "When a user starts talking while a voice assistant is still speaking. The assistant should stop quickly and listen, like a person would.",
+      "related": ["voice-activity-detection"]
+    },
+    {
+      "id": "calibration",
+      "term": "Calibration",
+      "definition": "How well a model's predicted probabilities match what actually happens. A calibrated model that predicts 2% for a group of cases sees about 2% of them turn out positive.",
+      "aliases": ["model calibration"],
+      "related": ["offline-evaluation", "class-imbalance"]
+    },
+    {
+      "id": "checkpointing",
+      "term": "Checkpointing",
+      "definition": "Periodically saving a long-running job's full state, such as model weights and optimizer state, so it can resume from that point after a failure instead of starting over.",
+      "aliases": ["training checkpoint"],
+      "related": ["gang-scheduling"]
+    },
+    {
+      "id": "confidence-interval",
+      "term": "Confidence interval",
+      "definition": "A range around a measured value, such as an accuracy score, that likely contains the true value. A difference smaller than the interval may just be noise.",
+      "related": ["ab-test", "offline-evaluation"]
+    },
+    {
+      "id": "data-parallelism",
+      "term": "Data parallelism",
+      "definition": "Training copies of the same model on different slices of each batch at the same time, then averaging their gradients so every copy stays identical.",
+      "related": ["all-reduce", "pipeline-parallelism", "tensor-parallelism"]
+    },
+    {
+      "id": "fine-tuning",
+      "term": "Fine-tuning",
+      "definition": "Continuing to train an already trained model on a smaller, task-specific dataset so it follows a format, style or domain better.",
+      "related": ["lora", "offline-evaluation"]
+    },
+    {
+      "id": "gang-scheduling",
+      "term": "Gang scheduling",
+      "definition": "Starting all the workers of a distributed job at the same time, or none of them. A training job that needs 64 GPUs cannot make progress with 63.",
+      "related": ["data-parallelism", "checkpointing"]
+    },
+    {
+      "id": "golden-dataset",
+      "term": "Golden dataset",
+      "definition": "A curated, versioned set of test inputs with reference answers or grading rubrics, used to score every model or prompt change the same way.",
+      "aliases": ["eval set", "test set"],
+      "related": ["offline-evaluation", "llm-as-judge"]
+    },
+    {
+      "id": "guardrails",
+      "term": "Guardrails",
+      "definition": "Checks that run before and after a language model call, such as filters for unsafe content, leaked personal data or off-topic requests, so the system can block, rewrite or escalate a request or an answer.",
+      "aliases": ["Safety filters"],
+      "related": ["prompt-injection", "hallucination"]
+    },
+    {
+      "id": "human-in-the-loop",
+      "term": "Human in the loop",
+      "definition": "A design in which a person reviews or approves certain automated decisions, such as large refunds, before they take effect, and takes over the cases the system can't handle.",
+      "related": ["ai-agent"]
+    },
+    {
+      "id": "jailbreak",
+      "term": "Jailbreak",
+      "definition": "A prompt crafted to get a language model to produce content its safety training or policy should refuse, often through role-play, encoding tricks or many small steps.",
+      "related": ["prompt-injection", "red-teaming"]
+    },
+    {
+      "id": "layout-analysis",
+      "term": "Layout analysis",
+      "definition": "Detecting the structure of a page, such as columns, headings, tables and form fields, and the order in which its text should be read.",
+      "related": ["ocr"]
+    },
+    {
+      "id": "llm-as-judge",
+      "term": "LLM as a judge",
+      "definition": "Using a language model with a written rubric to grade another model's answers, which scales evaluation far beyond human review. Its grades should be checked regularly against human ratings.",
+      "aliases": ["LLM judge"],
+      "related": ["offline-evaluation"]
+    },
+    {
+      "id": "lora",
+      "term": "LoRA (low-rank adaptation)",
+      "definition": "A fine-tuning method that freezes the original model weights and trains small extra matrices added to some layers. The result, an adapter, is often less than 1% of the model's size.",
+      "aliases": ["low-rank adaptation", "LoRA adapter"],
+      "related": ["fine-tuning", "quantization"]
+    },
+    {
+      "id": "model-flops-utilization",
+      "term": "Model FLOPs utilization (MFU)",
+      "definition": "The share of the hardware's peak arithmetic rate that goes into useful model computation. Large training runs typically reach 30% to 50%; the rest is lost to communication, memory stalls and idle time.",
+      "aliases": ["MFU"],
+      "related": ["data-parallelism", "throughput"]
+    },
+    {
+      "id": "ocr",
+      "term": "Optical character recognition (OCR)",
+      "definition": "Turning an image of text, such as a scanned page or a photo of a receipt, into machine-readable characters, usually with the position of each word.",
+      "aliases": ["OCR"],
+      "related": ["layout-analysis", "vision-language-model"]
+    },
+    {
+      "id": "pii-redaction",
+      "term": "PII redaction",
+      "definition": "Finding personal data such as names, phone numbers, emails or card numbers in text and masking or removing it before it is stored, logged or sent onward.",
+      "aliases": ["PII detection"],
+      "related": ["prompt-injection"]
+    },
+    {
+      "id": "pipeline-parallelism",
+      "term": "Pipeline parallelism",
+      "definition": "Splitting a model's layers into stages on different GPUs or servers and passing small micro-batches through them like an assembly line, so all stages work at once.",
+      "related": ["tensor-parallelism", "data-parallelism"]
+    },
+    {
+      "id": "prefix-caching",
+      "term": "Prefix caching",
+      "definition": "Keeping the KV cache for the opening tokens of a prompt, such as a system prompt or earlier chat turns, so a later request that starts with the same text skips recomputing them. It cuts time to first token and cost.",
+      "aliases": ["Prompt caching"],
+      "related": ["kv-cache", "time-to-first-token"]
+    },
+    {
+      "id": "prompt-injection",
+      "term": "Prompt injection",
+      "definition": "An attack in which text the model reads, typed by a user or found in a document, web page or tool result, contains instructions that try to override the system's own instructions.",
+      "related": ["guardrails"]
+    },
+    {
+      "id": "red-teaming",
+      "term": "Red-teaming",
+      "definition": "Deliberately attacking your own system, by hand or with automated tools, to find failures such as jailbreaks before real attackers or users do.",
+      "related": ["jailbreak", "prompt-injection"]
+    },
+    {
+      "id": "shadow-deployment",
+      "term": "Shadow deployment",
+      "definition": "Running a new model on live traffic without acting on its outputs, so its predictions, latency and errors can be compared with the current model before launch.",
+      "aliases": ["shadow mode", "dark launch"],
+      "related": ["ab-test", "offline-evaluation"]
+    },
+    {
+      "id": "speech-recognition",
+      "term": "Speech recognition",
+      "definition": "Converting spoken audio into text. Streaming recognizers emit partial transcripts while the person is still talking.",
+      "aliases": ["ASR", "speech-to-text"],
+      "related": ["voice-activity-detection", "text-to-speech"]
+    },
+    {
+      "id": "text-to-speech",
+      "term": "Text-to-speech",
+      "definition": "Generating spoken audio from text. Streaming systems start sending audio for the first words before the rest of the sentence is ready.",
+      "aliases": ["TTS", "speech synthesis"],
+      "related": ["speech-recognition"]
+    },
+    {
+      "id": "tool-calling",
+      "term": "Tool calling",
+      "definition": "Letting a language model ask the application to run a named function, such as looking up an order or running tests, by producing a structured request with arguments. The application runs it and returns the result to the model.",
+      "aliases": ["Function calling"],
+      "related": ["ai-agent"]
+    },
+    {
+      "id": "vision-language-model",
+      "term": "Vision-language model",
+      "definition": "A model that takes images and text together as input and produces text, so it can read a page, chart or photo and answer questions about it.",
+      "aliases": ["VLM", "multimodal model"],
+      "related": ["ocr", "hallucination"]
+    },
+    {
+      "id": "voice-activity-detection",
+      "term": "Voice activity detection",
+      "definition": "A small, fast model that labels each short slice of audio as speech or not speech, used to detect when someone starts and stops talking.",
+      "aliases": ["VAD"],
+      "related": ["speech-recognition", "barge-in"]
+    },
+    {
+      "id": "class-imbalance",
+      "term": "Class imbalance",
+      "definition": "When one outcome is far rarer than the other, such as 1 fraud case per 1,000 payments. Accuracy becomes misleading, and training often samples or weights examples to compensate.",
+      "aliases": ["imbalanced data", "negative downsampling"],
+      "related": ["precision-and-recall", "calibration"]
+    },
+    {
+      "id": "ai-agent",
+      "term": "AI agent",
+      "definition": "A system in which a language model works in a loop: it decides on a next step, calls a tool, reads the result and repeats until the task is done or it hands the task to a person.",
+      "aliases": ["LLM agent", "Agent"],
+      "related": ["tool-calling", "human-in-the-loop"]
+    },
+    {
+      "id": "precision-and-recall",
+      "term": "Precision and recall",
+      "definition": "Precision is the share of items a model flags that really are positive; recall is the share of all real positives that it flags. Raising one usually lowers the other.",
+      "aliases": ["precision", "recall", "precision-recall curve"],
+      "related": ["class-imbalance", "offline-evaluation"]
     }
   ]
 }

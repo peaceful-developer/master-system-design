@@ -1,0 +1,160 @@
+{
+  "id": "guardrails-pipeline-hld",
+  "title": "Guardrails pipeline: input and output checks around the LLM",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "app",
+      "type": "app-server",
+      "label": "Chat service",
+      "position": {
+        "x": 250,
+        "y": 170
+      }
+    },
+    {
+      "id": "guard-in",
+      "type": "guardrail",
+      "label": "Input guard",
+      "position": {
+        "x": 500,
+        "y": 0
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-api",
+      "label": "LLM",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "guard-out",
+      "type": "guardrail",
+      "label": "Output guard",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "policy",
+      "type": "nosql-store",
+      "label": "Policies",
+      "position": {
+        "x": 760,
+        "y": 0
+      }
+    },
+    {
+      "id": "models",
+      "type": "model-server-gpu",
+      "label": "Safety models",
+      "position": {
+        "x": 760,
+        "y": 170
+      },
+      "config": {
+        "instances": 8
+      }
+    },
+    {
+      "id": "audit",
+      "type": "event-stream",
+      "label": "Audit log",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "review",
+      "type": "app-server",
+      "label": "Review queue",
+      "position": {
+        "x": 760,
+        "y": 510
+      }
+    },
+    {
+      "id": "retrain",
+      "type": "training-pipeline",
+      "label": "Retraining",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "app",
+      "label": "prompt"
+    },
+    {
+      "id": "e2",
+      "from": "app",
+      "to": "guard-in",
+      "label": "check input"
+    },
+    {
+      "id": "e3",
+      "from": "app",
+      "to": "llm",
+      "label": "safe prompt"
+    },
+    {
+      "id": "e4",
+      "from": "app",
+      "to": "guard-out",
+      "label": "output chunks"
+    },
+    {
+      "id": "e5",
+      "from": "guard-in",
+      "to": "policy",
+      "label": "rules"
+    },
+    {
+      "id": "e6",
+      "from": "guard-in",
+      "to": "models",
+      "label": "classify"
+    },
+    {
+      "id": "e7",
+      "from": "guard-out",
+      "to": "models"
+    },
+    {
+      "id": "e8",
+      "from": "guard-out",
+      "to": "audit",
+      "label": "decisions"
+    },
+    {
+      "id": "e9",
+      "from": "audit",
+      "to": "review",
+      "label": "borderline"
+    },
+    {
+      "id": "e10",
+      "from": "review",
+      "to": "retrain",
+      "label": "labels"
+    }
+  ]
+}

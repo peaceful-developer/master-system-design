@@ -1,0 +1,152 @@
+{
+  "id": "voice-assistant-hld",
+  "title": "Voice assistant: streaming speech in, reasoning, speech out",
+  "nodes": [
+    {
+      "id": "client",
+      "type": "client",
+      "label": "Users",
+      "position": {
+        "x": 0,
+        "y": 170
+      }
+    },
+    {
+      "id": "media",
+      "type": "app-server",
+      "label": "Media server",
+      "position": {
+        "x": 250,
+        "y": 170
+      },
+      "config": {
+        "instances": 40
+      }
+    },
+    {
+      "id": "asr",
+      "type": "model-server-gpu",
+      "label": "Speech-to-text",
+      "position": {
+        "x": 250,
+        "y": 0
+      }
+    },
+    {
+      "id": "turns",
+      "type": "agent-orchestrator",
+      "label": "Turn manager",
+      "position": {
+        "x": 500,
+        "y": 170
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm-self-hosted",
+      "label": "LLM",
+      "position": {
+        "x": 760,
+        "y": 170
+      }
+    },
+    {
+      "id": "tts",
+      "type": "model-server-gpu",
+      "label": "Text-to-speech",
+      "position": {
+        "x": 250,
+        "y": 340
+      }
+    },
+    {
+      "id": "tools",
+      "type": "tool",
+      "label": "Tools",
+      "position": {
+        "x": 760,
+        "y": 340
+      }
+    },
+    {
+      "id": "logs",
+      "type": "event-stream",
+      "label": "Call logs",
+      "position": {
+        "x": 500,
+        "y": 340
+      }
+    },
+    {
+      "id": "evals",
+      "type": "eval-service",
+      "label": "Evals",
+      "position": {
+        "x": 500,
+        "y": 510
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "client",
+      "to": "media",
+      "label": "audio"
+    },
+    {
+      "id": "e2",
+      "from": "media",
+      "to": "asr",
+      "label": "speech"
+    },
+    {
+      "id": "e3",
+      "from": "asr",
+      "to": "turns",
+      "label": "transcript"
+    },
+    {
+      "id": "e4",
+      "from": "media",
+      "to": "turns",
+      "label": "VAD events"
+    },
+    {
+      "id": "e5",
+      "from": "turns",
+      "to": "llm",
+      "label": "prompt"
+    },
+    {
+      "id": "e6",
+      "from": "turns",
+      "to": "tts",
+      "label": "clauses"
+    },
+    {
+      "id": "e7",
+      "from": "tts",
+      "to": "media",
+      "label": "audio"
+    },
+    {
+      "id": "e8",
+      "from": "turns",
+      "to": "tools",
+      "label": "tool calls"
+    },
+    {
+      "id": "e9",
+      "from": "turns",
+      "to": "logs",
+      "label": "turns"
+    },
+    {
+      "id": "e10",
+      "from": "logs",
+      "to": "evals",
+      "label": "replay"
+    }
+  ]
+}
