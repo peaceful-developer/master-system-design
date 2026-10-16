@@ -1,0 +1,40 @@
+name: Bug report
+description: Something in the app doesn't work or looks wrong.
+title: 'Bug: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report this. For a mistake in a lesson or case study, use the "Content error" form instead.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The URL or path where it happens.
+      placeholder: /case-studies/url-shortener
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Click …
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      placeholder: Firefox 140 on macOS, iPhone Safari, …
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: [Light, Dark, Both, Not sure]

@@ -1,0 +1,44 @@
+name: Case study proposal
+description: Propose a new case study, or offer to expand an outline into a complete one.
+title: 'Case study: '
+labels: [case-study]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Proposal
+      options:
+        - Expand an existing outline into a complete case study
+        - Add a new case study
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: System
+      description: The existing outline's URL, or the system you want to add.
+      placeholder: /case-studies/chat-app
+    validations:
+      required: true
+  - type: dropdown
+    id: track
+    attributes:
+      label: Track
+      options:
+        - A · Classic systems
+        - B · ML systems
+        - C · LLM and GenAI systems
+    validations:
+      required: true
+  - type: textarea
+    id: angle
+    attributes:
+      label: What the case study teaches
+      description: The 2–3 deep dives you would write, and what a learner takes away.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Papers, engineering blog posts or talks you plan to cite.

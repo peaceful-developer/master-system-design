@@ -1,0 +1,38 @@
+name: Content error
+description: A factual mistake, broken explanation, wrong number or typo in the learning content.
+title: 'Content: '
+labels: [content]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The URL or path of the lesson, case study, quiz or drill.
+      placeholder: /learn/building-blocks/caching-and-cdns
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: Quote the sentence, number or answer that is wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: What it should say, and why.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Papers, docs or talks that support the correction, if you have them.
+  - type: checkboxes
+    id: pr
+    attributes:
+      label: Contributing
+      options:
+        - label: I'd like to open a pull request with the fix myself.

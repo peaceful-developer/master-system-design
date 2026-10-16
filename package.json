@@ -25,7 +25,8 @@
     "lint": "eslint . && prettier --check . && tsc -p tsconfig.scripts.json --noEmit",
     "e2e": "playwright test",
     "serve": "tsx scripts/serve-static.ts",
-    "figures:render": "tsx scripts/render-figures.ts"
+    "figures:render": "tsx scripts/render-figures.ts",
+    "demo:capture": "tsx scripts/capture-demo.ts"
   },
   "dependencies": {
     "@angular/cdk": "22.2.3",
@@ -54,13 +55,16 @@
     "@types/hast": "3.0.5",
     "@types/mdast": "4.0.4",
     "@types/node": "24.19.2",
+    "@types/pngjs": "6.0.5",
     "angular-eslint": "22.6.0",
     "chokidar": "5.0.0",
     "concurrently": "10.0.6",
     "eslint": "10.12.0",
+    "gifenc": "1.0.3",
     "hast-util-to-html": "9.0.5",
     "hast-util-to-string": "3.0.1",
     "jsdom": "30.1.2",
+    "pngjs": "7.0.0",
     "postcss": "8.5.30",
     "prettier": "3.9.10",
     "property-information": "7.2.0",
