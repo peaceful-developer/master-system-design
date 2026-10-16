@@ -1,0 +1,50 @@
+{
+  "phases": [
+    {
+      "id": "foundations",
+      "number": 0,
+      "title": "Foundations",
+      "summary": "How the web works and the basic materials of every backend.",
+      "items": [{ "kind": "lesson", "ref": "foundations/latency-basics" }]
+    },
+    {
+      "id": "building-blocks",
+      "number": 1,
+      "title": "Building blocks",
+      "summary": "The standard parts of a scalable system.",
+      "items": [
+        { "kind": "playbook", "ref": "estimation" },
+        { "kind": "case-study", "ref": "url-shortener" },
+        { "kind": "case-study", "ref": "rate-limiter" }
+      ]
+    },
+    {
+      "id": "data-systems",
+      "number": 2,
+      "title": "Data systems",
+      "summary": "Moving and storing data.",
+      "items": []
+    },
+    {
+      "id": "ml-systems",
+      "number": 3,
+      "title": "ML systems",
+      "summary": "ML-powered products.",
+      "items": []
+    },
+    {
+      "id": "llm-systems",
+      "number": 4,
+      "title": "LLM systems",
+      "summary": "Products on LLMs.",
+      "items": []
+    },
+    {
+      "id": "frontier-infrastructure",
+      "number": 5,
+      "title": "Frontier infrastructure",
+      "summary": "Training and serving large models.",
+      "items": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+dist/
+node_modules/
+src/generated/
+.angular/
+.superpowers/
+coverage/
+test-results/
+playwright-report/
+.lighthouseci/
+package-lock.json
+# Prose is hand-formatted; prettier would rewrite directive syntax (::quiz, :::note).
+*.md
+content/figures/
+content/icons/
+public/*.svg

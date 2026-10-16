@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256">
+  <title>Token bucket rate limiter</title>
+  <desc>A bucket holds up to five tokens and refills at one token per second. Each request spends a token. A burst empties the bucket; further requests are rejected until tokens refill.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .t0 { animation: t0 8s step-end infinite; }
+    @keyframes t0 { 0% { opacity: 1; } 20% { opacity: 0; } 55% { opacity: 1; } }
+    .t1 { animation: t1 8s step-end infinite; }
+    @keyframes t1 { 0% { opacity: 1; } 26% { opacity: 0; } 63% { opacity: 1; } }
+    .t2 { animation: t2 8s step-end infinite; }
+    @keyframes t2 { 0% { opacity: 1; } 32% { opacity: 0; } 71% { opacity: 1; } }
+    .t3 { animation: t3 8s step-end infinite; }
+    @keyframes t3 { 0% { opacity: 1; } 38% { opacity: 0; } 79% { opacity: 1; } }
+    .t4 { animation: t4 8s step-end infinite; }
+    @keyframes t4 { 0% { opacity: 1; } 44% { opacity: 0; } 87% { opacity: 1; } }
+    .rej { animation: rej 8s step-end infinite; } @keyframes rej { 0% { opacity: 0; } 50% { opacity: 1; } 56% { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) { .t0, .t1, .t2, .t3, .t4, .rej { animation: none; } .rej { opacity: 0; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <path class="box" d="M220 60 L240 200 H360 L380 60"/>
+  <text class="label" x="300" y="50" text-anchor="middle">Bucket holds at most 5 tokens</text>
+  <circle class="accent-box t4" cx="262" cy="180" r="13"/>
+  <circle class="accent-box t3" cx="298" cy="180" r="13"/>
+  <circle class="accent-box t2" cx="334" cy="180" r="13"/>
+  <circle class="accent-box t1" cx="262" cy="146" r="13"/>
+  <circle class="accent-box t0" cx="298" cy="146" r="13"/>
+  <text class="label" x="410" y="100" text-anchor="start">Refill: 1 token per second</text>
+  <text class="small" x="410" y="122" text-anchor="start">Each request spends one token.</text>
+  <text class="small" x="410" y="142" text-anchor="start">A burst of up to 5 is allowed.</text>
+  <rect class="box" x="20" y="110" width="150" height="50" rx="10"/>
+  <text class="label" x="95.0" y="140.0" text-anchor="middle">Requests</text>
+  <line class="line" x1="170" y1="135" x2="236" y2="135" marker-end="url(#arrow)"/>
+  <g class="rej"><rect class="box" x="400" y="170" width="220" height="40" rx="20"/><text class="label" x="510" y="195" text-anchor="middle">429 Too Many Requests</text></g>
+  <text class="small" x="20" y="246" text-anchor="start">When the bucket is empty, extra requests are rejected until tokens refill.</text>
+
+</svg>

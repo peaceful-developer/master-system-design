@@ -1,0 +1,41 @@
+{
+  "id": "storage-estimation-1",
+  "title": "Estimate chat storage",
+  "topics": ["estimation", "storage"],
+  "difficulty": "intermediate",
+  "scenario": "A chat service stores every message. Each message is about **100 bytes of text plus 200 bytes of metadata** (ids, timestamps, index entries), so 300 bytes in total. Use decimal units: 1 GB = 1,000,000,000 bytes, 1 PB = 1,000,000 GB. Anything within 25% counts.",
+  "givens": [
+    { "label": "Daily active users", "value": "50 million" },
+    { "label": "Messages sent per user per day", "value": 40 },
+    { "label": "Stored size per message", "value": 300, "unit": "bytes" },
+    { "label": "Retention", "value": 5, "unit": "years" },
+    { "label": "Copies of each message", "value": 3 }
+  ],
+  "questions": [
+    {
+      "id": "messages-per-day",
+      "prompt": "Messages per day",
+      "unit": "billion",
+      "answer": 2
+    },
+    {
+      "id": "storage-per-day",
+      "prompt": "New storage per day, one copy",
+      "unit": "GB",
+      "answer": 600
+    },
+    {
+      "id": "write-rate",
+      "prompt": "Average write rate to storage, one copy",
+      "unit": "MB/s",
+      "answer": 6.94
+    },
+    {
+      "id": "total",
+      "prompt": "Total storage for 5 years with 3 copies",
+      "unit": "PB",
+      "answer": 3.29
+    }
+  ],
+  "solution": "1. **Messages:** 50 million × 40 = **2 billion per day**.\n2. **Storage per day:** 2,000,000,000 × 300 bytes = 600,000,000,000 bytes = **600 GB per day**.\n3. **Write rate:** 600 GB ÷ 86,400 s ≈ 6.9 MB/s, about **7 MB/s**. That's easy for one disk to absorb, yet the total below is huge: bandwidth and storage tell different stories.\n4. **Total:** 600 GB × 365 × 5 ≈ 1,095,000 GB ≈ 1.1 PB for one copy, × 3 ≈ **3.3 PB**. No single machine holds that, so messages must be sharded, probably by conversation id, with older messages moved to cheaper storage."
+}

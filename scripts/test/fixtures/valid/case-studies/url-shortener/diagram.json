@@ -1,0 +1,18 @@
+{
+  "id": "url-shortener-hld",
+  "title": "URL shortener high-level design",
+  "nodes": [
+    { "id": "client", "type": "client", "label": "Client", "position": { "x": 0, "y": 80 } },
+    {
+      "id": "app",
+      "type": "app-server",
+      "label": "Shortener API",
+      "position": { "x": 240, "y": 80 }
+    },
+    { "id": "cache", "type": "cache", "label": "Redirect cache", "position": { "x": 480, "y": 80 } }
+  ],
+  "edges": [
+    { "id": "e1", "from": "client", "to": "app" },
+    { "id": "e2", "from": "app", "to": "cache" }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "id": "consistency-quiz",
+  "title": "Consistency, CAP and PACELC",
+  "topics": ["consistency", "distributed-systems"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "pick-model",
+      "prompt": "Which data can usually be eventually consistent?",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "The number of likes on a post" },
+        { "id": "b", "text": "Whether a username is already taken" },
+        { "id": "c", "text": "A news feed" },
+        { "id": "d", "text": "A view counter on a video" }
+      ],
+      "correct": ["a", "c", "d"],
+      "explanation": "Counts and feeds can be a few seconds stale without harm. A username check needs strong consistency, or two people could register the same name."
+    },
+    {
+      "id": "cap-meaning",
+      "prompt": "What does the CAP theorem actually say?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pick any two of consistency, availability and partition tolerance, all the time"
+        },
+        {
+          "id": "b",
+          "text": "During a network partition, a replicated system must choose between consistency and availability"
+        },
+        { "id": "c", "text": "Distributed databases can't be consistent" }
+      ],
+      "correct": ["b"],
+      "explanation": "Partitions can't be wished away, so the choice is between consistency and availability while one lasts. Without a partition, a system can offer both."
+    },
+    {
+      "id": "pacelc-else",
+      "prompt": "The network is healthy. A database waits for replicas in another region before acknowledging each write. According to PACELC, what is it trading?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Latency, to gain consistency" },
+        { "id": "b", "text": "Availability, to gain consistency" },
+        { "id": "c", "text": "Nothing; there is no trade-off without a partition" }
+      ],
+      "correct": ["a"],
+      "explanation": "The 'else' half of PACELC: without a partition, the choice is between latency and consistency. Waiting for remote replicas makes every write slower."
+    },
+    {
+      "id": "majority",
+      "prompt": "A consensus cluster must keep working with 2 nodes down. What's the smallest cluster that can do that?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "3 nodes" },
+        { "id": "b", "text": "4 nodes" },
+        { "id": "c", "text": "5 nodes" }
+      ],
+      "correct": ["c"],
+      "explanation": "Consensus needs a majority. With 5 nodes, 3 remain after 2 fail, which is a majority. With 4 nodes, 2 remain, which is not a majority of 4."
+    },
+    {
+      "id": "partition-behaviour",
+      "prompt": "A 5-node Raft cluster is split into a group of 3 and a group of 2, and the old leader is in the group of 2. What happens?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Both groups keep accepting writes and merge later" },
+        {
+          "id": "b",
+          "text": "The group of 3 elects a new leader and commits writes; the old leader can't reach a majority, so its new writes never commit"
+        },
+        { "id": "c", "text": "The whole cluster stops until the partition heals" }
+      ],
+      "correct": ["b"],
+      "explanation": "Only a majority can elect a leader or commit an entry. The group of 3 carries on. The old leader may accept requests but can't commit them, and it steps down when it sees the newer term."
+    }
+  ]
+}

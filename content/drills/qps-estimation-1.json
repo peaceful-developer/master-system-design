@@ -1,0 +1,41 @@
+{
+  "id": "qps-estimation-1",
+  "title": "Estimate feed traffic",
+  "topics": ["estimation", "traffic"],
+  "difficulty": "beginner",
+  "scenario": "A social app is planning capacity for its home feed. Every time a user opens the app, it makes **one feed request**. Users also write posts. Estimate the traffic. Rounded answers are fine: anything within 25% counts.",
+  "givens": [
+    { "label": "Daily active users", "value": "20 million" },
+    { "label": "Feed opens per user per day", "value": 10 },
+    { "label": "Posts per user per day", "value": 2 },
+    { "label": "Peak factor", "value": "3× average" },
+    { "label": "Average feed request time", "value": 200, "unit": "ms" }
+  ],
+  "questions": [
+    {
+      "id": "avg-feed",
+      "prompt": "Average feed requests per second",
+      "unit": "requests/s",
+      "answer": 2315
+    },
+    {
+      "id": "peak-feed",
+      "prompt": "Peak feed requests per second",
+      "unit": "requests/s",
+      "answer": 6944
+    },
+    {
+      "id": "avg-posts",
+      "prompt": "Average posts per second",
+      "unit": "posts/s",
+      "answer": 463
+    },
+    {
+      "id": "in-flight",
+      "prompt": "Feed requests in progress at the same moment, at peak",
+      "unit": "requests",
+      "answer": 1389
+    }
+  ],
+  "solution": "1. **Average feed:** 20 million × 10 = 200 million requests per day. 200,000,000 ÷ 86,400 ≈ **2,315 per second**. With the 100,000-second shortcut you'd get 2,000, which is close enough.\n2. **Peak feed:** 2,315 × 3 ≈ **6,900 per second**. Size the feed service for this, not the average.\n3. **Posts:** 20 million × 2 = 40 million per day ÷ 86,400 ≈ **463 per second**. Feed reads outnumber posts 5 to 1.\n4. **In progress at peak (Little's law):** rate × time = 6,944 × 0.2 s ≈ **1,400 requests** at once. If each app server handles 100 concurrent requests comfortably, you need about 14 servers at peak, plus headroom."
+}

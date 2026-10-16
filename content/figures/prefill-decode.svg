@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 254">
+  <title>LLM inference: prefill then decode</title>
+  <desc>The prompt tokens are processed together in one prefill pass. Then output tokens are generated one at a time; each step adds to the key-value cache so earlier work is not repeated.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .pre { animation: pre 8s step-end infinite; }
+    @keyframes pre { 0% { fill: var(--fig-fill, #fff); } 6% { fill: var(--fig-accent, #2bb24c); } }
+    .pre-t { animation: pre-t 8s step-end infinite; }
+    @keyframes pre-t { 0% { fill: var(--fig-stroke, #000); } 6% { fill: var(--fig-ink, #000); } }
+    .o0 { animation: o0 8s step-end infinite; }
+    @keyframes o0 { 0% { opacity: 0; } 30% { opacity: 1; } }
+    .k0 { animation: o0 8s step-end infinite; }
+    .o1 { animation: o1 8s step-end infinite; }
+    @keyframes o1 { 0% { opacity: 0; } 42% { opacity: 1; } }
+    .k1 { animation: o1 8s step-end infinite; }
+    .o2 { animation: o2 8s step-end infinite; }
+    @keyframes o2 { 0% { opacity: 0; } 54% { opacity: 1; } }
+    .k2 { animation: o2 8s step-end infinite; }
+    .o3 { animation: o3 8s step-end infinite; }
+    @keyframes o3 { 0% { opacity: 0; } 66% { opacity: 1; } }
+    .k3 { animation: o3 8s step-end infinite; }
+    .o4 { animation: o4 8s step-end infinite; }
+    @keyframes o4 { 0% { opacity: 0; } 78% { opacity: 1; } }
+    .k4 { animation: o4 8s step-end infinite; }
+
+    @media (prefers-reduced-motion: reduce) { .pre { animation: none; fill: var(--fig-accent, #2bb24c); } .pre-t { animation: none; fill: var(--fig-ink, #000); } .o0, .o1, .o2, .o3, .o4, .k0, .k1, .k2, .k3, .k4 { animation: none; opacity: 1; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <text class="label" x="10" y="24" text-anchor="start">Prefill: the whole prompt is processed in one parallel pass</text>
+  <rect class="box pre" x="10" y="38" width="60" height="40" rx="6"/><text class="small pre-t" x="40" y="63" text-anchor="middle">What</text>
+  <rect class="box pre" x="80" y="38" width="60" height="40" rx="6"/><text class="small pre-t" x="110" y="63" text-anchor="middle">is</text>
+  <rect class="box pre" x="150" y="38" width="60" height="40" rx="6"/><text class="small pre-t" x="180" y="63" text-anchor="middle">a</text>
+  <rect class="box pre" x="220" y="38" width="60" height="40" rx="6"/><text class="small pre-t" x="250" y="63" text-anchor="middle">cache</text>
+  <rect class="box pre" x="290" y="38" width="60" height="40" rx="6"/><text class="small pre-t" x="320" y="63" text-anchor="middle">?</text>
+  <text class="small" x="360" y="64" text-anchor="start">(prompt)</text>
+  <text class="label" x="10" y="116" text-anchor="start">Decode: one new token per step, each reusing the KV cache</text>
+  <g class="o0"><rect class="accent-box" x="10" y="130" width="72" height="40" rx="6"/><text class="small ink" x="46" y="155" text-anchor="middle">A</text></g>
+  <g class="o1"><rect class="accent-box" x="92" y="130" width="72" height="40" rx="6"/><text class="small ink" x="128" y="155" text-anchor="middle">cache</text></g>
+  <g class="o2"><rect class="accent-box" x="174" y="130" width="72" height="40" rx="6"/><text class="small ink" x="210" y="155" text-anchor="middle">stores</text></g>
+  <g class="o3"><rect class="accent-box" x="256" y="130" width="72" height="40" rx="6"/><text class="small ink" x="292" y="155" text-anchor="middle">copies</text></g>
+  <g class="o4"><rect class="accent-box" x="338" y="130" width="72" height="40" rx="6"/><text class="small ink" x="374" y="155" text-anchor="middle">…</text></g>
+  <text class="label" x="10" y="206" text-anchor="start">KV cache</text>
+  <rect class="soft" x="90" y="190" width="400" height="24" rx="4"/>
+  <rect class="accent-box" x="90" y="190" width="160" height="24" rx="4"/>
+  <rect class="accent-box k0" x="250" y="190" width="48" height="24" rx="4"/>
+  <rect class="accent-box k1" x="298" y="190" width="48" height="24" rx="4"/>
+  <rect class="accent-box k2" x="346" y="190" width="48" height="24" rx="4"/>
+  <rect class="accent-box k3" x="394" y="190" width="48" height="24" rx="4"/>
+  <rect class="accent-box k4" x="442" y="190" width="48" height="24" rx="4"/>
+  <text class="small" x="500" y="207" text-anchor="start">grows per token</text>
+  <text class="small" x="10" y="244" text-anchor="start">Time to first token ≈ prefill; total time ≈ prefill + output tokens × time per token.</text>
+
+</svg>

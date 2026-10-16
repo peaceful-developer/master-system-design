@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 248">
+  <title>Retrieval-augmented generation (RAG)</title>
+  <desc>Ahead of time, documents are split into chunks, embedded and stored in a vector index. To answer a question, the question is embedded, the closest chunks are retrieved and reranked, and the model answers using them as context.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .pk { animation: rag 7s linear infinite; }
+    @keyframes rag { 0% { transform: translate(110px, 175px); opacity: 1; } 16% { transform: translate(136px, 175px); opacity: 1; } 32% { transform: translate(262px, 175px); opacity: 1; } 48% { transform: translate(388px, 175px); opacity: 1; } 64% { transform: translate(514px, 175px); opacity: 1; } 80% { transform: translate(610px, 175px); opacity: 1; } 88% { transform: translate(610px, 175px); opacity: 0; } 100% { transform: translate(110px, 175px); opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) { .pk { animation: none; opacity: 0; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <text class="label" x="10" y="22" text-anchor="start">Indexing (ahead of time)</text>
+  <rect class="box" x="10" y="34" width="110" height="46" rx="10"/>
+  <text class="label" x="65.0" y="62.0" text-anchor="middle">Documents</text>
+  <rect class="box" x="160" y="34" width="110" height="46" rx="10"/>
+  <text class="label" x="215.0" y="62.0" text-anchor="middle">Chunk</text>
+  <line class="line" x1="120" y1="57" x2="158" y2="57" marker-end="url(#arrow)"/>
+  <rect class="box" x="310" y="34" width="110" height="46" rx="10"/>
+  <text class="label" x="365.0" y="62.0" text-anchor="middle">Embed</text>
+  <line class="line" x1="270" y1="57" x2="308" y2="57" marker-end="url(#arrow)"/>
+  <rect class="accent-box" x="460" y="34" width="110" height="46" rx="10"/>
+  <text class="label ink" x="515.0" y="54.0" text-anchor="middle">Vector</text>
+  <text class="small ink" x="515.0" y="72.0" text-anchor="middle">index</text>
+  <line class="line" x1="420" y1="57" x2="458" y2="57" marker-end="url(#arrow)"/>
+  <text class="label" x="10" y="132" text-anchor="start">Answering a question</text>
+  <rect class="box" x="10" y="150" width="100" height="50" rx="10"/>
+  <text class="label" x="60.0" y="180.0" text-anchor="middle">Question</text>
+  <rect class="box" x="136" y="150" width="100" height="50" rx="10"/>
+  <text class="label" x="186.0" y="180.0" text-anchor="middle">Embed</text>
+  <line class="line" x1="110" y1="175" x2="134" y2="175" marker-end="url(#arrow)"/>
+  <rect class="box" x="262" y="150" width="100" height="50" rx="10"/>
+  <text class="label" x="312.0" y="172.0" text-anchor="middle">Retrieve</text>
+  <text class="small" x="312.0" y="190.0" text-anchor="middle">top chunks</text>
+  <line class="line" x1="236" y1="175" x2="260" y2="175" marker-end="url(#arrow)"/>
+  <rect class="box" x="388" y="150" width="100" height="50" rx="10"/>
+  <text class="label" x="438.0" y="180.0" text-anchor="middle">Rerank</text>
+  <line class="line" x1="362" y1="175" x2="386" y2="175" marker-end="url(#arrow)"/>
+  <rect class="accent-box" x="514" y="150" width="100" height="50" rx="10"/>
+  <text class="label ink" x="564.0" y="172.0" text-anchor="middle">Generate</text>
+  <text class="small ink" x="564.0" y="190.0" text-anchor="middle">LLM + context</text>
+  <line class="line" x1="488" y1="175" x2="512" y2="175" marker-end="url(#arrow)"/>
+  <line class="line" x1="500" y1="80" x2="310" y2="148" marker-end="url(#arrow)"/>
+  <text class="small" x="10" y="236" text-anchor="start">The answer cites the chunks it used, so readers can check it.</text>
+  <circle class="packet pk" cx="0" cy="0" r="7"/>
+
+</svg>

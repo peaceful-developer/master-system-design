@@ -1,0 +1,81 @@
+{
+  "id": "how-the-web-works-quiz",
+  "title": "How the web works",
+  "topics": ["networking", "http"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "dns-role",
+      "prompt": "What does DNS do when you visit example.com?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "It encrypts the connection to the server" },
+        { "id": "b", "text": "It translates the name example.com into an IP address" },
+        { "id": "c", "text": "It delivers the page content in order" },
+        { "id": "d", "text": "It decides which server in a data centre handles the request" }
+      ],
+      "correct": ["b"],
+      "explanation": "DNS is the internet's directory: it maps names to IP addresses. Encryption is TLS's job, and reliable ordered delivery is TCP's.",
+      "hint": "Think of a phone directory."
+    },
+    {
+      "id": "tcp-cost",
+      "prompt": "How many round trips does a TCP handshake cost before the client can send its request?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Zero" },
+        { "id": "b", "text": "One" },
+        { "id": "c", "text": "Three" }
+      ],
+      "correct": ["b"],
+      "explanation": "The handshake has three messages (SYN, SYN-ACK, ACK), but the client can send data with the final ACK, so it waits for one full round trip.",
+      "hint": "Count how many times the client has to wait for an answer."
+    },
+    {
+      "id": "status-429",
+      "prompt": "A server answers 429 Too Many Requests. Which family is this, and whose side is the problem on?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "4xx: the client should change what it's doing (here, slow down)" },
+        { "id": "b", "text": "5xx: the server crashed" },
+        { "id": "c", "text": "3xx: the client should look elsewhere" }
+      ],
+      "correct": ["a"],
+      "explanation": "4xx codes mean the request needs to change. 429 tells the client it's sending too fast and should back off, often guided by a Retry-After header."
+    },
+    {
+      "id": "faster-first-byte",
+      "prompt": "A server is 100 ms away (one round trip = 100 ms). Which changes reduce the time before the first byte of a page arrives?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Reusing an existing connection with keep-alive" },
+        { "id": "b", "text": "Serving the page from a CDN location 10 ms away" },
+        { "id": "c", "text": "Doubling the server's CPU speed when the server takes 2 ms" },
+        { "id": "d", "text": "Using TLS 1.3 instead of TLS 1.2 for new connections" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Keep-alive skips the TCP and TLS handshakes, a CDN shortens every round trip, and TLS 1.3 needs one handshake round trip instead of two. Halving 2 ms of server time saves only 1 ms out of hundreds.",
+      "hint": "Where is the time actually going: in round trips or on the server?"
+    },
+    {
+      "id": "http3",
+      "prompt": "Why does HTTP/3 avoid head-of-line blocking between requests on the same connection?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "It sends each request over a separate TCP connection" },
+        {
+          "id": "b",
+          "text": "It runs over QUIC, where each stream is delivered independently, so a lost packet only delays its own stream"
+        },
+        { "id": "c", "text": "It disables encryption so packets are smaller" }
+      ],
+      "correct": ["b"],
+      "explanation": "TCP delivers one ordered byte stream, so a lost packet stalls everything behind it. QUIC (on UDP) has independent streams, so loss on one doesn't block the others. It still encrypts everything with TLS 1.3."
+    }
+  ]
+}

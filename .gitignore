@@ -1,0 +1,32 @@
+# Build output
+/dist
+/tmp
+/out-tsc
+/.angular/cache
+
+# Generated content (written by scripts/build-content.ts)
+/src/generated/
+
+# Dependencies
+/node_modules
+npm-debug.log
+
+# Test and audit output
+/coverage
+/test-results/
+/playwright-report/
+/.lighthouseci/
+__screenshots__/
+
+# Local agent workspace
+/.superpowers/
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.history/
+
+# System files
+.DS_Store
+Thumbs.db

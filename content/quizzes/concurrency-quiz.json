@@ -1,0 +1,84 @@
+{
+  "id": "concurrency-quiz",
+  "title": "Processes, threads and concurrency",
+  "topics": ["concurrency"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "shared-memory",
+      "prompt": "What is the key difference between a process and a thread?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        {
+          "id": "a",
+          "text": "Threads in the same process share memory; processes have separate memory"
+        },
+        { "id": "b", "text": "Processes are always faster than threads" },
+        { "id": "c", "text": "Threads can only run on one CPU core" }
+      ],
+      "correct": ["a"],
+      "explanation": "Processes are isolated by the operating system. Threads inside one process share its memory, which makes communication cheap but invites race conditions."
+    },
+    {
+      "id": "race",
+      "prompt": "Two threads each add 1 to a shared counter 1,000 times without a lock. The final value is 1,874. What happened?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        {
+          "id": "a",
+          "text": "A race condition: some read-add-write steps interleaved and overwrote each other"
+        },
+        { "id": "b", "text": "A deadlock: the threads stopped early" },
+        { "id": "c", "text": "The CPU rounded the numbers" }
+      ],
+      "correct": ["a"],
+      "explanation": "Incrementing is read, add, write. When two threads read the same old value, one update is lost. A lock or an atomic increment fixes it.",
+      "hint": "Look at the table in the lesson where two threads both read 5."
+    },
+    {
+      "id": "event-loop-risk",
+      "prompt": "An event-loop server suddenly gets slow for every user after a new feature that resizes uploaded images inside the request handler. Why?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        {
+          "id": "a",
+          "text": "Image resizing is CPU work that blocks the single loop thread, so all other requests wait"
+        },
+        { "id": "b", "text": "Event loops cannot read files" },
+        { "id": "c", "text": "The images use too much network bandwidth" }
+      ],
+      "correct": ["a"],
+      "explanation": "Event loops stay fast only when handlers return quickly. Heavy CPU work must move to worker threads or a separate service."
+    },
+    {
+      "id": "deadlock-fix",
+      "prompt": "Which practices help prevent deadlocks?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Always acquire multiple locks in the same global order" },
+        { "id": "b", "text": "Hold locks for as short a time as possible" },
+        { "id": "c", "text": "Use timeouts when waiting for a lock" },
+        { "id": "d", "text": "Add more threads" }
+      ],
+      "correct": ["a", "b", "c"],
+      "explanation": "A consistent order removes the circular wait, short critical sections reduce the chance of conflict, and timeouts let a thread back off and retry. More threads don't help and can make contention worse."
+    },
+    {
+      "id": "pool-throughput",
+      "prompt": "A service uses a pool of 100 threads. Each request blocks for 50 ms waiting on the database and uses almost no CPU. Roughly what's the maximum throughput?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "100 requests per second" },
+        { "id": "b", "text": "2,000 requests per second" },
+        { "id": "c", "text": "Unlimited, since the CPU is idle" }
+      ],
+      "correct": ["b"],
+      "explanation": "Each thread finishes 1 / 0.05 s = 20 requests per second, and 100 threads give 2,000 per second. This is Little's Law: concurrency = throughput × latency."
+    }
+  ]
+}

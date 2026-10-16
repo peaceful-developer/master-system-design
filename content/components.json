@@ -1,0 +1,488 @@
+{
+  "note": "Illustrative teaching values, not vendor benchmarks.",
+  "components": [
+    {
+      "type": "client",
+      "label": "Client",
+      "category": "clients-edge",
+      "icon": "client",
+      "description": "Users, browsers or devices that send requests to the system.",
+      "sim": {
+        "capacityRps": 1000000,
+        "instances": 1,
+        "baseLatencyMs": 0,
+        "costPerHourPerInstance": 0
+      }
+    },
+    {
+      "type": "dns",
+      "label": "DNS",
+      "category": "clients-edge",
+      "icon": "dns",
+      "description": "Translates names like example.com into IP addresses; answers are cached along the way.",
+      "sim": {
+        "capacityRps": 100000,
+        "instances": 2,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.05
+      }
+    },
+    {
+      "type": "cdn",
+      "label": "CDN",
+      "category": "clients-edge",
+      "icon": "cdn",
+      "description": "Edge servers close to users that cache and serve static or cacheable content.",
+      "sim": {
+        "capacityRps": 200000,
+        "instances": 1,
+        "baseLatencyMs": 10,
+        "costPerHourPerInstance": 0.5,
+        "hitRate": 0.9
+      }
+    },
+    {
+      "type": "api-gateway",
+      "label": "API gateway",
+      "category": "clients-edge",
+      "icon": "api-gateway",
+      "description": "Single entry point that routes requests and handles authentication and rate limits.",
+      "sim": {
+        "capacityRps": 10000,
+        "instances": 2,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.2
+      }
+    },
+    {
+      "type": "load-balancer",
+      "label": "Load balancer",
+      "category": "clients-edge",
+      "icon": "load-balancer",
+      "description": "Spreads incoming requests across the healthy instances of a service.",
+      "sim": {
+        "capacityRps": 50000,
+        "instances": 2,
+        "baseLatencyMs": 1,
+        "costPerHourPerInstance": 0.03
+      }
+    },
+    {
+      "type": "app-server",
+      "label": "App server",
+      "category": "compute",
+      "icon": "app-server",
+      "description": "Stateless service that runs your business logic.",
+      "sim": {
+        "capacityRps": 1000,
+        "instances": 3,
+        "baseLatencyMs": 20,
+        "costPerHourPerInstance": 0.1
+      }
+    },
+    {
+      "type": "serverless-function",
+      "label": "Serverless function",
+      "category": "compute",
+      "icon": "serverless-function",
+      "description": "Code that runs on demand and scales per request; you pay per invocation.",
+      "sim": {
+        "capacityRps": 500,
+        "instances": 10,
+        "baseLatencyMs": 40,
+        "costPerHourPerInstance": 0.05
+      }
+    },
+    {
+      "type": "worker",
+      "label": "Worker",
+      "category": "compute",
+      "icon": "worker",
+      "description": "Background process that takes jobs from a queue and processes them.",
+      "sim": {
+        "capacityRps": 200,
+        "instances": 4,
+        "baseLatencyMs": 100,
+        "costPerHourPerInstance": 0.1
+      }
+    },
+    {
+      "type": "scheduler",
+      "label": "Scheduler",
+      "category": "compute",
+      "icon": "scheduler",
+      "description": "Starts jobs on a timetable, like cron.",
+      "sim": {
+        "capacityRps": 10,
+        "instances": 1,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.02
+      }
+    },
+    {
+      "type": "sql-primary",
+      "label": "SQL database (primary)",
+      "category": "data",
+      "icon": "sql-primary",
+      "description": "Relational database that accepts writes; the source of truth.",
+      "sim": {
+        "capacityRps": 5000,
+        "instances": 1,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.5
+      }
+    },
+    {
+      "type": "sql-replica",
+      "label": "SQL read replica",
+      "category": "data",
+      "icon": "sql-replica",
+      "description": "Read-only copy that follows the primary and may lag slightly behind it.",
+      "sim": {
+        "capacityRps": 5000,
+        "instances": 2,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.5,
+        "readShare": 0.8
+      }
+    },
+    {
+      "type": "nosql-store",
+      "label": "NoSQL store",
+      "category": "data",
+      "icon": "nosql-store",
+      "description": "Partitioned key-value or document store that scales out horizontally.",
+      "sim": {
+        "capacityRps": 20000,
+        "instances": 3,
+        "baseLatencyMs": 3,
+        "costPerHourPerInstance": 0.4
+      }
+    },
+    {
+      "type": "cache",
+      "label": "Cache",
+      "category": "data",
+      "icon": "cache",
+      "description": "In-memory key-value store that keeps hot data close to the application.",
+      "sim": {
+        "capacityRps": 100000,
+        "instances": 2,
+        "baseLatencyMs": 1,
+        "costPerHourPerInstance": 0.2,
+        "hitRate": 0.8
+      }
+    },
+    {
+      "type": "object-storage",
+      "label": "Object storage",
+      "category": "data",
+      "icon": "object-storage",
+      "description": "Durable storage for files and large blobs, addressed by key.",
+      "sim": {
+        "capacityRps": 5000,
+        "instances": 1,
+        "baseLatencyMs": 50,
+        "costPerHourPerInstance": 0.05
+      }
+    },
+    {
+      "type": "search-index",
+      "label": "Search index",
+      "category": "data",
+      "icon": "search-index",
+      "description": "Inverted index that answers full-text and filtered search queries.",
+      "sim": {
+        "capacityRps": 2000,
+        "instances": 3,
+        "baseLatencyMs": 20,
+        "costPerHourPerInstance": 0.4
+      }
+    },
+    {
+      "type": "data-warehouse",
+      "label": "Data warehouse",
+      "category": "data",
+      "icon": "data-warehouse",
+      "description": "Columnar store built for large analytical queries over historical data.",
+      "sim": {
+        "capacityRps": 50,
+        "instances": 1,
+        "baseLatencyMs": 2000,
+        "costPerHourPerInstance": 2
+      }
+    },
+    {
+      "type": "message-queue",
+      "label": "Message queue",
+      "category": "messaging",
+      "icon": "message-queue",
+      "description": "Buffers jobs so producers and consumers can work at different speeds.",
+      "sim": {
+        "capacityRps": 20000,
+        "instances": 1,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.1,
+        "maxDepth": 100000
+      }
+    },
+    {
+      "type": "event-stream",
+      "label": "Event stream",
+      "category": "messaging",
+      "icon": "event-stream",
+      "description": "Durable, ordered, replayable log of events split into partitions.",
+      "sim": {
+        "capacityRps": 50000,
+        "instances": 3,
+        "baseLatencyMs": 10,
+        "costPerHourPerInstance": 0.3,
+        "maxDepth": 10000000
+      }
+    },
+    {
+      "type": "pub-sub",
+      "label": "Pub/sub topic",
+      "category": "messaging",
+      "icon": "pub-sub",
+      "description": "Delivers each published message to every subscriber.",
+      "sim": {
+        "capacityRps": 20000,
+        "instances": 1,
+        "baseLatencyMs": 10,
+        "costPerHourPerInstance": 0.1,
+        "maxDepth": 100000
+      }
+    },
+    {
+      "type": "feature-store",
+      "label": "Feature store",
+      "category": "ml",
+      "icon": "feature-store",
+      "description": "Serves the same feature values for training (offline) and inference (online).",
+      "sim": {
+        "capacityRps": 20000,
+        "instances": 3,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.5
+      }
+    },
+    {
+      "type": "training-pipeline",
+      "label": "Training pipeline",
+      "category": "ml",
+      "icon": "training-pipeline",
+      "description": "Turns data and code into a trained, versioned model.",
+      "sim": {
+        "capacityRps": 1,
+        "instances": 1,
+        "baseLatencyMs": 60000,
+        "costPerHourPerInstance": 4
+      }
+    },
+    {
+      "type": "model-registry",
+      "label": "Model registry",
+      "category": "ml",
+      "icon": "model-registry",
+      "description": "Stores model versions with their metadata, metrics and approval status.",
+      "sim": {
+        "capacityRps": 100,
+        "instances": 1,
+        "baseLatencyMs": 20,
+        "costPerHourPerInstance": 0.05
+      }
+    },
+    {
+      "type": "model-server-cpu",
+      "label": "Model server (CPU)",
+      "category": "ml",
+      "icon": "model-server-cpu",
+      "description": "Serves predictions from smaller models on CPU machines.",
+      "sim": {
+        "capacityRps": 200,
+        "instances": 4,
+        "baseLatencyMs": 15,
+        "costPerHourPerInstance": 0.2
+      }
+    },
+    {
+      "type": "model-server-gpu",
+      "label": "Model server (GPU)",
+      "category": "ml",
+      "icon": "model-server-gpu",
+      "description": "Serves predictions from larger models on GPUs, batching requests together.",
+      "sim": {
+        "capacityRps": 2000,
+        "instances": 2,
+        "baseLatencyMs": 10,
+        "costPerHourPerInstance": 3,
+        "maxBatchSize": 32
+      }
+    },
+    {
+      "type": "batch-inference",
+      "label": "Batch inference job",
+      "category": "ml",
+      "icon": "batch-inference",
+      "description": "Scores large datasets offline, usually on a schedule.",
+      "sim": {
+        "capacityRps": 10000,
+        "instances": 1,
+        "baseLatencyMs": 60000,
+        "costPerHourPerInstance": 3
+      }
+    },
+    {
+      "type": "drift-monitor",
+      "label": "Drift monitor",
+      "category": "ml",
+      "icon": "drift-monitor",
+      "description": "Watches input data and predictions for changes that degrade a model.",
+      "sim": {
+        "capacityRps": 5000,
+        "instances": 1,
+        "baseLatencyMs": 5,
+        "costPerHourPerInstance": 0.1
+      }
+    },
+    {
+      "type": "llm-api",
+      "label": "LLM endpoint (hosted API)",
+      "category": "llm",
+      "icon": "llm-api",
+      "description": "A model provider’s API: pay per token and run no GPUs yourself.",
+      "sim": {
+        "capacityRps": 100,
+        "instances": 1,
+        "baseLatencyMs": 800,
+        "costPerHourPerInstance": 0,
+        "tokensPerSecond": 60,
+        "avgInputTokens": 1000,
+        "avgOutputTokens": 300
+      }
+    },
+    {
+      "type": "llm-self-hosted",
+      "label": "Self-hosted LLM (GPU)",
+      "category": "llm",
+      "icon": "llm-self-hosted",
+      "description": "An open-weight model on your own GPUs, batching many requests at once.",
+      "sim": {
+        "capacityRps": 5,
+        "instances": 2,
+        "baseLatencyMs": 600,
+        "costPerHourPerInstance": 4,
+        "tokensPerSecond": 2500,
+        "avgInputTokens": 1000,
+        "avgOutputTokens": 250,
+        "maxBatchSize": 32
+      }
+    },
+    {
+      "type": "embedding-model",
+      "label": "Embedding model",
+      "category": "llm",
+      "icon": "embedding-model",
+      "description": "Turns text or images into vectors so similar items end up close together.",
+      "sim": {
+        "capacityRps": 500,
+        "instances": 2,
+        "baseLatencyMs": 20,
+        "costPerHourPerInstance": 1
+      }
+    },
+    {
+      "type": "vector-db",
+      "label": "Vector database",
+      "category": "llm",
+      "icon": "vector-db",
+      "description": "Finds the stored vectors nearest to a query vector (approximate nearest neighbours).",
+      "sim": {
+        "capacityRps": 2000,
+        "instances": 2,
+        "baseLatencyMs": 15,
+        "costPerHourPerInstance": 0.6
+      }
+    },
+    {
+      "type": "reranker",
+      "label": "Reranker",
+      "category": "llm",
+      "icon": "reranker",
+      "description": "Re-scores the top candidates from retrieval with a stronger, slower model.",
+      "sim": {
+        "capacityRps": 300,
+        "instances": 2,
+        "baseLatencyMs": 50,
+        "costPerHourPerInstance": 1.5
+      }
+    },
+    {
+      "type": "semantic-cache",
+      "label": "Prompt / semantic cache",
+      "category": "llm",
+      "icon": "semantic-cache",
+      "description": "Returns stored answers for repeated or very similar prompts.",
+      "sim": {
+        "capacityRps": 20000,
+        "instances": 2,
+        "baseLatencyMs": 10,
+        "costPerHourPerInstance": 0.3,
+        "hitRate": 0.3
+      }
+    },
+    {
+      "type": "guardrail",
+      "label": "Guardrail filter",
+      "category": "llm",
+      "icon": "guardrail",
+      "description": "Checks inputs and outputs against safety and policy rules.",
+      "sim": {
+        "capacityRps": 1000,
+        "instances": 2,
+        "baseLatencyMs": 30,
+        "costPerHourPerInstance": 0.5
+      }
+    },
+    {
+      "type": "agent-orchestrator",
+      "label": "Agent orchestrator",
+      "category": "llm",
+      "icon": "agent-orchestrator",
+      "description": "Runs the plan, act, observe loop: calls the model and tools step by step.",
+      "sim": {
+        "capacityRps": 200,
+        "instances": 2,
+        "baseLatencyMs": 50,
+        "costPerHourPerInstance": 0.2
+      }
+    },
+    {
+      "type": "tool",
+      "label": "Tool / function",
+      "category": "llm",
+      "icon": "tool",
+      "description": "An external capability an agent can call, such as search or a database query.",
+      "sim": {
+        "capacityRps": 500,
+        "instances": 1,
+        "baseLatencyMs": 100,
+        "costPerHourPerInstance": 0.1
+      }
+    },
+    {
+      "type": "eval-service",
+      "label": "Evaluation service",
+      "category": "llm",
+      "icon": "eval-service",
+      "description": "Scores model outputs against test sets and rubrics.",
+      "sim": {
+        "capacityRps": 50,
+        "instances": 1,
+        "baseLatencyMs": 500,
+        "costPerHourPerInstance": 0.5
+      }
+    }
+  ]
+}

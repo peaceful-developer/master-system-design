@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <title>Polly cheers</title>
+  <desc>Polly raises both wings in celebration, surrounded by sparkles.</desc>
+  <style>
+    .ink { fill: var(--fig-ink, #000); }
+    .out { stroke: var(--fig-ink, #000); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+    .body { fill: var(--fig-accent, #2bb24c); }
+    .paper { fill: var(--fig-paper, #fff); }
+    .none { fill: none; }
+    .mark { fill: var(--fig-stroke, #000); font-size: 26px; font-weight: 700; }
+    .on-bg { fill: var(--fig-stroke, #000); }
+
+    .hop { animation: hop 1.2s ease-in-out infinite; }
+    @keyframes hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .spark { transform-box: fill-box; transform-origin: center; animation: twinkle 1.2s infinite; }
+    .s2 { animation-delay: 0.3s; } .s3 { animation-delay: 0.6s; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1); } }
+
+    @media (prefers-reduced-motion: reduce) { .hop, .spark { animation: none; } .spark { opacity: 1; } }
+  </style>
+  <g class="hop"><path class="body out" d="M50 98 L42 116 L52 111 L58 117 L60 99 Z"/><path class="body out" d="M36 66 C22 58 16 40 24 30 C32 42 40 52 46 60 Z"/><path class="body out" d="M80 66 C94 58 100 40 92 30 C84 42 76 52 70 60 Z"/><ellipse class="body out" cx="58" cy="74" rx="27" ry="31"/><ellipse class="paper out" cx="63" cy="82" rx="13.5" ry="18"/><path class="none out" d="M51 104 v7 M65 104 v7"/><g class="head"><path class="none out" d="M54 21 L46 9 M57 19 L57 5 M60 21 L68 10"/><circle class="body out" cx="46" cy="9" r="3.5"/><circle class="body out" cx="57" cy="5" r="3.5"/><circle class="body out" cx="68" cy="10" r="3.5"/><circle class="body out" cx="58" cy="40" r="21"/><path class="ink out" d="M77 33 C87 33 92 39 92 46 C92 50 89 53 86 54 C87 50 85 47 81 46 L77 46 Z"/><g class="eye"><circle class="paper out" cx="66" cy="36" r="6"/><circle class="ink" cx="67.5" cy="36" r="2.8"/></g></g></g><path class="on-bg spark s1" d="M14 18 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z"/><path class="on-bg spark s2" d="M104 28 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5 z"/><path class="on-bg spark s3" d="M100 92 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5 z"/>
+</svg>

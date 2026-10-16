@@ -1,0 +1,86 @@
+{
+  "id": "rate-limiting-quiz",
+  "title": "Rate limiting and idempotency",
+  "topics": ["rate-limiting", "reliability"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "status",
+      "prompt": "A client exceeds its rate limit. What should the API return?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "500 Internal Server Error" },
+        { "id": "b", "text": "429 Too Many Requests, with a Retry-After header" },
+        { "id": "c", "text": "200 OK with an empty body" }
+      ],
+      "correct": ["b"],
+      "explanation": "429 tells the client it's being limited, and Retry-After tells it when to try again. A 500 wrongly suggests the server is broken."
+    },
+    {
+      "id": "bucket-burst",
+      "prompt": "A token bucket has capacity 10 and refills 2 tokens per second. It's full. A client sends 15 requests at once. How many are allowed immediately?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "2" },
+        { "id": "b", "text": "10" },
+        { "id": "c", "text": "15" }
+      ],
+      "correct": ["b"],
+      "explanation": "A full bucket allows a burst up to its capacity: 10 requests. The other 5 are rejected; the bucket then earns 2 tokens each second."
+    },
+    {
+      "id": "fixed-window-edge",
+      "prompt": "A fixed window limiter allows 100 requests per minute. What's the most a client can send within a 2-second span?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "100" },
+        {
+          "id": "b",
+          "text": "200, by sending 100 just before a minute boundary and 100 just after"
+        },
+        { "id": "c", "text": "About 3" }
+      ],
+      "correct": ["b"],
+      "explanation": "Each calendar minute has its own counter, so the end of one window and the start of the next can both be used fully. Sliding windows avoid this."
+    },
+    {
+      "id": "idempotent-retry",
+      "prompt": "A payment request times out and the client retries. Which make the retry safe?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "The client sends the same idempotency key on the retry" },
+        {
+          "id": "b",
+          "text": "The server stores each key with its result and returns the stored result for a repeat"
+        },
+        { "id": "c", "text": "The client generates a new idempotency key for the retry" },
+        {
+          "id": "d",
+          "text": "A unique constraint on the key stops two simultaneous requests from both charging"
+        }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "The key must stay the same across retries so the server can recognize the repeat. A new key makes the retry look like a new payment."
+    },
+    {
+      "id": "jitter",
+      "prompt": "Ten thousand clients lose their connection at the same moment and retry with exponential backoff but no jitter. What goes wrong?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Nothing; exponential backoff alone spreads the load" },
+        {
+          "id": "b",
+          "text": "They all retry at the same instants, so the recovering server gets synchronized waves of traffic"
+        },
+        { "id": "c", "text": "The clients never retry" }
+      ],
+      "correct": ["b"],
+      "explanation": "Clients that failed together compute the same backoff, so they retry together at 100 ms, 200 ms, 400 ms and so on. Random jitter spreads them out."
+    }
+  ]
+}

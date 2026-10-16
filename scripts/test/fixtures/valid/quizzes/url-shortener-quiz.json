@@ -1,0 +1,20 @@
+{
+  "id": "url-shortener-quiz",
+  "title": "URL shortener quiz",
+  "topics": ["caching"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "Is a URL shortener read-heavy or write-heavy?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "read", "text": "Read-heavy" },
+        { "id": "write", "text": "Write-heavy" }
+      ],
+      "correct": ["read"],
+      "explanation": "Each link is created once and followed many times."
+    }
+  ]
+}

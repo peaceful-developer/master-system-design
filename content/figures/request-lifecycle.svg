@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250">
+  <title>What happens when you open a web page</title>
+  <desc>The browser asks DNS for the server address, opens a TCP connection, sets up TLS encryption, then sends the HTTP request and receives the response. Each step is a round trip.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .pk { animation: trip 8s linear infinite; }
+    @keyframes trip { 0% { transform: translate(140px, 125px); opacity: 1; } 10% { transform: translate(320px, 54px); opacity: 1; } 20% { transform: translate(140px, 125px); opacity: 1; } 30% { transform: translate(500px, 125px); opacity: 1; } 40% { transform: translate(140px, 125px); opacity: 1; } 52% { transform: translate(500px, 125px); opacity: 1; } 64% { transform: translate(140px, 125px); opacity: 1; } 78% { transform: translate(500px, 125px); opacity: 1; } 90% { transform: translate(140px, 125px); opacity: 1; } 100% { transform: translate(140px, 125px); opacity: 1; } }
+    .st0 rect { animation: st0 8s step-end infinite; }
+    @keyframes st0 { 0% { fill: var(--fig-fill, #fff); } 0% { fill: var(--fig-accent, #2bb24c); } 20% { fill: var(--fig-fill, #fff); } }
+    .st0 text { animation: st0t 8s step-end infinite; }
+    @keyframes st0t { 0% { fill: var(--fig-stroke, #000); } 0% { fill: var(--fig-ink, #000); } 20% { fill: var(--fig-stroke, #000); } }
+    .st1 rect { animation: st1 8s step-end infinite; }
+    @keyframes st1 { 0% { fill: var(--fig-fill, #fff); } 20% { fill: var(--fig-accent, #2bb24c); } 40% { fill: var(--fig-fill, #fff); } }
+    .st1 text { animation: st1t 8s step-end infinite; }
+    @keyframes st1t { 0% { fill: var(--fig-stroke, #000); } 20% { fill: var(--fig-ink, #000); } 40% { fill: var(--fig-stroke, #000); } }
+    .st2 rect { animation: st2 8s step-end infinite; }
+    @keyframes st2 { 0% { fill: var(--fig-fill, #fff); } 40% { fill: var(--fig-accent, #2bb24c); } 64% { fill: var(--fig-fill, #fff); } }
+    .st2 text { animation: st2t 8s step-end infinite; }
+    @keyframes st2t { 0% { fill: var(--fig-stroke, #000); } 40% { fill: var(--fig-ink, #000); } 64% { fill: var(--fig-stroke, #000); } }
+    .st3 rect { animation: st3 8s step-end infinite; }
+    @keyframes st3 { 0% { fill: var(--fig-fill, #fff); } 64% { fill: var(--fig-accent, #2bb24c); } 90% { fill: var(--fig-fill, #fff); } }
+    .st3 text { animation: st3t 8s step-end infinite; }
+    @keyframes st3t { 0% { fill: var(--fig-stroke, #000); } 64% { fill: var(--fig-ink, #000); } 90% { fill: var(--fig-stroke, #000); } }
+
+    @media (prefers-reduced-motion: reduce) { .pk { animation: none; opacity: 0; } .st0 rect, .st1 rect, .st2 rect, .st3 rect, .st0 text, .st1 text, .st2 text, .st3 text { animation: none; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <rect class="box" x="20" y="90" width="120" height="70" rx="10"/>
+  <text class="label" x="80.0" y="130.0" text-anchor="middle">Browser</text>
+  <rect class="box" x="500" y="90" width="120" height="70" rx="10"/>
+  <text class="label" x="560.0" y="130.0" text-anchor="middle">Web server</text>
+  <rect class="box" x="260" y="10" width="120" height="44" rx="10"/>
+  <text class="label" x="320.0" y="37.0" text-anchor="middle">DNS</text>
+  <line class="dash" x1="140" y1="110" x2="262" y2="52"/>
+  <line class="dash" x1="140" y1="125" x2="500" y2="125"/>
+  <g class="st0"><rect class="box" x="20" y="196" width="140" height="40" rx="20"/><text class="label" x="90" y="221" text-anchor="middle">1 DNS lookup</text></g>
+  <g class="st1"><rect class="box" x="172" y="196" width="140" height="40" rx="20"/><text class="label" x="242" y="221" text-anchor="middle">2 TCP handshake</text></g>
+  <g class="st2"><rect class="box" x="324" y="196" width="140" height="40" rx="20"/><text class="label" x="394" y="221" text-anchor="middle">3 TLS handshake</text></g>
+  <g class="st3"><rect class="box" x="476" y="196" width="140" height="40" rx="20"/><text class="label" x="546" y="221" text-anchor="middle">4 HTTP request</text></g>
+  <circle class="packet pk" cx="0" cy="0" r="8"/>
+
+</svg>

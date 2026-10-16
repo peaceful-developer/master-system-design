@@ -1,0 +1,89 @@
+{
+  "id": "sql-vs-nosql-quiz",
+  "title": "SQL vs NoSQL",
+  "topics": ["databases"],
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "id": "atomic",
+      "prompt": "A bank transfer debits Alice and credits Bob. The server crashes between the two updates. Which ACID property guarantees Alice isn't charged without Bob being paid?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Atomicity" },
+        { "id": "b", "text": "Durability" },
+        { "id": "c", "text": "Isolation" }
+      ],
+      "correct": ["a"],
+      "explanation": "Atomicity means the transaction happens completely or not at all. Durability is about committed data surviving a crash, which is a different guarantee."
+    },
+    {
+      "id": "kv-fit",
+      "prompt": "Which workload fits a key-value store best?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Ad-hoc monthly revenue reports across many tables" },
+        { "id": "b", "text": "Looking up a user's session data by session id on every request" },
+        { "id": "c", "text": "Finding friends of friends who like the same band" }
+      ],
+      "correct": ["b"],
+      "explanation": "Key-value stores excel at get and put by key. Reports need flexible queries (SQL), and friends-of-friends is a graph traversal."
+    },
+    {
+      "id": "design-for-query",
+      "prompt": "In a wide-column store, you need 'the latest 50 messages in a conversation'. What's the natural design?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        {
+          "id": "a",
+          "text": "Partition by conversation id and sort messages by time within the partition"
+        },
+        {
+          "id": "b",
+          "text": "One table of all messages, then filter by conversation at query time"
+        },
+        { "id": "c", "text": "Store each message under a random key" }
+      ],
+      "correct": ["a"],
+      "explanation": "Wide-column designs follow the query: one partition per conversation, sorted by time, makes 'latest 50' a single fast read of one partition."
+    },
+    {
+      "id": "choose-sql",
+      "prompt": "Which requirements point toward a relational database as the source of truth?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        {
+          "id": "a",
+          "text": "Multi-row transactions, such as reserving inventory while creating an order"
+        },
+        { "id": "b", "text": "Queries and reports that will change as the product evolves" },
+        {
+          "id": "c",
+          "text": "Billions of sensor readings per day, always read by device and time"
+        },
+        { "id": "d", "text": "Rules like 'email must be unique' enforced by the database" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Transactions, flexible queries and declared constraints are relational strengths. Very high-volume writes read by one known key and time range suit a partitioned wide-column or time-series store."
+    },
+    {
+      "id": "write-skew",
+      "prompt": "Two transactions under snapshot isolation both check 'at least one doctor on call', then each sets a different doctor off call. Both commit and nobody is on call. What is this, and what prevents it?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "A dirty read; fixed by read committed" },
+        {
+          "id": "b",
+          "text": "Write skew; fixed by serializable isolation or locking the rows read (SELECT … FOR UPDATE)"
+        },
+        { "id": "c", "text": "A lost update; fixed by adding an index" }
+      ],
+      "correct": ["b"],
+      "explanation": "Each transaction wrote a different row, so no write conflict was detected, but together they broke a rule based on what they read. That's write skew. Serializable isolation or explicit locks on the rows read prevent it."
+    }
+  ]
+}

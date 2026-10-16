@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <title>Polly is sleeping</title>
+  <desc>Polly dozes with closed eyes while small z letters float up.</desc>
+  <style>
+    .ink { fill: var(--fig-ink, #000); }
+    .out { stroke: var(--fig-ink, #000); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+    .body { fill: var(--fig-accent, #2bb24c); }
+    .paper { fill: var(--fig-paper, #fff); }
+    .none { fill: none; }
+    .mark { fill: var(--fig-stroke, #000); font-size: 26px; font-weight: 700; }
+    .on-bg { fill: var(--fig-stroke, #000); }
+
+    .z { animation: float 3s ease-in-out infinite; }
+    .z2 { animation-delay: 1.5s; }
+    @keyframes float { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-8px); } }
+
+    @media (prefers-reduced-motion: reduce) { .z { animation: none; opacity: 1; } }
+  </style>
+  <path class="body out" d="M50 98 L42 116 L52 111 L58 117 L60 99 Z"/><ellipse class="body out" cx="58" cy="74" rx="27" ry="31"/><ellipse class="paper out" cx="63" cy="82" rx="13.5" ry="18"/><path class="body out" d="M40 62 C29 70 29 90 43 99 C47 88 49 75 47 62 Z"/><path class="none out" d="M51 104 v7 M65 104 v7"/><g class="head" transform="rotate(-4 58 40)"><path class="none out" d="M54 21 L46 9 M57 19 L57 5 M60 21 L68 10"/><circle class="body out" cx="46" cy="9" r="3.5"/><circle class="body out" cx="57" cy="5" r="3.5"/><circle class="body out" cx="68" cy="10" r="3.5"/><circle class="body out" cx="58" cy="40" r="21"/><path class="ink out" d="M77 33 C87 33 92 39 92 46 C92 50 89 53 86 54 C87 50 85 47 81 46 L77 46 Z"/><path class="none out" d="M60.5 37 Q66 41 71.5 37"/></g><text class="mark z z1" x="88" y="26" style="font-size: 16px">z</text><text class="mark z z2" x="98" y="16" style="font-size: 20px">z</text>
+</svg>

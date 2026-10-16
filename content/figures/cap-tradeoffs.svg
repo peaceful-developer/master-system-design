@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 276">
+  <title>CAP: consistency or availability during a partition</title>
+  <desc>Two replicas lose contact. Choosing consistency means one side refuses requests until the network heals. Choosing availability means both sides keep answering, so their data can diverge.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <text class="label" x="320" y="26" text-anchor="middle">A network partition splits two replicas</text>
+  <rect class="soft" x="20" y="44" width="280" height="200" rx="12"/>
+  <text class="label" x="160" y="70" text-anchor="middle">Choose consistency (CP)</text>
+  <rect class="accent-box" x="40" y="90" width="90" height="50" rx="10"/>
+  <text class="label ink" x="85.0" y="120.0" text-anchor="middle">Replica A</text>
+  <rect class="box" x="190" y="90" width="90" height="50" rx="10"/>
+  <text class="label" x="235.0" y="120.0" text-anchor="middle">Replica B</text>
+  <line class="dash" x1="130" y1="115" x2="190" y2="115"/>
+  <path class="line" d="M152 104 l16 22 M168 104 l-16 22"/>
+  <text class="small" x="160" y="178" text-anchor="middle">One side refuses requests</text>
+  <text class="small" x="160" y="198" text-anchor="middle">until the network heals.</text>
+  <rect class="soft" x="340" y="44" width="280" height="200" rx="12"/>
+  <text class="label" x="480" y="70" text-anchor="middle">Choose availability (AP)</text>
+  <rect class="accent-box" x="360" y="90" width="90" height="50" rx="10"/>
+  <text class="label ink" x="405.0" y="120.0" text-anchor="middle">Replica A</text>
+  <rect class="box" x="510" y="90" width="90" height="50" rx="10"/>
+  <text class="label" x="555.0" y="120.0" text-anchor="middle">Replica B</text>
+  <line class="dash" x1="450" y1="115" x2="510" y2="115"/>
+  <path class="line" d="M472 104 l16 22 M488 104 l-16 22"/>
+  <text class="small" x="480" y="178" text-anchor="middle">Both sides keep answering;</text>
+  <text class="small" x="480" y="198" text-anchor="middle">their data may diverge.</text>
+  <text class="small" x="320" y="266" text-anchor="middle">Without a partition, the trade-off is latency versus consistency (PACELC).</text>
+
+</svg>

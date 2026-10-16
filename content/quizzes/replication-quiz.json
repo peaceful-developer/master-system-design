@@ -1,0 +1,78 @@
+{
+  "id": "replication-quiz",
+  "title": "Replication",
+  "topics": ["replication", "databases"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "why",
+      "prompt": "Which benefits does replication provide?",
+      "kind": "multi",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Data survives the loss of one machine" },
+        { "id": "b", "text": "More machines can answer reads" },
+        { "id": "c", "text": "Each write becomes faster" },
+        { "id": "d", "text": "Another machine can take over if one fails" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Copies improve durability, read capacity and availability. Writes don't get faster: they must reach more machines."
+    },
+    {
+      "id": "own-writes",
+      "prompt": "A user edits their bio, reloads, and sees the old bio. Reads go to asynchronous followers. What's happening?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "The write failed" },
+        { "id": "b", "text": "Replication lag: the follower hasn't received the change yet" },
+        { "id": "c", "text": "The cache is full" }
+      ],
+      "correct": ["b"],
+      "explanation": "The leader has the new bio, but the follower serving the reload lags behind. Reading a user's own recent writes from the leader fixes it."
+    },
+    {
+      "id": "async-loss",
+      "prompt": "The leader acknowledges writes before any follower has them (asynchronous replication), then crashes. What can happen after failover?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Nothing; asynchronous replication never loses data" },
+        { "id": "b", "text": "Recent writes that were acknowledged to clients may be lost" },
+        { "id": "c", "text": "All data is lost" }
+      ],
+      "correct": ["b"],
+      "explanation": "Writes the old leader acknowledged but hadn't yet sent to followers don't exist on the new leader. A synchronous follower prevents this at the cost of slower writes."
+    },
+    {
+      "id": "quorum",
+      "prompt": "With N = 3 replicas, which settings guarantee a read sees the latest successful write?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "W = 2, R = 2" },
+        { "id": "b", "text": "W = 3, R = 1" },
+        { "id": "c", "text": "W = 1, R = 1" },
+        { "id": "d", "text": "W = 1, R = 3" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Read and write sets must overlap: R + W > N. 2+2, 3+1 and 1+3 all exceed 3. With 1+1 a read can miss the one replica that took the write."
+    },
+    {
+      "id": "split-brain",
+      "prompt": "During a network glitch, a follower is promoted while the old leader is still running and accepting writes. What is this, and what prevents it?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Replication lag; prevented by synchronous replication" },
+        {
+          "id": "b",
+          "text": "Split brain; prevented by requiring a majority vote to lead and fencing the old leader so its writes are rejected"
+        },
+        { "id": "c", "text": "A read repair; prevented by anti-entropy" }
+      ],
+      "correct": ["b"],
+      "explanation": "Two leaders accepting writes is split brain. A leader that can't reach a majority must step down, and fencing tokens make storage reject writes from a deposed leader."
+    }
+  ]
+}

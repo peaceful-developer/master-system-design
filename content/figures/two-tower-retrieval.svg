@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 256">
+  <title>Two-tower retrieval and ranking</title>
+  <desc>A user tower and an item tower turn features into vectors. A nearest-neighbour search over item vectors returns a few hundred candidates, which a heavier ranking model orders.</desc>
+  <style>
+    .box { fill: var(--fig-fill, #fff); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .soft { fill: var(--fig-fill, #fff); stroke: var(--fig-muted, #ccc); stroke-width: 2; }
+    .line { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .dash { fill: none; stroke: var(--fig-stroke, #000); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .label { fill: var(--fig-stroke, #000); font-size: 15px; font-weight: 600; }
+    .small { fill: var(--fig-stroke, #000); font-size: 12.5px; }
+    .ink { fill: var(--fig-ink, #000); }
+    .accent { fill: var(--fig-accent, #2bb24c); }
+    .accent-box { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 2; }
+    .packet { fill: var(--fig-accent, #2bb24c); stroke: var(--fig-stroke, #000); stroke-width: 1.5; }
+    .arrowhead { fill: var(--fig-stroke, #000); }
+    .pk { animation: tt 6s linear infinite; }
+    @keyframes tt { 0% { transform: translate(120px, 55px); opacity: 1; } 20% { transform: translate(250px, 55px); opacity: 1; } 40% { transform: translate(330px, 120px); opacity: 1; } 60% { transform: translate(440px, 120px); opacity: 1; } 80% { transform: translate(560px, 120px); opacity: 1; } 90% { transform: translate(560px, 120px); opacity: 0; } 100% { transform: translate(120px, 55px); opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) { .pk { animation: none; opacity: 0; } }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 10 5 0 10z"/></marker></defs>
+  <rect class="box" x="10" y="30" width="110" height="50" rx="10"/>
+  <text class="label" x="65.0" y="52.0" text-anchor="middle">User</text>
+  <text class="small" x="65.0" y="70.0" text-anchor="middle">features</text>
+  <rect class="box" x="10" y="160" width="110" height="50" rx="10"/>
+  <text class="label" x="65.0" y="182.0" text-anchor="middle">Item</text>
+  <text class="small" x="65.0" y="200.0" text-anchor="middle">catalog</text>
+  <rect class="accent-box" x="150" y="30" width="100" height="50" rx="10"/>
+  <text class="label ink" x="200.0" y="52.0" text-anchor="middle">User</text>
+  <text class="small ink" x="200.0" y="70.0" text-anchor="middle">tower</text>
+  <rect class="accent-box" x="150" y="160" width="100" height="50" rx="10"/>
+  <text class="label ink" x="200.0" y="182.0" text-anchor="middle">Item</text>
+  <text class="small ink" x="200.0" y="200.0" text-anchor="middle">tower</text>
+  <line class="line" x1="120" y1="55" x2="148" y2="55" marker-end="url(#arrow)"/>
+  <line class="line" x1="120" y1="185" x2="148" y2="185" marker-end="url(#arrow)"/>
+  <rect class="box" x="330" y="95" width="110" height="50" rx="10"/>
+  <text class="label" x="385.0" y="117.0" text-anchor="middle">Nearest</text>
+  <text class="small" x="385.0" y="135.0" text-anchor="middle">neighbours</text>
+  <line class="line" x1="250" y1="55" x2="328" y2="112" marker-end="url(#arrow)"/>
+  <line class="line" x1="250" y1="185" x2="328" y2="128" marker-end="url(#arrow)"/>
+  <text class="small" x="255" y="82" text-anchor="start">user vector</text>
+  <text class="small" x="255" y="214" text-anchor="start">item vectors (indexed)</text>
+  <rect class="box" x="470" y="95" width="90" height="50" rx="10"/>
+  <text class="label" x="515.0" y="125.0" text-anchor="middle">Ranker</text>
+  <line class="line" x1="440" y1="120" x2="468" y2="120" marker-end="url(#arrow)"/>
+  <line class="line" x1="560" y1="120" x2="600" y2="120" marker-end="url(#arrow)"/>
+  <text class="label" x="604" y="124" text-anchor="start">Top 20</text>
+  <text class="small" x="330" y="170" text-anchor="start">≈ 500 candidates</text>
+  <text class="small" x="10" y="246" text-anchor="start">Cheap retrieval narrows millions of items to hundreds; an expensive ranker orders them.</text>
+  <circle class="packet pk" cx="0" cy="0" r="7"/>
+
+</svg>
