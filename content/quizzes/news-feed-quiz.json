@@ -1,0 +1,86 @@
+{
+  "id": "news-feed-quiz",
+  "title": "News feed",
+  "topics": ["case-study", "feeds", "caching"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "why-write",
+      "prompt": "Feeds are read about 20 times as often as posts are written. Why does that favour fan-out on write?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Writes are cheaper than reads in every database" },
+        {
+          "id": "b",
+          "text": "Doing the merge work once per post, instead of on every feed open, makes the far more frequent reads cheap"
+        },
+        { "id": "c", "text": "Fan-out on write uses less storage" }
+      ],
+      "correct": ["b"],
+      "explanation": "Pay the cost on the rare operation (posting) to make the common one (reading) a single cache lookup."
+    },
+    {
+      "id": "celebrity",
+      "prompt": "An account with 50 million followers posts. With pure fan-out on write and workers handling 300,000 inserts per second, roughly how long until every follower has it?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Under a second" },
+        { "id": "b", "text": "About 3 minutes, delaying other posts queued behind it" },
+        { "id": "c", "text": "About 3 hours" }
+      ],
+      "correct": ["b"],
+      "explanation": "50,000,000 ÷ 300,000 ≈ 167 seconds. That's why huge accounts are excluded from fan-out and merged at read time instead."
+    },
+    {
+      "id": "ids-not-posts",
+      "prompt": "Why do timelines store post ids rather than full posts?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Much less memory per timeline" },
+        { "id": "b", "text": "Edits and deletes don't require updating millions of timelines" },
+        { "id": "c", "text": "Ids load faster than posts in every case" },
+        {
+          "id": "d",
+          "text": "Posts can be cached once and shared by every timeline that references them"
+        }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "Ids are 8 bytes and immutable; post content lives in one place, cached once, and changes there apply everywhere."
+    },
+    {
+      "id": "pagination",
+      "prompt": "Why use a cursor (the last post id seen) instead of page numbers for scrolling?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Page numbers are not allowed in REST APIs" },
+        {
+          "id": "b",
+          "text": "New posts arriving at the top shift offset-based pages, causing duplicates or gaps; a cursor stays anchored"
+        },
+        { "id": "c", "text": "Cursors are shorter" }
+      ],
+      "correct": ["b"],
+      "explanation": "\"Posts older than id X\" doesn't move when new posts arrive, so scrolling stays correct."
+    },
+    {
+      "id": "inactive",
+      "prompt": "30% of users haven't opened the app in a month. What's a sensible way to handle them?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "Keep fanning out to them so their feed is ready" },
+        {
+          "id": "b",
+          "text": "Skip fan-out for them, and rebuild their timeline on demand with fan-out on read when they return"
+        },
+        { "id": "c", "text": "Delete their accounts" }
+      ],
+      "correct": ["b"],
+      "explanation": "Precomputing feeds nobody reads wastes inserts and memory. A one-time rebuild on return costs a little latency for a rare event."
+    }
+  ]
+}

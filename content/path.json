@@ -85,6 +85,10 @@
         {
           "kind": "case-study",
           "ref": "rate-limiter"
+        },
+        {
+          "kind": "case-study",
+          "ref": "news-feed"
         }
       ]
     },

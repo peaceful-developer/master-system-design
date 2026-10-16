@@ -1,0 +1,32 @@
+{
+  "id": "news-feed-estimation",
+  "title": "Size a news feed",
+  "topics": ["estimation", "feeds"],
+  "difficulty": "intermediate",
+  "scenario": "Estimate the load on a home feed with fan-out on write. Use 86,400 seconds per day and decimal units (1 TB = 10¹² bytes). Anything within 25% counts.",
+  "givens": [
+    { "label": "Daily active users", "value": "200 million" },
+    { "label": "Feed opens per user per day", "value": 10 },
+    { "label": "Posts per user per day", "value": 0.5 },
+    { "label": "Average followers per author", "value": 200 },
+    { "label": "Post ids kept per timeline", "value": 800 },
+    { "label": "Bytes per post id", "value": 8 }
+  ],
+  "questions": [
+    {
+      "id": "reads",
+      "prompt": "Average feed reads per second",
+      "unit": "reads/s",
+      "answer": 23148
+    },
+    { "id": "posts", "prompt": "Average posts per second", "unit": "posts/s", "answer": 1157 },
+    {
+      "id": "inserts",
+      "prompt": "Average fan-out inserts per second",
+      "unit": "inserts/s",
+      "answer": 231481
+    },
+    { "id": "memory", "prompt": "Memory for all timelines, one copy", "unit": "TB", "answer": 1.28 }
+  ],
+  "solution": "1. **Reads:** 200M × 10 = 2 billion per day ÷ 86,400 ≈ **23,000 per second**.\n2. **Posts:** 200M × 0.5 = 100 million per day ÷ 86,400 ≈ **1,160 per second**.\n3. **Fan-out inserts:** 100M posts × 200 followers = 20 billion per day ÷ 86,400 ≈ **230,000 per second**. Ten times the read rate, but each insert is a tiny in-memory append done asynchronously.\n4. **Timeline memory:** 200M × 800 × 8 bytes = 1.28 × 10¹² bytes ≈ **1.3 TB**, before data-structure overhead and replicas: a few dozen memory-heavy cache nodes."
+}
