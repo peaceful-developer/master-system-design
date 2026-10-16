@@ -41,10 +41,21 @@ export const CODE_LANGUAGES = [
   'python',
   'py',
   'http',
+  'lua',
   'text',
   'txt',
 ] as const;
-const SHIKI_LANGS = ['typescript', 'javascript', 'json', 'yaml', 'sql', 'bash', 'python', 'http'];
+const SHIKI_LANGS = [
+  'typescript',
+  'javascript',
+  'json',
+  'yaml',
+  'sql',
+  'bash',
+  'python',
+  'http',
+  'lua',
+];
 
 export interface FigureAsset {
   svg: string;

@@ -1,0 +1,53 @@
+{
+  "id": "rate-limiter-hld",
+  "title": "Distributed rate limiter at the API gateway",
+  "nodes": [
+    { "id": "clients", "type": "client", "label": "API clients", "position": { "x": 0, "y": 150 } },
+    {
+      "id": "lb",
+      "type": "load-balancer",
+      "label": "Load balancer",
+      "position": { "x": 250, "y": 150 }
+    },
+    {
+      "id": "gateway",
+      "type": "api-gateway",
+      "label": "Gateway + limiter",
+      "position": { "x": 500, "y": 150 },
+      "config": { "instances": 50 }
+    },
+    {
+      "id": "counters",
+      "type": "cache",
+      "label": "Counters (Redis)",
+      "position": { "x": 750, "y": 0 },
+      "config": { "instances": 20 }
+    },
+    {
+      "id": "backend",
+      "type": "app-server",
+      "label": "Backend services",
+      "position": { "x": 750, "y": 150 }
+    },
+    {
+      "id": "rules",
+      "type": "sql-primary",
+      "label": "Rule config",
+      "position": { "x": 250, "y": 330 }
+    },
+    {
+      "id": "updates",
+      "type": "pub-sub",
+      "label": "Rule updates",
+      "position": { "x": 500, "y": 330 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "from": "clients", "to": "lb" },
+    { "id": "e2", "from": "lb", "to": "gateway" },
+    { "id": "e3", "from": "gateway", "to": "counters", "label": "check + spend" },
+    { "id": "e4", "from": "gateway", "to": "backend", "label": "allowed only" },
+    { "id": "e5", "from": "rules", "to": "updates", "label": "rule changed" },
+    { "id": "e6", "from": "updates", "to": "gateway", "label": "reload rules" }
+  ]
+}

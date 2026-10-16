@@ -1,0 +1,89 @@
+{
+  "id": "rate-limiter-quiz",
+  "title": "Rate limiter",
+  "topics": ["case-study", "rate-limiting", "distributed-systems"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "where",
+      "prompt": "Why put the rate limiter in the API gateway rather than in each backend service?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Gateways have more memory" },
+        {
+          "id": "b",
+          "text": "One implementation and rule set, and excess requests are rejected before they reach any backend"
+        },
+        { "id": "c", "text": "Backends can't return HTTP 429" }
+      ],
+      "correct": ["b"],
+      "explanation": "Centralizing the limiter avoids duplicated logic and inconsistent rules, and it shields backends from load they would otherwise have to absorb."
+    },
+    {
+      "id": "local-only",
+      "prompt": "Each of 50 gateways keeps its own local counter and allows 100 requests per second per key. What's the worst case for one key?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "100 requests per second" },
+        {
+          "id": "b",
+          "text": "About 5,000 requests per second, if its traffic spreads across all gateways"
+        },
+        { "id": "c", "text": "Exactly 50 requests per second" }
+      ],
+      "correct": ["b"],
+      "explanation": "Independent counters each allow the full limit: 50 × 100. A shared counter store, or dividing the limit by the number of gateways, fixes this."
+    },
+    {
+      "id": "race",
+      "prompt": "Two gateways read a counter of 99 (limit 100) at the same moment, both allow the request and both write 100. What fixes this?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "Adding more gateways" },
+        {
+          "id": "b",
+          "text": "An atomic check-and-spend operation inside the counter store, such as a server-side script"
+        },
+        { "id": "c", "text": "Raising the limit to 101" }
+      ],
+      "correct": ["b"],
+      "explanation": "Read-then-write from separate clients loses updates. Doing the whole check and update as one atomic operation in the store makes concurrent requests see each other's effect."
+    },
+    {
+      "id": "one-trip",
+      "prompt": "Why put the API key in a hash tag such as rl:{key_123}:search-burst?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        { "id": "a", "text": "To make keys shorter" },
+        {
+          "id": "b",
+          "text": "So all of a key's counters land on the same shard, letting one atomic call check every rule in a single round trip"
+        },
+        { "id": "c", "text": "Redis requires braces in key names" }
+      ],
+      "correct": ["b"],
+      "explanation": "A cluster hashes only the part in braces, so related keys share a shard. Atomic multi-key operations only work within one shard."
+    },
+    {
+      "id": "fail-mode",
+      "prompt": "The counter store becomes unreachable. Which behaviours are sensible?",
+      "kind": "multi",
+      "level": "advanced",
+      "options": [
+        {
+          "id": "a",
+          "text": "Fail open on normal endpoints, with a local per-gateway fallback limit"
+        },
+        { "id": "b", "text": "Fail closed on login and password-reset endpoints" },
+        { "id": "c", "text": "Reject every request until the store recovers" },
+        { "id": "d", "text": "Alert, and track how long fallback mode is active" }
+      ],
+      "correct": ["a", "b", "d"],
+      "explanation": "A limiter outage shouldn't become an API outage, so most rules fail open with an approximate local limit. Abuse-sensitive endpoints fail closed. Rejecting everything turns a partial failure into a total one."
+    }
+  ]
+}

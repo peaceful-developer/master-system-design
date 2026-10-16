@@ -189,6 +189,12 @@ describe('headings, code and text', () => {
     expect(out).toMatch(/--shiki-dark:/);
   });
 
+  it('highlights Lua, used for atomic Redis scripts', async () => {
+    const result = await compile('Intro\n\n```lua\nlocal tokens = 1\n```');
+    expect(result.errors).toEqual([]);
+    expect(await html('```lua\nlocal tokens = 1\n```')).toContain('class="shiki');
+  });
+
   it('rejects unknown code languages', async () => {
     const result = await compile('Intro\n\n```cobol\nDISPLAY "HI".\n```');
     expect(result.errors.map((e) => e.message).join('\n')).toMatch(/line 3: .*cobol/);

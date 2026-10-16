@@ -81,6 +81,10 @@
         {
           "kind": "case-study",
           "ref": "url-shortener"
+        },
+        {
+          "kind": "case-study",
+          "ref": "rate-limiter"
         }
       ]
     },

@@ -1,0 +1,37 @@
+{
+  "id": "rate-limiter-estimation",
+  "title": "Size the rate limiter's counter store",
+  "topics": ["estimation", "rate-limiting"],
+  "difficulty": "intermediate",
+  "scenario": "A distributed rate limiter checks two rules on every request against a shared in-memory counter store. Use decimal units (1 GB = 10⁹ bytes). Anything within 25% counts.",
+  "givens": [
+    { "label": "Peak requests", "value": "500,000", "unit": "per second" },
+    { "label": "Rules checked per request", "value": 2 },
+    { "label": "Operations one shard can serve", "value": "100,000", "unit": "per second" },
+    { "label": "Headroom factor", "value": "2×" },
+    { "label": "Active API keys", "value": "10 million" },
+    { "label": "Bytes per counter", "value": 100 }
+  ],
+  "questions": [
+    {
+      "id": "ops",
+      "prompt": "Counter operations per second at peak",
+      "unit": "ops/s",
+      "answer": 1000000
+    },
+    {
+      "id": "shards",
+      "prompt": "Shards needed, including headroom",
+      "unit": "shards",
+      "answer": 20
+    },
+    { "id": "memory", "prompt": "Memory for all counters, one copy", "unit": "GB", "answer": 2 },
+    {
+      "id": "leases",
+      "prompt": "Store operations per second if the busiest keys (60% of traffic) take tokens in batches of 10",
+      "unit": "ops/s",
+      "answer": 460000
+    }
+  ],
+  "solution": "1. **Operations:** 500,000 requests × 2 rules = **1,000,000 counter operations per second** if each rule is a separate operation. (Checking both rules in one atomic call halves the round trips but not the work.)\n2. **Shards:** 1,000,000 ÷ 100,000 = 10 shards at full load, × 2 for headroom = **20 shards**.\n3. **Memory:** 10,000,000 keys × 2 rules × 100 bytes = 2 × 10⁹ bytes = **2 GB**. Memory is not the constraint; throughput is.\n4. **Leases:** 60% of operations (600,000) shrink 10× to 60,000; the other 40% (400,000) stay. Total ≈ **460,000 operations per second**, which saves several shards at the cost of a small overshoot for the heaviest keys."
+}
