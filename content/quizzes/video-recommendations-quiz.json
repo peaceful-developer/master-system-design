@@ -1,0 +1,89 @@
+{
+  "id": "video-recommendations-quiz",
+  "title": "Video recommendations",
+  "topics": ["case-study", "recommendations", "ml-systems"],
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "id": "funnel",
+      "prompt": "Why does the design retrieve ~500 candidates before ranking, instead of ranking all 10 million videos?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "The ranking model can only output 500 scores" },
+        {
+          "id": "b",
+          "text": "Scoring 10 million videos with a heavy model on every request would take far too long and cost far too much"
+        },
+        { "id": "c", "text": "Users only watch 500 videos" }
+      ],
+      "correct": ["b"],
+      "explanation": "A cheap retrieval stage narrows the catalog so the expensive ranking model only scores a few hundred items within the latency budget."
+    },
+    {
+      "id": "target",
+      "prompt": "Why is click-through rate alone a poor ranking objective?",
+      "kind": "single",
+      "level": "beginner",
+      "options": [
+        { "id": "a", "text": "Clicks can't be logged" },
+        {
+          "id": "b",
+          "text": "It rewards clickbait: videos people click but quickly abandon or dislike"
+        },
+        { "id": "c", "text": "Click models are too slow" }
+      ],
+      "correct": ["b"],
+      "explanation": "Combining play probability with expected watch time, likes and dismissals better reflects whether viewers were satisfied."
+    },
+    {
+      "id": "cold-start",
+      "prompt": "A video was uploaded 20 minutes ago and has no watches. How can it still be retrieved?",
+      "kind": "single",
+      "level": "intermediate",
+      "options": [
+        { "id": "a", "text": "It can't until it has enough watches" },
+        {
+          "id": "b",
+          "text": "The video tower embeds it from content and metadata, and it's added to the index without retraining"
+        },
+        { "id": "c", "text": "By retraining the whole model every 20 minutes" }
+      ],
+      "correct": ["b"],
+      "explanation": "Content-based item features let the tower place a brand-new video near viewers who like similar content."
+    },
+    {
+      "id": "feedback-loop",
+      "prompt": "Which practices counter the feedback loop where the system only learns about what it already shows?",
+      "kind": "multi",
+      "level": "intermediate",
+      "options": [
+        {
+          "id": "a",
+          "text": "Reserve a small share of slots for exploration and log how items were chosen"
+        },
+        { "id": "b", "text": "Model position bias during training" },
+        { "id": "c", "text": "Diversity rules in re-ranking" },
+        { "id": "d", "text": "Train only on the top-ranked item per request" }
+      ],
+      "correct": ["a", "b", "c"],
+      "explanation": "Exploration and position modelling give the model evidence about items it would otherwise never show; diversity keeps recommendations from narrowing. Training only on top items makes the loop worse."
+    },
+    {
+      "id": "index-version",
+      "prompt": "After retraining both towers, recommendations suddenly become random. What is the most likely cause?",
+      "kind": "single",
+      "level": "advanced",
+      "options": [
+        {
+          "id": "a",
+          "text": "The new user tower was deployed, but the index still holds embeddings from the old video tower"
+        },
+        { "id": "b", "text": "The ANN index ran out of memory" },
+        { "id": "c", "text": "Too many exploration slots" }
+      ],
+      "correct": ["a"],
+      "explanation": "Embeddings from different tower versions live in different spaces. Deploy the user tower and the re-embedded index together as one version."
+    }
+  ]
+}

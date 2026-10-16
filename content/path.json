@@ -108,6 +108,10 @@
         {
           "kind": "playbook",
           "ref": "ml-system-design-framework"
+        },
+        {
+          "kind": "case-study",
+          "ref": "video-recommendations"
         }
       ]
     },

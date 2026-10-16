@@ -1,0 +1,27 @@
+{
+  "id": "video-recommendations-estimation",
+  "title": "GPU budget for video ranking",
+  "topics": ["estimation", "ml-systems"],
+  "difficulty": "intermediate",
+  "scenario": "Size the GPU fleet for the ranking stage of a video recommender, and its cost per 1,000 requests. All values are illustrative assumptions. Use 86,400 seconds per day. Anything within 25% counts.",
+  "givens": [
+    { "label": "Daily active viewers", "value": "100 million" },
+    { "label": "Home-screen loads per viewer per day", "value": 5 },
+    { "label": "Peak factor", "value": "3× average" },
+    { "label": "Candidates ranked per request", "value": 500 },
+    { "label": "Candidates one GPU scores per second", "value": "200,000" },
+    { "label": "Headroom", "value": "1.5×" },
+    { "label": "GPU price", "value": "$2.00 per GPU-hour" }
+  ],
+  "questions": [
+    { "id": "peak", "prompt": "Peak requests per second", "unit": "requests/s", "answer": 17361 },
+    { "id": "gpus", "prompt": "GPUs needed at peak, with headroom", "unit": "GPUs", "answer": 65 },
+    {
+      "id": "cost",
+      "prompt": "Ranking cost per 1,000 requests, averaged over a day (fleet sized for peak)",
+      "unit": "$",
+      "answer": 0.0062
+    }
+  ],
+  "solution": "1. **Peak requests:** 100M × 5 = 500M per day ÷ 86,400 ≈ 5,787 per second on average, × 3 ≈ **17,400 at peak**.\n2. **GPUs:** 17,361 × 500 = 8.68M candidates per second ÷ 200,000 ≈ 43.4 GPUs, × 1.5 ≈ **65 GPUs**.\n3. **Cost per 1,000 requests:** 65 GPUs × $2 = $130 per hour. On average the fleet serves 5,787 × 3,600 ≈ 20.8M requests per hour, or 20,833 thousand. $130 ÷ 20,833 ≈ **$0.0062 per 1,000 requests**. Because the fleet is sized for peak, autoscaling it down at night is the biggest cost lever."
+}
