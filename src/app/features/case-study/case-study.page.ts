@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import type { CompiledCaseStudy } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
@@ -30,6 +38,9 @@ import { TRACK_LABELS } from '../case-studies/tracks';
     IconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './case-study.page.css',
   template: `
     <app-doc-layout [sidebarLabel]="'Track ' + caseStudy().track + ' case studies'">
       <nav sidebar [attr.aria-label]="'Track ' + caseStudy().track + ' case studies'">

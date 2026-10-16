@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { ILLUSTRATIVE_NOTE, type ComponentCategory, type ComponentDef } from '@content/types';
 import { CATEGORY_LABELS, shapeDetail, shapePath } from '../../canvas/node-shapes';
 import { ContentService } from '../../core/content/content.service';
@@ -13,6 +13,9 @@ const SHAPE_H = 56;
   selector: 'app-playground-page',
   imports: [IconComponent, MascotComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './playground.page.css',
   template: `
     <div class="page">
       <header class="page-header playground-header">

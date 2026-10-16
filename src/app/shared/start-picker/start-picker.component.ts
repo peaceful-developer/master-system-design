@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/content/content.service';
 import type { LearnerLevel } from '../../core/progress/progress-model';
@@ -28,6 +35,9 @@ export const LEARNER_LEVELS: readonly { id: LearnerLevel; title: string; detail:
   selector: 'app-start-picker',
   imports: [RouterLink, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './start-picker.component.css',
   template: `
     <fieldset class="picker" [class.picker-compact]="compact()">
       <legend class="picker-legend">Where should I start?</legend>

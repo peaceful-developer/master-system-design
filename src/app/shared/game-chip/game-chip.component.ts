@@ -7,6 +7,7 @@ import {
   inject,
   signal,
   untracked,
+  ViewEncapsulation,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GameStore } from '../../core/game/game.store';
@@ -20,6 +21,9 @@ const BURST_MS = 1200;
   selector: 'app-game-chip',
   imports: [RouterLink, IconComponent, FeatherBurstComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './game-chip.component.css',
   template: `
     @if (game.active() && !game.calm()) {
       <a class="game-chip" routerLink="/progress" [attr.aria-label]="label()">

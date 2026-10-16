@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { CaseStudyMeta } from '@content/types';
@@ -25,6 +32,9 @@ type ListFacet = 'tracks' | 'difficulties' | 'concepts' | 'statuses';
   selector: 'app-case-studies-page',
   imports: [RouterLink, IconComponent, MascotComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './case-studies.page.css',
   template: `
     <div class="page">
       <header class="page-header">

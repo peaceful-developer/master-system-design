@@ -1,0 +1,48 @@
+/* Feather burst: ~8 small feathers fly out from the score and fade. */
+.feather-burst-host {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+}
+
+.feather-burst {
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  pointer-events: none;
+}
+
+.feather {
+  position: absolute;
+  width: 6px;
+  height: 14px;
+  margin: -7px 0 0 -3px;
+  border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+  background-color: var(--color-parrot);
+  border: 1px solid var(--color-parrot-deep);
+  opacity: 0;
+  transform: rotate(calc(var(--i) * 45deg)) translateY(0);
+  animation: feather-fly 0.9s ease-out forwards;
+}
+
+@keyframes feather-fly {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--i) * 45deg)) translateY(0) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--i) * 45deg + 25deg)) translateY(-34px) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feather-burst {
+    display: none;
+  }
+}

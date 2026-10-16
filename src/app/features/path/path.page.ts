@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { PathItem, PathPhase } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
@@ -41,6 +47,9 @@ interface PathRow extends PathEntry {
     StartPickerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './path.page.css',
   template: `
     <div class="page">
       <header class="page-header">

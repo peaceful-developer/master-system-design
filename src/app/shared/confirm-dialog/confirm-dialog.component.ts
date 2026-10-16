@@ -1,5 +1,5 @@
 import { Dialog, DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 export interface ConfirmOptions {
@@ -13,6 +13,9 @@ export interface ConfirmOptions {
 @Component({
   selector: 'app-confirm-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './confirm-dialog.component.css',
   host: { class: 'dialog-panel' },
   template: `
     <h2 id="confirm-title" class="text-lg font-bold">{{ data.title }}</h2>

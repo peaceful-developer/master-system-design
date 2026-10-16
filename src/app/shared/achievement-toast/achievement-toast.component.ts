@@ -6,6 +6,7 @@ import {
   inject,
   signal,
   untracked,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ACHIEVEMENTS, type Achievement } from '../../core/game/achievements';
 import { GameStore } from '../../core/game/game.store';
@@ -22,6 +23,9 @@ const TOAST_MS = 7000;
   selector: 'app-achievement-toast',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './achievement-toast.component.css',
   template: `
     <div class="toast-region" role="status" aria-live="polite">
       @for (a of shown(); track a.id) {

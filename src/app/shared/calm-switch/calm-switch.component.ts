@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ProgressStore } from '../../core/progress/progress.store';
 import { IconComponent } from '../icon/icon.component';
 
@@ -7,6 +14,9 @@ import { IconComponent } from '../icon/icon.component';
   selector: 'app-calm-switch',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './calm-switch.component.css',
   template: `
     @if (compact()) {
       <button

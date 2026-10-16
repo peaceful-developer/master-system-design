@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { PhaseId } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
@@ -50,6 +56,9 @@ const FEATURES = [
     ShowcaseFigureComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './home.page.css',
   template: `
     <div class="page home">
       <section class="hero" aria-labelledby="hero-title">

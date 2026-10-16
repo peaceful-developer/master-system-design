@@ -1,0 +1,75 @@
+/* Glossary */
+.az-nav {
+  position: sticky;
+  top: 3.5rem;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  background-color: var(--color-bg);
+}
+
+.az-nav a,
+.az-nav span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-control);
+  font-weight: 600;
+}
+
+.az-nav a {
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+.az-nav a:hover {
+  background-color: var(--color-ok-soft);
+}
+
+.az-nav span {
+  opacity: 0.35;
+}
+
+.glossary-group {
+  max-width: 75ch;
+  margin-top: 2rem;
+  scroll-margin-top: 7rem;
+}
+
+.glossary-letter {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--color-parrot);
+}
+
+.glossary-term {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  scroll-margin-top: 7rem;
+}
+
+.glossary-term:target {
+  background-color: var(--color-ok-soft);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: var(--radius-control);
+}
+
+.glossary-term-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.glossary-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}

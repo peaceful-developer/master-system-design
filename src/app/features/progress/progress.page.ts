@@ -1,6 +1,13 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/content/content.service';
 import { ACHIEVEMENTS } from '../../core/game/achievements';
@@ -27,6 +34,9 @@ interface CompletedRow {
   selector: 'app-progress-page',
   imports: [RouterLink, IconComponent, ProgressRingComponent, CalmSwitchComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './progress.page.css',
   template: `
     <div class="page">
       <header class="page-header">

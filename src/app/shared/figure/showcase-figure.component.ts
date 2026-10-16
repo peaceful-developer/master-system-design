@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { SHOWCASE, type ShowcaseFigure } from '@generated/showcase';
 
@@ -6,6 +13,9 @@ import { SHOWCASE, type ShowcaseFigure } from '@generated/showcase';
 @Component({
   selector: 'app-showcase-figure',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './showcase-figure.component.css',
   template: `
     @if (svg(); as markup) {
       <figure class="showcase-figure">

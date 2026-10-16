@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Injector,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
+import { isSearchShortcut } from '../../core/search/search-shortcut';
 import { ThemeService } from '../../core/theme/theme.service';
 import { CalmSwitchComponent } from '../../shared/calm-switch/calm-switch.component';
 import { GameChipComponent } from '../../shared/game-chip/game-chip.component';
@@ -22,6 +30,7 @@ export const NAV_ITEMS = [
   selector: 'app-top-nav',
   imports: [RouterLink, RouterLinkActive, IconComponent, GameChipComponent, CalmSwitchComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:keydown)': 'onKeydown($event)' },
   template: `
     <header
       class="sticky top-0 z-40 border-b border-parrot-deep bg-parrot text-on-parrot"
@@ -63,6 +72,16 @@ export const NAV_ITEMS = [
           <button
             type="button"
             class="nav-icon-btn"
+            aria-label="Search"
+            aria-keyshortcuts="/ Control+K Meta+K"
+            title="Search (/ or Ctrl+K)"
+            (click)="openSearch()"
+          >
+            <app-icon name="search" />
+          </button>
+          <button
+            type="button"
+            class="nav-icon-btn"
             [attr.aria-label]="themeLabel()"
             (click)="theme.toggle()"
           >
@@ -99,6 +118,9 @@ export class TopNavComponent {
       : 'Theme: light. Switch to dark',
   );
 
+  private readonly injector = inject(Injector);
+  private searchOpen = false;
+
   constructor() {
     inject(Router)
       .events.pipe(
@@ -106,5 +128,36 @@ export class TopNavComponent {
         takeUntilDestroyed(),
       )
       .subscribe(() => this.menuOpen.set(false));
+  }
+
+  protected onKeydown(event: KeyboardEvent): void {
+    if (!isSearchShortcut(event)) return;
+    event.preventDefault();
+    void this.openSearch();
+  }
+
+  /** Search code (CDK dialog, MiniSearch, the index) loads on first use. */
+  protected async openSearch(): Promise<void> {
+    if (this.searchOpen) return;
+    this.searchOpen = true;
+    try {
+      const [{ Dialog }, { Overlay }, { SearchDialogComponent }] = await Promise.all([
+        import('@angular/cdk/dialog'),
+        import('@angular/cdk/overlay'),
+        import('../../shared/search-dialog/search-dialog.component'),
+      ]);
+      const overlay = this.injector.get(Overlay);
+      const ref = this.injector.get(Dialog).open(SearchDialogComponent, {
+        ariaLabel: 'Search',
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
+        panelClass: 'search-dialog-pane',
+        positionStrategy: overlay.position().global().centerHorizontally().top('10vh'),
+      });
+      ref.closed.subscribe(() => (this.searchOpen = false));
+    } catch (error) {
+      this.searchOpen = false;
+      throw error;
+    }
   }
 }

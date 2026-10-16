@@ -1,0 +1,76 @@
+/* Playground */
+.playground-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 80ch;
+}
+
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-control);
+  background-color: var(--color-info-soft);
+  font-size: 0.875rem;
+}
+
+.component-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.component-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.125rem;
+}
+
+.component-shape {
+  width: 7.5rem;
+  height: auto;
+}
+
+.component-shape path {
+  fill: var(--color-ok-soft);
+  stroke: var(--color-fg);
+  stroke-width: 1.5;
+}
+
+.component-shape path + path {
+  fill: none;
+}
+
+.component-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.component-sim {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.8125rem;
+}
+
+.component-sim div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.component-sim dt {
+  font-weight: 600;
+}
+
+.component-sim dd {
+  text-align: right;
+}

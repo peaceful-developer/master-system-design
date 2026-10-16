@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { ExerciseMeta } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
@@ -18,6 +25,9 @@ const KINDS: readonly { id: Kind; label: string }[] = [
   selector: 'app-exercises-page',
   imports: [RouterLink, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Global class names, loaded with this component instead of in the initial bundle.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: './exercises.page.css',
   template: `
     <div class="page">
       <header class="page-header">
