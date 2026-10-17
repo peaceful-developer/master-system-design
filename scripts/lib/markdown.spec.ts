@@ -213,3 +213,24 @@ describe('headings, code and text', () => {
     expect(JSON.stringify(await compile(source))).toBe(JSON.stringify(await compile(source)));
   });
 });
+
+describe('task lists', () => {
+  const htmlOf = async (source: string) =>
+    (await compile(source)).doc.blocks.map((b) => (b.kind === 'html' ? b.html : '')).join('');
+
+  it('wraps each checkbox and its text in a label, so the checkbox has a name', async () => {
+    const html = await htmlOf('- [ ] Assumptions stated\n- [x] Peak factor applied\n');
+    expect(html).toMatch(
+      /<label class="task-list-label"><input type="checkbox" disabled> Assumptions stated<\/label>/,
+    );
+    expect(html).toMatch(
+      /<label class="task-list-label"><input type="checkbox" checked disabled> Peak factor applied<\/label>/,
+    );
+  });
+
+  it('labels items in loose lists too, without swallowing nested blocks', async () => {
+    const html = await htmlOf('- [ ] First\n\n  - nested\n\n- [ ] Second\n');
+    expect(html).toMatch(/<p><label class="task-list-label"><input[^>]*> First<\/label><\/p>/);
+    expect(html).toMatch(/<\/label><\/p>\s*<ul>\s*<li>nested<\/li>/);
+  });
+});

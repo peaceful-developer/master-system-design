@@ -195,6 +195,40 @@ function figureElement(marker: Element, figures: ReadonlyMap<string, FigureAsset
   };
 }
 
+const BLOCK_TAGS = new Set(['p', 'ul', 'ol', 'div', 'pre', 'blockquote', 'table', 'aside']);
+
+const isCheckbox = (n: ElementContent | undefined): boolean =>
+  n?.type === 'element' && n.tagName === 'input' && n.properties['type'] === 'checkbox';
+
+/**
+ * GFM task lists render a bare checkbox before the item text. Wraps the checkbox and the
+ * inline text after it in a <label>, so the checkbox is announced with its item's text.
+ */
+function labelTaskItems(tree: HastRoot): void {
+  visit(tree, 'element', (li) => {
+    const classes = li.properties['className'];
+    if (li.tagName !== 'li' || !Array.isArray(classes) || !classes.includes('task-list-item'))
+      return;
+    const first = li.children.find((c) => c.type === 'element');
+    const holder = isCheckbox(li.children[0])
+      ? li
+      : first?.type === 'element' && first.tagName === 'p' && isCheckbox(first.children[0])
+        ? first
+        : undefined;
+    if (!holder) return;
+    const end = holder.children.findIndex(
+      (c, i) => i > 0 && c.type === 'element' && BLOCK_TAGS.has(c.tagName),
+    );
+    const inline = holder.children.splice(0, end === -1 ? holder.children.length : end);
+    holder.children.unshift({
+      type: 'element',
+      tagName: 'label',
+      properties: { className: ['task-list-label'] },
+      children: inline,
+    });
+  });
+}
+
 function splitBlocks(tree: HastRoot): {
   blocks: ContentBlock[];
   headings: Heading[];
@@ -272,6 +306,7 @@ export async function createCompiler(): Promise<MarkdownCompiler> {
           parent.children[index] = figureElement(node, ctx.figures);
         }
       });
+      labelTaskItems(hast);
       const { blocks, headings, sections } = splitBlocks(hast);
       return { frontmatter, doc: { blocks, headings }, sections, text, refs, errors };
     },

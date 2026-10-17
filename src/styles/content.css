@@ -373,7 +373,8 @@ details.deeper > :not(summary) + :not(summary) {
   list-style: none;
 }
 
-.prose-content .task-list-item {
+/* The checkbox and its text share a <label> (added by the content build). */
+.prose-content .task-list-label {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
