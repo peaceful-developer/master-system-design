@@ -4,7 +4,7 @@ import { DiagramEmbedComponent } from '../diagram-embed/diagram-embed.component'
 import { DrillEmbedComponent } from '../drill/drill-embed.component';
 import { QuizEmbedComponent } from '../quiz/quiz-embed.component';
 import { InternalLinksDirective } from './internal-links.directive';
-import { TrustedHtmlPipe } from './trusted-html.pipe';
+import { StaticHtmlDirective } from './static-html.directive';
 
 /**
  * Renders compiled content: HTML chunks plus embedded components. Quizzes and
@@ -13,7 +13,7 @@ import { TrustedHtmlPipe } from './trusted-html.pipe';
 @Component({
   selector: 'app-content-blocks',
   imports: [
-    TrustedHtmlPipe,
+    StaticHtmlDirective,
     InternalLinksDirective,
     DiagramEmbedComponent,
     QuizEmbedComponent,
@@ -24,11 +24,7 @@ import { TrustedHtmlPipe } from './trusted-html.pipe';
     @for (block of blocks(); track $index) {
       @switch (block.kind) {
         @case ('html') {
-          <div
-            class="prose-content"
-            appInternalLinks
-            [innerHTML]="htmlOf(block) | trustedHtml"
-          ></div>
+          <div class="prose-content" appInternalLinks [appStaticHtml]="htmlOf(block)"></div>
         }
         @case ('diagram') {
           <app-diagram-embed [id]="block.id" />
