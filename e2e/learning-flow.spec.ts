@@ -35,6 +35,28 @@ test('next and previous follow the learning path', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(`${LESSON}/?$`));
 });
 
+test('the lesson sidebar lists every phase and opens any of them', async ({ page }) => {
+  await page.goto(LESSON);
+  const sidebar = page.getByRole('navigation', { name: 'All phases' });
+  const toggle = page.getByRole('button', { name: 'All phases' });
+  if (await toggle.isVisible()) await toggle.click();
+  await expect(sidebar.locator('summary')).toHaveText([
+    /Phase 0 · Foundations/,
+    /Phase 1 · /,
+    /Phase 2 · /,
+    /Phase 3 · /,
+    /Phase 4 · /,
+    /Phase 5 · /,
+  ]);
+  const later = sidebar.locator('details').nth(4);
+  await expect(later.getByRole('link').first()).toBeHidden();
+  await later.locator('summary').click();
+  const link = later.getByRole('link').first();
+  const href = await link.getAttribute('href');
+  await link.click();
+  await expect(page).toHaveURL(new RegExp(`${href!.replace(/^\//, '')}/?$`));
+});
+
 test('a deep link survives a full reload', async ({ page }) => {
   const console = trackConsoleErrors(page);
   await page.goto('case-studies/rate-limiter');

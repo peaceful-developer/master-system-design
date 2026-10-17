@@ -34,10 +34,16 @@ describe('LessonPage', () => {
     expect(el.querySelector('.prose-content h2#why')?.textContent).toBe('Why it matters');
   });
 
-  it('lists the phase lessons in the sidebar', async () => {
+  it("lists every phase in the sidebar, with this lesson's phase open", async () => {
     const el = await render();
-    const links = [...el.querySelectorAll('nav[aria-label="Lessons in this phase"] a')];
-    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+    const nav = el.querySelector('nav[aria-label="All phases"]')!;
+    const phases = [...nav.querySelectorAll('details')];
+    expect(phases.map((d) => d.querySelector('summary')?.textContent?.trim())).toEqual([
+      'Phase 0 · Foundations',
+      'Phase 1 · Building blocks',
+    ]);
+    expect(phases.map((d) => d.open)).toEqual([true, false]);
+    expect([...phases[0]!.querySelectorAll('a')].map((a) => a.getAttribute('href'))).toEqual([
       '/learn/foundations/how-the-web-works',
       '/learn/foundations/latency-numbers',
     ]);

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import type { CompiledLesson } from '@content/types';
 import { ContentService } from '../../core/content/content.service';
 import { pathNeighbors } from '../../core/content/path-nav';
 import type { ItemKey } from '../../core/progress/progress-model';
-import { ProgressStore } from '../../core/progress/progress.store';
 import { SeoService } from '../../core/seo/seo.service';
 import { DocLayoutComponent } from '../../layout/doc-layout/doc-layout.component';
+import { PathSidebarComponent } from '../../layout/path-sidebar/path-sidebar.component';
 import { TocComponent } from '../../layout/toc/toc.component';
 import { CompleteToggleComponent } from '../../shared/complete-toggle/complete-toggle.component';
 import { ContentBlocksComponent } from '../../shared/content-blocks/content-blocks.component';
@@ -18,9 +17,8 @@ import { REPO_URL } from '../../site';
 @Component({
   selector: 'app-lesson-page',
   imports: [
-    RouterLink,
-    RouterLinkActive,
     DocLayoutComponent,
+    PathSidebarComponent,
     TocComponent,
     ContentBlocksComponent,
     CompleteToggleComponent,
@@ -30,31 +28,8 @@ import { REPO_URL } from '../../site';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <app-doc-layout [sidebarLabel]="'Phase ' + phaseNumber() + ' lessons'">
-      <nav sidebar aria-label="Lessons in this phase">
-        <p class="mb-2 px-3 text-sm font-semibold">
-          Phase {{ phaseNumber() }} · {{ phaseTitle() }}
-        </p>
-        <ol class="space-y-0.5">
-          @for (l of phaseLessons(); track l.slug) {
-            <li>
-              <a
-                class="menu-item text-[0.9375rem]"
-                [routerLink]="l.url"
-                routerLinkActive="is-active"
-                ariaCurrentWhenActive="page"
-              >
-                <app-icon
-                  [name]="store.isComplete(keyOf(l.phase, l.slug)) ? 'check-circle' : 'circle'"
-                  [label]="store.isComplete(keyOf(l.phase, l.slug)) ? 'Completed' : undefined"
-                  size="1em"
-                />
-                <span>{{ l.title }}</span>
-              </a>
-            </li>
-          }
-        </ol>
-      </nav>
+    <app-doc-layout sidebarLabel="All phases">
+      <app-path-sidebar sidebar [current]="key()" />
 
       <article>
         <header class="mb-8 max-w-[75ch]">
@@ -90,16 +65,14 @@ import { REPO_URL } from '../../site';
 })
 export class LessonPage {
   private readonly content = inject(ContentService);
-  protected readonly store = inject(ProgressStore);
 
   readonly lesson = input.required<CompiledLesson>();
 
   protected readonly phase = computed(() => this.content.phase(this.lesson().phase));
   protected readonly phaseNumber = computed(() => this.phase()?.number ?? 0);
   protected readonly phaseTitle = computed(() => this.phase()?.title ?? '');
-  protected readonly phaseLessons = computed(() => this.content.lessons(this.lesson().phase));
-  protected readonly key = computed<ItemKey>(() =>
-    this.keyOf(this.lesson().phase, this.lesson().slug),
+  protected readonly key = computed<ItemKey>(
+    () => `lesson:${this.lesson().phase}/${this.lesson().slug}`,
   );
   protected readonly neighbors = computed(() =>
     pathNeighbors(this.content.pathEntries(), this.key()),
@@ -112,9 +85,5 @@ export class LessonPage {
       const l = this.lesson();
       seo.setPage({ title: l.title, description: l.summary, path: l.url });
     });
-  }
-
-  protected keyOf(phase: string, slug: string): ItemKey {
-    return `lesson:${phase}/${slug}`;
   }
 }
