@@ -40,6 +40,28 @@
         descent-override: 28.8%;
         line-gap-override: 0%;
       }
+
+      /* Systems without Arial, such as many Linux desktops, use DejaVu Sans instead:
+         Plex is 88.97% as wide at regular weight and 81.48% at semibold and bold. */
+      @font-face {
+        font-family: 'IBM Plex Sans Fallback DejaVu';
+        src: local('DejaVu Sans'), local('DejaVuSans');
+        font-weight: 100 500;
+        size-adjust: 88.97%;
+        ascent-override: 115.8%;
+        descent-override: 31.5%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'IBM Plex Sans Fallback DejaVu';
+        src: local('DejaVu Sans Bold'), local('DejaVuSans-Bold');
+        font-weight: 501 900;
+        size-adjust: 81.48%;
+        ascent-override: 126.4%;
+        descent-override: 34.4%;
+        line-gap-override: 0%;
+      }
     </style>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script>

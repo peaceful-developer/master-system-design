@@ -15,6 +15,8 @@ for (const path of [
   });
 }
 
+// Checks the Arial-metric fallback in src/index.html, so it needs Arial or Liberation Sans
+// (CI installs fonts-liberation). With only DejaVu Sans, the shift is smaller but not zero.
 test('a case study does not jump when the web font arrives', async ({ page }) => {
   // A slow network: the page first paints from the inlined critical CSS, then the full
   // stylesheet (with the @font-face rules) and the fonts arrive.

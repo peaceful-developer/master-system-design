@@ -36,7 +36,8 @@
   --color-black: #000000;
 
   --font-sans:
-    'IBM Plex Sans Variable', 'IBM Plex Sans Fallback', ui-sans-serif, system-ui, sans-serif;
+    'IBM Plex Sans Variable', 'IBM Plex Sans Fallback', 'IBM Plex Sans Fallback DejaVu',
+    ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
 
   --text-xl: 1.375rem;
