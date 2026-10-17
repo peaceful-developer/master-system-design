@@ -51,6 +51,15 @@ jobs:
       - name: Lighthouse
         run: npm run lighthouse --if-present
 
+      - name: Upload Lighthouse reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v7
