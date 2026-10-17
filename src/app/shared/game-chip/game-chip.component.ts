@@ -26,11 +26,14 @@ const BURST_MS = 1200;
   styleUrl: './game-chip.component.css',
   template: `
     @if (game.active() && !game.calm()) {
-      <a class="game-chip" routerLink="/progress" [attr.aria-label]="label()">
-        <span>Lv {{ game.level().level.n }}</span>
-        <span class="game-chip-name">{{ game.level().level.name }}</span>
+      <a class="game-chip" routerLink="/progress">
+        <!-- One spoken name at every width, starting with the visible "Lv N" so voice control
+             users can say what they see; the visible pieces below are for sighted users. -->
+        <span class="sr-only">{{ label() }}</span>
+        <span aria-hidden="true">Lv {{ game.level().level.n }}</span>
+        <span class="game-chip-name" aria-hidden="true">{{ game.level().level.name }}</span>
         @if (game.streak().current > 0) {
-          <span class="game-chip-streak">
+          <span class="game-chip-streak" aria-hidden="true">
             <app-icon name="flame" size="1em" />
             <span class="game-chip-streak-text">{{ game.streak().current }}-day streak</span>
             <span class="game-chip-streak-short">{{ game.streak().current }}</span>
@@ -49,7 +52,7 @@ export class GameChipComponent {
     const { level } = this.game.level();
     const streak = this.game.streak().current;
     return (
-      `Level ${level.n}, ${level.name}, ${this.game.xp()} XP` +
+      `Lv ${level.n}, ${level.name}, ${this.game.xp()} XP` +
       (streak > 0 ? `, ${streak}-day streak` : '') +
       '. View your progress'
     );

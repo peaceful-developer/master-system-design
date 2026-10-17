@@ -51,6 +51,16 @@ describe('GameChipComponent', () => {
     expect(link?.textContent).toContain('2-day streak');
   });
 
+  it('names the link starting with its visible text, at every width (WCAG 2.5.3)', async () => {
+    const fixture = setup(ACTIVE);
+    await fixture.whenStable();
+    const link = (fixture.nativeElement as HTMLElement).querySelector('a.game-chip');
+    expect(link?.hasAttribute('aria-label')).toBe(false);
+    expect(link?.querySelector('.sr-only')?.textContent?.trim()).toBe(
+      'Lv 2, Hatchling, 60 XP, 2-day streak. View your progress',
+    );
+  });
+
   it('leaves out the streak when there is none', async () => {
     const fixture = setup({ ...ACTIVE, activityDays: ['2026-10-01'] });
     await fixture.whenStable();
