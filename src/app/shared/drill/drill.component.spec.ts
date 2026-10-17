@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { ProgressStore } from '../../core/progress/progress.store';
@@ -31,6 +32,27 @@ describe('DrillComponent', () => {
     };
     return { el, record, type, check, checkButton };
   }
+
+  it('keeps the inputs disabled until saved progress has loaded', async () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        { provide: SAFE_STORAGE, useValue: createSafeStorage(() => undefined) },
+      ],
+    });
+    const ready = signal(false);
+    Object.defineProperty(TestBed.inject(ProgressStore), 'ready', { value: ready });
+    const fixture = TestBed.createComponent(DrillComponent);
+    fixture.componentRef.setInput('drill', TEST_DRILL);
+    await fixture.whenStable();
+    const inputs = [...(fixture.nativeElement as HTMLElement).querySelectorAll('input')];
+    expect(inputs.length).toBeGreaterThan(0);
+    expect(inputs.every((i) => i.disabled)).toBe(true);
+
+    ready.set(true);
+    await fixture.whenStable();
+    expect(inputs.every((i) => !i.disabled)).toBe(true);
+  });
 
   it('shows the scenario, the givens and a labelled input per question', async () => {
     const { el } = await render();

@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { REDUCED_MOTION } from '../../core/a11y/reduced-motion';
 import { emptyProgress, PROGRESS_KEY } from '../../core/progress/progress-model';
@@ -25,6 +26,26 @@ describe('QuizComponent', () => {
     const submit = () => el.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     return { fixture, el, record, pick, submit };
   }
+
+  it('keeps the options disabled until saved progress has loaded', async () => {
+    // A prerendered quiz looks usable before the app boots; answers picked then would be wiped
+    // when it takes over, so options stay disabled until the store is ready.
+    TestBed.configureTestingModule({
+      providers: [{ provide: SAFE_STORAGE, useValue: createSafeStorage(() => undefined) }],
+    });
+    const ready = signal(false);
+    Object.defineProperty(TestBed.inject(ProgressStore), 'ready', { value: ready });
+    const fixture = TestBed.createComponent(QuizComponent);
+    fixture.componentRef.setInput('quiz', TEST_QUIZ);
+    await fixture.whenStable();
+    const inputs = [...(fixture.nativeElement as HTMLElement).querySelectorAll('input')];
+    expect(inputs.length).toBeGreaterThan(0);
+    expect(inputs.every((i) => i.disabled)).toBe(true);
+
+    ready.set(true);
+    await fixture.whenStable();
+    expect(inputs.every((i) => !i.disabled)).toBe(true);
+  });
 
   it('renders each question as a labelled group with its level', async () => {
     const { el } = await render();

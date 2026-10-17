@@ -81,7 +81,7 @@ interface QuestionOutcome extends AnswerCheck {
               placeholder="e.g. 2.5k"
               [id]="ids + '-' + q.id"
               [value]="raw()[q.id] ?? ''"
-              [disabled]="checked()"
+              [disabled]="checked() || !store.ready()"
               [attr.aria-invalid]="error(q.id) ? 'true' : null"
               [attr.aria-describedby]="
                 ids + '-' + q.id + '-tol' + (error(q.id) ? ' ' + ids + '-' + q.id + '-err' : '')
@@ -139,7 +139,9 @@ interface QuestionOutcome extends AnswerCheck {
   `,
 })
 export class DrillComponent {
-  private readonly store = inject(ProgressStore);
+  /** Inputs stay disabled until saved progress has loaded: a prerendered page looks usable
+   *  before the app boots, and answers given then would be wiped when it takes over. */
+  protected readonly store = inject(ProgressStore);
   private readonly announcer = inject(LiveAnnouncer);
   private static nextId = 0;
 

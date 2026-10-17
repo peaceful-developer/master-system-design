@@ -55,7 +55,7 @@ const LEVEL_LABELS: Record<Difficulty, string> = {
                     [name]="ids + '-' + q.id"
                     [value]="o.id"
                     [checked]="isSelected(q.id, o.id)"
-                    [disabled]="checked()"
+                    [disabled]="checked() || !store.ready()"
                     (change)="choose(q, o.id, $event)"
                   />
                   <span class="quiz-option-text">{{ o.text }}</span>
@@ -127,7 +127,9 @@ const LEVEL_LABELS: Record<Difficulty, string> = {
   `,
 })
 export class QuizComponent {
-  private readonly store = inject(ProgressStore);
+  /** Inputs stay disabled until saved progress has loaded: a prerendered page looks usable
+   *  before the app boots, and answers given then would be wiped when it takes over. */
+  protected readonly store = inject(ProgressStore);
   private readonly announcer = inject(LiveAnnouncer);
   private static nextId = 0;
 
