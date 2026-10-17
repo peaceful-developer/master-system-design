@@ -32,7 +32,7 @@ test('a quiz can be completed with the keyboard only', async ({ page }) => {
   await tabTo(page, page.getByRole('button', { name: 'Check answers' }));
   await page.keyboard.press('Enter');
   const n = quiz.questions.length;
-  await expect(page.getByText(`${n} of ${n} correct`)).toBeVisible();
+  await expect(page.locator('.quiz-score')).toContainText(`${n} of ${n} correct`);
 });
 
 test('a drill can be completed with the keyboard only', async ({ page }) => {
@@ -46,5 +46,5 @@ test('a drill can be completed with the keyboard only', async ({ page }) => {
   await tabTo(page, page.getByRole('button', { name: 'Check my estimates' }));
   await page.keyboard.press('Enter');
   const n = drill.questions.length;
-  await expect(page.getByText(`${n} of ${n} within range`)).toBeVisible();
+  await expect(page.locator('.quiz-score')).toContainText(`${n} of ${n} within range`);
 });

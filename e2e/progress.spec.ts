@@ -5,13 +5,15 @@ import { answerQuiz, quizFile, seedStorage } from './helpers/content';
 const LESSON = 'learn/foundations/how-the-web-works';
 const QUIZ = 'how-the-web-works-quiz';
 
+// Pressed with the keyboard: a click can land elsewhere when the quiz further down the lesson
+// renders as the button scrolls into view and pushes it down.
 const completeToggle = (page: Page) =>
   page.getByRole('button', { name: /^(Mark as complete|Completed)$/ });
 
 test('a completed lesson stays complete after a reload', async ({ page }) => {
   const console = trackConsoleErrors(page);
   await page.goto(LESSON);
-  await completeToggle(page).click();
+  await completeToggle(page).press('Enter');
   await expect(completeToggle(page)).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
   await expect(completeToggle(page)).toHaveText('Completed');
@@ -23,9 +25,9 @@ test('a perfect quiz score shows on the progress page after a reload', async ({ 
   await page.goto(`exercises/${QUIZ}`);
   await answerQuiz(page, quiz);
   await page.getByRole('button', { name: 'Check answers' }).click();
-  await expect(
-    page.getByText(`${quiz.questions.length} of ${quiz.questions.length} correct`),
-  ).toBeVisible();
+  await expect(page.locator('.quiz-score')).toContainText(
+    `${quiz.questions.length} of ${quiz.questions.length} correct`,
+  );
   await page.goto('progress');
   await page.reload();
   const scores = page.getByRole('table').filter({ hasText: 'Best score' });
@@ -34,7 +36,7 @@ test('a perfect quiz score shows on the progress page after a reload', async ({ 
 
 test('export, reset and import restore progress', async ({ page }, testInfo) => {
   await page.goto(LESSON);
-  await completeToggle(page).click();
+  await completeToggle(page).press('Enter');
   await expect(completeToggle(page)).toHaveText('Completed');
 
   await page.goto('progress');
@@ -62,7 +64,7 @@ test('corrupted saved progress loads cleanly', async ({ page }) => {
   await page.goto('progress');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your progress');
   await page.goto(LESSON);
-  await completeToggle(page).click();
+  await completeToggle(page).press('Enter');
   await expect(completeToggle(page)).toHaveText('Completed');
   console.assert();
 });
@@ -79,7 +81,7 @@ test('the app still works when localStorage throws', async ({ page }) => {
   });
   await page.goto(LESSON);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await completeToggle(page).click();
+  await completeToggle(page).press('Enter');
   await expect(completeToggle(page)).toHaveText('Completed');
   await page.goto('progress');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your progress');

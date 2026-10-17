@@ -53,7 +53,7 @@ test('hydration keeps the prerendered lesson text instead of re-rendering it', a
   });
   await page.goto(LESSON);
   // A working toggle shows the app has hydrated.
-  await page.getByRole('button', { name: 'Mark as complete' }).click();
+  await page.getByRole('button', { name: 'Mark as complete' }).press('Enter');
   await expect(page.getByRole('button', { name: 'Completed' })).toBeVisible();
   const kept = await page.evaluate(() => {
     const p = (window as Marked).prerendered;
