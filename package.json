@@ -26,7 +26,8 @@
     "e2e": "playwright test",
     "serve": "tsx scripts/serve-static.ts",
     "figures:render": "tsx scripts/render-figures.ts",
-    "demo:capture": "tsx scripts/capture-demo.ts"
+    "demo:capture": "tsx scripts/capture-demo.ts",
+    "lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@angular/cdk": "22.2.3",
@@ -47,7 +48,9 @@
     "@angular/build": "22.2.2",
     "@angular/cli": "22.2.2",
     "@angular/compiler-cli": "22.2.3",
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
     "@playwright/test": "1.64.1",
     "@shikijs/rehype": "4.5.0",
     "@tailwindcss/postcss": "4.3.3",
