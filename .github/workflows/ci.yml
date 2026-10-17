@@ -45,11 +45,6 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      # Most visitors have Arial (Windows, macOS). The runner may not, so install its
-      # metric-compatible twin: the layout-shift test checks the Arial-based font fallback.
-      - name: Install an Arial-compatible font
-        run: sudo apt-get install -y --no-install-recommends fonts-liberation
-
       - name: End-to-end tests
         run: npm run e2e
 
