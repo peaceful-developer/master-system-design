@@ -10,6 +10,37 @@
       content="Learn system design from first principles to LLM systems: lessons, case studies, quizzes and drills. Free and open source."
     />
     <meta name="theme-color" content="#2bb24c" />
+    <!--
+      Stand-in for IBM Plex Sans until the web font loads, sized so text keeps its width and line
+      breaks when the real font swaps in. It lives here, not in styles.css, because the build
+      inlines only critical CSS and loads the rest (including all @font-face rules) after first
+      paint. Measured in Chromium against Arial (Liberation Sans on Linux): Plex is 100.45% as
+      wide at regular weight and 97.16% at semibold and bold; its ascent is 1.03em and descent
+      0.28em. Overrides are divided by size-adjust, which the browser applies to them.
+    -->
+    <style>
+      @font-face {
+        font-family: 'IBM Plex Sans Fallback';
+        src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans');
+        font-weight: 100 500;
+        size-adjust: 100.45%;
+        ascent-override: 102.5%;
+        descent-override: 27.9%;
+        line-gap-override: 0%;
+      }
+
+      @font-face {
+        font-family: 'IBM Plex Sans Fallback';
+        src:
+          local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'),
+          local('LiberationSans-Bold');
+        font-weight: 501 900;
+        size-adjust: 97.16%;
+        ascent-override: 106%;
+        descent-override: 28.8%;
+        line-gap-override: 0%;
+      }
+    </style>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script>
       try {

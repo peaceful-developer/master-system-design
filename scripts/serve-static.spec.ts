@@ -1,8 +1,9 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
-import { request } from 'node:http';
+import { request, type IncomingHttpHeaders } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { gunzipSync } from 'node:zlib';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createStaticServer, readBaseHref } from './serve-static';
 
@@ -18,6 +19,23 @@ function get(port: number, path: string): Promise<{ status: number; type: string
       res.on('end', () =>
         resolve({ status: res.statusCode ?? 0, type: String(res.headers['content-type']), body }),
       );
+    });
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+/** GET with request headers, keeping the raw (possibly compressed) body. */
+function getRaw(
+  port: number,
+  path: string,
+  headers: Record<string, string>,
+): Promise<{ headers: IncomingHttpHeaders; body: Buffer }> {
+  return new Promise((resolve, reject) => {
+    const req = request({ host: '127.0.0.1', port, path, method: 'GET', headers }, (res) => {
+      const chunks: Buffer[] = [];
+      res.on('data', (chunk: Buffer) => chunks.push(chunk));
+      res.on('end', () => resolve({ headers: res.headers, body: Buffer.concat(chunks) }));
     });
     req.on('error', reject);
     req.end();
@@ -83,6 +101,20 @@ describe('createStaticServer', () => {
 
   it('returns 404 for requests outside the base path', async () => {
     expect((await get(port, '/other/')).status).toBe(404);
+  });
+
+  it('gzips text when the client accepts it, as GitHub Pages does', async () => {
+    const gz = await getRaw(port, `${BASE}app.js`, { 'accept-encoding': 'gzip, deflate, br' });
+    expect(gz.headers['content-encoding']).toBe('gzip');
+    expect(gz.headers['vary']).toBe('Accept-Encoding');
+    expect(gunzipSync(gz.body).toString()).toBe('console.log(1)');
+
+    const plain = await getRaw(port, `${BASE}app.js`, {});
+    expect(plain.headers['content-encoding']).toBeUndefined();
+    expect(plain.body.toString()).toBe('console.log(1)');
+
+    const font = await getRaw(port, `${BASE}font.woff2`, { 'accept-encoding': 'gzip' });
+    expect(font.headers['content-encoding']).toBeUndefined();
   });
 
   it('sends correct content types', async () => {

@@ -8,6 +8,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { createServer, type Server } from 'node:http';
 import { extname, join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { gzipSync } from 'node:zlib';
 
 const CONTENT_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -38,6 +39,8 @@ export function readBaseHref(indexHtml: string): string {
 function isFile(path: string): boolean {
   return existsSync(path) && statSync(path).isFile();
 }
+
+const COMPRESSIBLE = /^(text\/|application\/(json|javascript|xml)|image\/svg\+xml)/;
 
 /** Resolves a request path to a file inside `root`, or null. Never escapes `root`. */
 function resolveFile(root: string, rel: string): string | null {
@@ -72,8 +75,17 @@ export function createStaticServer({ dir, basePath }: StaticServerOptions): Serv
       return;
     }
     const type = CONTENT_TYPES[extname(file).toLowerCase()] ?? 'application/octet-stream';
+    const body = readFileSync(file);
+    // Like GitHub Pages: gzip text formats when the browser accepts it (fonts are already compressed).
+    if (COMPRESSIBLE.test(type)) {
+      const accepts = /\bgzip\b/.test(String(req.headers['accept-encoding'] ?? ''));
+      const headers = { 'content-type': type, vary: 'Accept-Encoding' };
+      res.writeHead(200, accepts ? { ...headers, 'content-encoding': 'gzip' } : headers);
+      res.end(accepts ? gzipSync(body) : body);
+      return;
+    }
     res.writeHead(200, { 'content-type': type });
-    res.end(readFileSync(file));
+    res.end(body);
   });
 }
 
